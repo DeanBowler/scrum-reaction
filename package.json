@@ -1,0 +1,37 @@
+{
+  "name": "scrum-reaction",
+  "version": "1.0.0",
+  "description": "A bunch of agile/scrum tools",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": "git+https://github.com/DeanBowler/scrum-reaction.git",
+  "keywords": [
+    "agile",
+    "scrum",
+    "planning poker"
+  ],
+  "author": "Dean Bowler",
+  "license": "GPL-3.0-only",
+  "bugs": {
+    "url": "https://github.com/DeanBowler/scrum-reaction/issues"
+  },
+  "homepage": "https://github.com/DeanBowler/scrum-reaction#readme",
+  "dependencies": {
+    "next": "^9.3.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "styled-components": "^5.1.0",
+    "styled-system": "^5.1.5"
+  },
+  "devDependencies": {
+    "@types/node": "^13.11.1",
+    "@types/react": "^16.9.34",
+    "babel-plugin-styled-components": "^1.10.7",
+    "prettier": "^2.0.4",
+    "typescript": "^3.8.3"
+  }
+}
