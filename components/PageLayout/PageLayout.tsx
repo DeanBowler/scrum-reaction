@@ -31,7 +31,7 @@ body {
 export default function PageLayout({ children }: LayoutProps) {
   return (
     <ThemeProvider theme={theme}>
-      <Box color="neutralDarker">
+      <Box color="neutralDarker" minHeight="100%">
         <Head>
           <title>Create Next App</title>
           <link rel="icon" href="/favicon.ico" />
@@ -45,8 +45,10 @@ export default function PageLayout({ children }: LayoutProps) {
           />
         </Head>
         <Header />
-        <Box p={[2, 3, 4]}>{children}</Box>
-        <Footer />
+        <Box py={[1, 2]} px={[2, 3, 4, 5]}>
+          {children}
+        </Box>
+        {/* <Footer /> */}
       </Box>
       <GlobalStyle />
     </ThemeProvider>

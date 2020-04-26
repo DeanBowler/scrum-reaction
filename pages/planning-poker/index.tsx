@@ -19,11 +19,10 @@ const PlanningPoker = () => (
         Planning Poker
       </Text>
       <Flex flexDirection={['column', , 'row']}>
-        <Spaced p="2">
+        <Spaced p="2" pb="0">
           <Card title="Start a new session">
             <Flex flexDirection="column">
-              <TextInput placeholder="your name" />
-              <Spaced mt={[2, 3]}>
+              <Spaced mb={[2, 3]} includeLast={false}>
                 <TextInput placeholder="session name" />
                 <Button>Start New Session</Button>
               </Spaced>
@@ -31,8 +30,7 @@ const PlanningPoker = () => (
           </Card>
           <Card title="Join an existing session">
             <Flex flexDirection="column">
-              <TextInput placeholder="your name" />
-              <Spaced mt={[2, 3]}>
+              <Spaced mb={[2, 3]} includeLast={false}>
                 <TextInput placeholder="session id" />
                 <Button>Join Session</Button>
               </Spaced>

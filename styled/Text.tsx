@@ -16,7 +16,7 @@ import { AppTheme } from '../theme';
 
 type TextProps = SpaceProps | LayoutProps | ColorProps<AppTheme> | TypographyProps;
 
-const Text = styled.p<TextProps>(
+const Text = styled.span<TextProps>(
   fontSize,
   space,
   color,

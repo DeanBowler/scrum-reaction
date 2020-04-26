@@ -23,7 +23,7 @@ export default function Footer() {
       <Box as="hr" mb={[2, 3, 4]} />
       <Flex flexDirection={['column', 'row']}>
         <Space mr={[1, 2]} my={[1, 0]}>
-          <Text as="span">Copyright © 2020 - Dean Bowler</Text>
+          <Text>Copyright © 2020 - Dean Bowler</Text>
           <Link href="https://github.com/DeanBowler/scrum-reaction">
             <IoLogoGithub />
           </Link>

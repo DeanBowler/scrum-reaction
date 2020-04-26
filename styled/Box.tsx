@@ -7,6 +7,7 @@ import {
   typography,
   background,
   flexbox,
+  size,
   PositionProps,
   SpaceProps,
   LayoutProps,
@@ -14,6 +15,7 @@ import {
   TypographyProps,
   BackgroundProps,
   FlexboxProps,
+  SizeProps,
 } from 'styled-system';
 import { AppTheme } from '../theme';
 
@@ -30,7 +32,8 @@ export interface BoxKnownProps
     TypographyProps,
     PositionProps,
     BackgroundProps,
-    FlexboxProps {}
+    FlexboxProps,
+    SizeProps {}
 
 export interface BoxProps
   extends BoxKnownProps,
@@ -43,6 +46,7 @@ const Box: React.FunctionComponent<BoxProps> = styled.div<BoxProps>`
   ${color}
   ${position}
   ${background}
+  ${size}
   ${flexbox}
 `;
 
