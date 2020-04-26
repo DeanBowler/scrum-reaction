@@ -43,13 +43,6 @@ interface AuthContextProviderProps {
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [auth0Client, setAuth0Client] = useState<Auth0Client>();
 
-  const config: Auth0ClientOptions = {
-    domain: process.env.REACT_APP_AUTH0_DOMAIN || 'morning-sound-9681.eu.auth0.com',
-    client_id:
-      process.env.REACT_APP_AUTH0_CLIENT_ID || 'OjVi0uiIuSX2VgDZVOsWLR6hTn4Dlktx',
-    redirect_uri: 'http://localhost:3000',
-  };
-
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(undefined);
   const [user, setUser] = useState(undefined);
@@ -60,6 +53,13 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     setIsLoading(true);
 
     const initialise = async () => {
+      const config: Auth0ClientOptions = {
+        domain: process.env.REACT_APP_AUTH0_DOMAIN || 'morning-sound-9681.eu.auth0.com',
+        client_id:
+          process.env.REACT_APP_AUTH0_CLIENT_ID || 'OjVi0uiIuSX2VgDZVOsWLR6hTn4Dlktx',
+        redirect_uri: window.origin,
+      };
+
       const client = await createAuth0Client(config);
       setAuth0Client(client);
 
