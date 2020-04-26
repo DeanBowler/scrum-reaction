@@ -22,7 +22,7 @@ const theme: AppTheme = {
     secondary: '#ae4ab7',
     neutralDarker: '#293132',
     neutralDark: '#414549',
-    neutralMid: '#cccfcf',
+    neutralMid: '#cacdcd',
     neutralMidLight: '#d9dbdb',
     neutralLight: '#e8ebeb',
     neutralLightest: '#fff',

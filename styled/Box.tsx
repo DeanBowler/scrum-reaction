@@ -6,24 +6,35 @@ import {
   position,
   typography,
   background,
+  flexbox,
   PositionProps,
   SpaceProps,
   LayoutProps,
   ColorProps,
   TypographyProps,
   BackgroundProps,
+  FlexboxProps,
 } from 'styled-system';
 import { AppTheme } from '../theme';
 
-export interface BoxProps
-  extends SpaceProps,
+export interface BaseProps extends React.RefAttributes<any> {
+  as?: React.ElementType;
+  // css?: styled.CSSObject | styled.FlattenSimpleInterpolation | string;
+}
+
+export interface BoxKnownProps
+  extends BaseProps,
+    SpaceProps,
     LayoutProps,
     ColorProps<AppTheme>,
     TypographyProps,
     PositionProps,
-    BackgroundProps {
-  as?: React.ElementType;
-}
+    BackgroundProps,
+    FlexboxProps {}
+
+export interface BoxProps
+  extends BoxKnownProps,
+    Omit<React.HTMLProps<HTMLDivElement>, keyof BoxKnownProps> {}
 
 const Box: React.FunctionComponent<BoxProps> = styled.div<BoxProps>`
   ${space}
@@ -32,6 +43,7 @@ const Box: React.FunctionComponent<BoxProps> = styled.div<BoxProps>`
   ${color}
   ${position}
   ${background}
+  ${flexbox}
 `;
 
 export default Box;

@@ -6,7 +6,6 @@ import { AppTheme } from '../theme';
 export interface BorderBoxProps extends BoxProps, BorderProps<AppTheme>, ShadowProps {}
 
 const BorderBox: React.FunctionComponent<BorderBoxProps> = styled(Box)<BorderBoxProps>`
-  display: flex;
   ${border}
   ${shadow}
 `;

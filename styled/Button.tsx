@@ -11,7 +11,7 @@ const Button = styled.button<ButtonProps>`
   border-radius: ${p => p.theme.buttonRadius};
   border: none;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 0px -1px;
-  transition: all 200ms ease-in-out;
+  transition: box-shadow 200ms ease-in-out;
 
   :hover {
     opacity: 0.9;
