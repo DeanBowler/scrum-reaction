@@ -26,9 +26,10 @@ interface AuthContextProps {
   isLoadingAuth: boolean;
   isAuthenticated: boolean | undefined;
   user: AuthUser | undefined;
+  userId: string | undefined;
   loginWithRedirect: (o?: RedirectLoginOptions) => void;
   getIdTokenClaims: (o?: getIdTokenClaimsOptions) => void;
-  getTokenSilently: (o?: GetTokenSilentlyOptions) => void;
+  getTokenSilently: (o?: GetTokenSilentlyOptions) => Promise<any>;
   logout: (o?: LogoutOptions) => void;
 }
 
@@ -45,11 +46,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const [isLoading, setIsLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(undefined);
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState<AuthUser>(undefined);
+  const [userId, setUserId] = useState<string>(undefined);
 
   useMount(() => {
-    console.log(process.env);
-
     setIsLoading(true);
 
     const initialise = async () => {
@@ -75,7 +75,16 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       const authenticated = await client.isAuthenticated();
 
       setIsAuthenticated(authenticated);
-      setUser(authenticated ? await client.getUser() : null);
+
+      if (authenticated) {
+        const user = await client.getUser();
+        setUser(user);
+
+        const hasuraClaims = user['https://hasura.io/jwt/claims'];
+
+        setUserId(hasuraClaims['x-hasura-user-id']);
+      }
+
       setIsLoading(false);
     };
 
@@ -88,6 +97,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         isLoadingAuth: isLoading,
         isAuthenticated,
         user,
+        userId,
         loginWithRedirect: (...p) => auth0Client && auth0Client.loginWithRedirect(...p),
         getTokenSilently: (...p) => auth0Client && auth0Client.getTokenSilently(...p),
         getIdTokenClaims: (...p) => auth0Client && auth0Client.getIdTokenClaims(...p),
