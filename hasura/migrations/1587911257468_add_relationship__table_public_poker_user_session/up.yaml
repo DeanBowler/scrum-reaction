@@ -1,0 +1,8 @@
+- args:
+    name: poker_session
+    table:
+      name: poker_user_session
+      schema: public
+    using:
+      foreign_key_constraint_on: session_id
+  type: create_object_relationship

@@ -1,0 +1,12 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: CREATE TABLE "public"."poker_session"("id" serial NOT NULL, "name" text NOT
+      NULL, "owner_id" text NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("owner_id")
+      REFERENCES "public"."users"("id") ON UPDATE restrict ON DELETE restrict, UNIQUE
+      ("id"));
+  type: run_sql
+- args:
+    name: poker_session
+    schema: public
+  type: add_existing_table_or_view
