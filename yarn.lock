@@ -2719,6 +2719,14 @@ hash.js@^1.0.0, hash.js@^1.0.3:
     inherits "^2.0.3"
     minimalistic-assert "^1.0.1"
 
+hasura-cli@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/hasura-cli/-/hasura-cli-1.1.1.tgz#d1c89e4232641f3b0f51019072d4d1042568dea4"
+  integrity sha512-mnqLdVLozScAQG91e/OgcJODC+TftlW9NRlJKXwGuG0emfqu7mtbo3D03P0bSKTMOwm7jgYzAbkLjnHexVmdyQ==
+  dependencies:
+    axios "^0.19.0"
+    chalk "^2.4.2"
+
 hey-listen@^1.0.8:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/hey-listen/-/hey-listen-1.0.8.tgz#8e59561ff724908de1aa924ed6ecc84a56a9aa68"

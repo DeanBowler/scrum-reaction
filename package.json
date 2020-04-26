@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "dev": "next",
-    "build": "next build",
+    "hasura": "hasura --project hasura --skip-update-check",
+    "hasura:console": "npm run hasura console",
+    "hasura:migrate": "npm run hasura migrate apply",
+    "build": "npm run hasura:migrate && next build",
     "start": "next start"
   },
   "repository": "git+https://github.com/DeanBowler/scrum-reaction.git",
@@ -42,6 +45,7 @@
     "@types/styled-system__css": "^5.0.8",
     "@types/styled-system__theme-get": "^5.0.0",
     "babel-plugin-styled-components": "^1.10.7",
+    "hasura-cli": "^1.1.1",
     "prettier": "^2.0.4",
     "typescript": "^3.8.3"
   }
