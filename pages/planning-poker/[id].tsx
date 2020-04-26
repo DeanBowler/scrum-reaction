@@ -3,21 +3,22 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Box from '../../styled/Box';
-import Text from '../../styled/Text';
+import PlanningPokerSession from '../../graphql/planning-poker/PlanningPokerSession';
 
 export default function PlanningPoker() {
-  const thing = useRouter();
+  const { query } = useRouter();
 
-  console.log(thing.query.id);
+  if (typeof query.id !== 'string') return <div>error</div>;
+
+  const sessionId = Number.parseInt(query.id);
+
   return (
     <>
       <Head>
-        <title>Homer</title>
+        <title>Planning Poker</title>
       </Head>
       <Box>
-        <Text as="h2" fontWeight="400" fontSize={[3, 4, 5]}>
-          Planning Pokerrrr
-        </Text>
+        <PlanningPokerSession sessionId={sessionId} />
       </Box>
     </>
   );
