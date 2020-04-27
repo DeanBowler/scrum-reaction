@@ -23,6 +23,11 @@ export default function AuthorizedApolloProvider({
         uri: process.env.REACT_APP_HASURA_SOCKET_ENDPOINT,
         options: {
           reconnect: true,
+          connectionParams: async () => {
+            const token = await getTokenSilently();
+            const authorization = `Bearer ${token}`;
+            return authorization ? { authorization, headers: { authorization } } : {};
+          },
         },
       })
     : null;
@@ -35,17 +40,19 @@ export default function AuthorizedApolloProvider({
   const authLink = setContext(async (_, { headers }) => {
     // get the authentication token from local storage if it exists
     const token = await getTokenSilently();
-
-    console.log(token);
+    const authorization = token ? `Bearer ${token}` : '';
+    // console.log(token);
     // return the headers to the context so httpLink can read them
     return {
+      authorization,
       headers: {
-        authorization: token ? `Bearer ${token}` : '',
+        authorization,
         ...headers,
       },
     };
   });
 
+  // const link = httplink;
   const link = process.browser ? wsLink : httplink;
 
   // const link = process.browser ? split( //only create the split in the browser
