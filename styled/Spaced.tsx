@@ -31,8 +31,8 @@ export const StyledChildren = ({
 //   ${flexbox}
 // `;
 
-const Space: React.FunctionComponent<StyledChildrenProps & SpaceProps> = styled(
+const Spaced: React.FunctionComponent<StyledChildrenProps & SpaceProps> = styled(
   StyledChildren,
 )(space);
 
-export default Space;
+export default Spaced;

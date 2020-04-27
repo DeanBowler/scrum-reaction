@@ -1,7 +1,7 @@
 import Box from '../../styled/Box';
 import Link from '../../styled/Link';
 import Text from '../../styled/Text';
-import Space from '../../styled/Spaced';
+import Spaced from '../../styled/Spaced';
 import Flex from '../../styled/Flex';
 
 import { IoLogoGithub } from 'react-icons/io';
@@ -22,12 +22,12 @@ export default function Footer() {
     >
       <Box as="hr" mb={[2, 3, 4]} />
       <Flex flexDirection={['column', 'row']}>
-        <Space mr={[1, 2]} my={[1, 0]}>
+        <Spaced mr={[1, 2]} my={[1, 0]}>
           <Text>Copyright © 2020 - Dean Bowler</Text>
           <Link href="https://github.com/DeanBowler/scrum-reaction">
             <IoLogoGithub />
           </Link>
-        </Space>
+        </Spaced>
       </Flex>
     </Box>
   );
