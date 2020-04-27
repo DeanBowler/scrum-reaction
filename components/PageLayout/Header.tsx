@@ -35,8 +35,6 @@ interface HeaderUserMenuProps {
 function HeaderUserMenu(props: HeaderUserMenuProps) {
   const { user, isAuthenticated, logout, loginWithRedirect } = useAuth();
 
-  const loginRedirect = () =>
-    loginWithRedirect({ appState: { returnTo: window.location.href } });
   const logoutRedirect = () => logout({ returnTo: window.origin });
 
   return (
@@ -50,7 +48,7 @@ function HeaderUserMenu(props: HeaderUserMenuProps) {
       {isAuthenticated ? (
         <PopoutMenu.Item onClick={logoutRedirect}>Logout</PopoutMenu.Item>
       ) : (
-        <PopoutMenu.Item onClick={loginRedirect}>Login</PopoutMenu.Item>
+        <PopoutMenu.Item onClick={loginWithRedirect}>Login</PopoutMenu.Item>
       )}
     </PopoutMenu>
   );

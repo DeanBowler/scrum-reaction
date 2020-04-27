@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useRef, useState } from 'react';
+import React, { createContext, useContext, useState } from 'react';
+
+import Router from 'next/router';
 
 import createAuth0Client, {
   Auth0ClientOptions,
@@ -70,7 +72,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         const desiredLanding =
           redirectResult.appState.returnTo || window.location.pathname;
 
-        window.history.replaceState({}, document.title, desiredLanding);
+        Router.pathname;
+        Router.push(desiredLanding);
       }
 
       const authenticated = await client.isAuthenticated();
@@ -80,19 +83,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       if (authenticated) {
         const user = await client.getUser();
         setUser(user);
-
-        // const token = await client.getTokenSilently({
-        //   scope: 'user',
-        // });
-
-        // console.log(token);
-
-        // const claims = await client.getIdTokenClaims();
-
-        // console.log(claims);
-
-        // debugger;
-        // const hasuraClaims = user['https://hasura.io/jwt/claims'];
 
         setUserId(user.sub);
       }
@@ -110,7 +100,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         isAuthenticated,
         user,
         userId,
-        loginWithRedirect: (...p) => auth0Client && auth0Client.loginWithRedirect(...p),
+        loginWithRedirect: (...p) =>
+          auth0Client &&
+          auth0Client.loginWithRedirect({
+            appState: { returnTo: Router.asPath },
+            ...p,
+          }),
         getTokenSilently: (...p) => auth0Client && auth0Client.getTokenSilently(...p),
         getIdTokenClaims: (...p) => auth0Client && auth0Client.getIdTokenClaims(...p),
         logout: (...p) => auth0Client && auth0Client.logout(...p),
