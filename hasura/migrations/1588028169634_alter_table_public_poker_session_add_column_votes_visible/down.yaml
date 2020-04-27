@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."poker_session" DROP COLUMN "votes_visible";
+  type: run_sql

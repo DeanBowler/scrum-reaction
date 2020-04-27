@@ -12,6 +12,19 @@ export type Scalars = {
   timestamptz: any;
 };
 
+/** expression to compare columns of type Boolean. All fields are combined with logical 'AND'. */
+export type Boolean_Comparison_Exp = {
+  _eq?: Maybe<Scalars['Boolean']>;
+  _gt?: Maybe<Scalars['Boolean']>;
+  _gte?: Maybe<Scalars['Boolean']>;
+  _in?: Maybe<Array<Scalars['Boolean']>>;
+  _is_null?: Maybe<Scalars['Boolean']>;
+  _lt?: Maybe<Scalars['Boolean']>;
+  _lte?: Maybe<Scalars['Boolean']>;
+  _neq?: Maybe<Scalars['Boolean']>;
+  _nin?: Maybe<Array<Scalars['Boolean']>>;
+};
+
 /** expression to compare columns of type Int. All fields are combined with logical 'AND'. */
 export type Int_Comparison_Exp = {
   _eq?: Maybe<Scalars['Int']>;
@@ -325,6 +338,7 @@ export type Poker_Session = {
   user_sessions: Array<Poker_User_Session>;
   /** An aggregated array relationship */
   user_sessions_aggregate: Poker_User_Session_Aggregate;
+  votes_visible: Scalars['Boolean'];
 };
 
 
@@ -419,6 +433,7 @@ export type Poker_Session_Bool_Exp = {
   owner_id?: Maybe<String_Comparison_Exp>;
   session_owner?: Maybe<Users_Bool_Exp>;
   user_sessions?: Maybe<Poker_User_Session_Bool_Exp>;
+  votes_visible?: Maybe<Boolean_Comparison_Exp>;
 };
 
 /** unique or primary key constraints on table "poker_session" */
@@ -439,6 +454,7 @@ export type Poker_Session_Insert_Input = {
   owner_id?: Maybe<Scalars['String']>;
   session_owner?: Maybe<Users_Obj_Rel_Insert_Input>;
   user_sessions?: Maybe<Poker_User_Session_Arr_Rel_Insert_Input>;
+  votes_visible?: Maybe<Scalars['Boolean']>;
 };
 
 /** aggregate max on columns */
@@ -500,6 +516,7 @@ export type Poker_Session_Order_By = {
   owner_id?: Maybe<Order_By>;
   session_owner?: Maybe<Users_Order_By>;
   user_sessions_aggregate?: Maybe<Poker_User_Session_Aggregate_Order_By>;
+  votes_visible?: Maybe<Order_By>;
 };
 
 /** select columns of table "poker_session" */
@@ -509,7 +526,9 @@ export enum Poker_Session_Select_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  OwnerId = 'owner_id'
+  OwnerId = 'owner_id',
+  /** column name */
+  VotesVisible = 'votes_visible'
 }
 
 /** input type for updating data in table "poker_session" */
@@ -517,6 +536,7 @@ export type Poker_Session_Set_Input = {
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   owner_id?: Maybe<Scalars['String']>;
+  votes_visible?: Maybe<Scalars['Boolean']>;
 };
 
 /** aggregate stddev on columns */
@@ -570,7 +590,9 @@ export enum Poker_Session_Update_Column {
   /** column name */
   Name = 'name',
   /** column name */
-  OwnerId = 'owner_id'
+  OwnerId = 'owner_id',
+  /** column name */
+  VotesVisible = 'votes_visible'
 }
 
 /** aggregate var_pop on columns */
@@ -1349,7 +1371,7 @@ export type GetPokerSessionSubscription = (
   { __typename?: 'subscription_root' }
   & { poker_session_by_pk?: Maybe<(
     { __typename?: 'poker_session' }
-    & Pick<Poker_Session, 'id' | 'name' | 'owner_id'>
+    & Pick<Poker_Session, 'id' | 'name' | 'owner_id' | 'votes_visible'>
     & { user_sessions_aggregate: (
       { __typename?: 'poker_user_session_aggregate' }
       & { aggregate?: Maybe<(
@@ -1382,16 +1404,32 @@ export type UpdateVoteMutation = (
   )> }
 );
 
-export type ClearScoresMutationVariables = {
+export type ClearVotesMutationVariables = {
   sessionId: Scalars['Int'];
 };
 
 
-export type ClearScoresMutation = (
+export type ClearVotesMutation = (
   { __typename?: 'mutation_root' }
   & { update_poker_user_session?: Maybe<(
     { __typename?: 'poker_user_session_mutation_response' }
     & Pick<Poker_User_Session_Mutation_Response, 'affected_rows'>
+  )>, update_poker_session?: Maybe<(
+    { __typename?: 'poker_session_mutation_response' }
+    & Pick<Poker_Session_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
+export type ShowVotesMutationVariables = {
+  sessionId: Scalars['Int'];
+};
+
+
+export type ShowVotesMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_poker_session?: Maybe<(
+    { __typename?: 'poker_session_mutation_response' }
+    & Pick<Poker_Session_Mutation_Response, 'affected_rows'>
   )> }
 );
 
@@ -1499,6 +1537,7 @@ export const GetPokerSessionDocument = gql`
     id
     name
     owner_id
+    votes_visible
     user_sessions_aggregate {
       aggregate {
         count
@@ -1571,38 +1610,73 @@ export function useUpdateVoteMutation(baseOptions?: ApolloReactHooks.MutationHoo
 export type UpdateVoteMutationHookResult = ReturnType<typeof useUpdateVoteMutation>;
 export type UpdateVoteMutationResult = ApolloReactCommon.MutationResult<UpdateVoteMutation>;
 export type UpdateVoteMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVoteMutation, UpdateVoteMutationVariables>;
-export const ClearScoresDocument = gql`
-    mutation clearScores($sessionId: Int!) {
+export const ClearVotesDocument = gql`
+    mutation clearVotes($sessionId: Int!) {
   update_poker_user_session(where: {poker_session: {id: {_eq: $sessionId}}}, _set: {current_vote: null}) {
+    affected_rows
+  }
+  update_poker_session(where: {user_sessions: {}, id: {_eq: $sessionId}}, _set: {votes_visible: false}) {
     affected_rows
   }
 }
     `;
-export type ClearScoresMutationFn = ApolloReactCommon.MutationFunction<ClearScoresMutation, ClearScoresMutationVariables>;
+export type ClearVotesMutationFn = ApolloReactCommon.MutationFunction<ClearVotesMutation, ClearVotesMutationVariables>;
 
 /**
- * __useClearScoresMutation__
+ * __useClearVotesMutation__
  *
- * To run a mutation, you first call `useClearScoresMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useClearScoresMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useClearVotesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useClearVotesMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [clearScoresMutation, { data, loading, error }] = useClearScoresMutation({
+ * const [clearVotesMutation, { data, loading, error }] = useClearVotesMutation({
  *   variables: {
  *      sessionId: // value for 'sessionId'
  *   },
  * });
  */
-export function useClearScoresMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ClearScoresMutation, ClearScoresMutationVariables>) {
-        return ApolloReactHooks.useMutation<ClearScoresMutation, ClearScoresMutationVariables>(ClearScoresDocument, baseOptions);
+export function useClearVotesMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ClearVotesMutation, ClearVotesMutationVariables>) {
+        return ApolloReactHooks.useMutation<ClearVotesMutation, ClearVotesMutationVariables>(ClearVotesDocument, baseOptions);
       }
-export type ClearScoresMutationHookResult = ReturnType<typeof useClearScoresMutation>;
-export type ClearScoresMutationResult = ApolloReactCommon.MutationResult<ClearScoresMutation>;
-export type ClearScoresMutationOptions = ApolloReactCommon.BaseMutationOptions<ClearScoresMutation, ClearScoresMutationVariables>;
+export type ClearVotesMutationHookResult = ReturnType<typeof useClearVotesMutation>;
+export type ClearVotesMutationResult = ApolloReactCommon.MutationResult<ClearVotesMutation>;
+export type ClearVotesMutationOptions = ApolloReactCommon.BaseMutationOptions<ClearVotesMutation, ClearVotesMutationVariables>;
+export const ShowVotesDocument = gql`
+    mutation showVotes($sessionId: Int!) {
+  update_poker_session(where: {id: {_eq: $sessionId}}, _set: {votes_visible: true}) {
+    affected_rows
+  }
+}
+    `;
+export type ShowVotesMutationFn = ApolloReactCommon.MutationFunction<ShowVotesMutation, ShowVotesMutationVariables>;
+
+/**
+ * __useShowVotesMutation__
+ *
+ * To run a mutation, you first call `useShowVotesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useShowVotesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [showVotesMutation, { data, loading, error }] = useShowVotesMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *   },
+ * });
+ */
+export function useShowVotesMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ShowVotesMutation, ShowVotesMutationVariables>) {
+        return ApolloReactHooks.useMutation<ShowVotesMutation, ShowVotesMutationVariables>(ShowVotesDocument, baseOptions);
+      }
+export type ShowVotesMutationHookResult = ReturnType<typeof useShowVotesMutation>;
+export type ShowVotesMutationResult = ApolloReactCommon.MutationResult<ShowVotesMutation>;
+export type ShowVotesMutationOptions = ApolloReactCommon.BaseMutationOptions<ShowVotesMutation, ShowVotesMutationVariables>;
 export const UpdateLastSeenDocument = gql`
     mutation updateLastSeen($userId: String!, $lastSeen: timestamptz!) {
   update_users(where: {id: {_eq: $userId}}, _set: {last_seen: $lastSeen}) {

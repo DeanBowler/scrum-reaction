@@ -5,13 +5,30 @@ import Flex from '../../styled/Flex';
 import Text from '../../styled/Text';
 import Button from '../../styled/Button';
 import Spaced from '../../styled/Spaced';
-import { useClearScoresMutation } from '../../generated/graphql';
+import { useClearVotesMutation, useShowVotesMutation } from '../../generated/graphql';
 
-export const CLEAR_SCORES = gql`
-  mutation clearScores($sessionId: Int!) {
+export const CLEAR_VOTES = gql`
+  mutation clearVotes($sessionId: Int!) {
     update_poker_user_session(
       where: { poker_session: { id: { _eq: $sessionId } } }
       _set: { current_vote: null }
+    ) {
+      affected_rows
+    }
+    update_poker_session(
+      where: { user_sessions: {}, id: { _eq: $sessionId } }
+      _set: { votes_visible: false }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
+export const SHOW_VOTES = gql`
+  mutation showVotes($sessionId: Int!) {
+    update_poker_session(
+      where: { id: { _eq: $sessionId } }
+      _set: { votes_visible: true }
     ) {
       affected_rows
     }
@@ -23,14 +40,16 @@ export interface SessionOwnerControlsProps {
 }
 
 export default function SessionOwnerControls({ sessionId }: SessionOwnerControlsProps) {
-  const [clearScores] = useClearScoresMutation({ variables: { sessionId } });
+  const [clearVotes] = useClearVotesMutation({ variables: { sessionId } });
+  const [showVotes] = useShowVotesMutation({ variables: { sessionId } });
 
   return (
     <Box as="section" my={[2, 4]}>
       <Text as="h3">Session Controls</Text>
       <Flex flexWrap="wrap" justifyContent={['center', 'unset']}>
         <Spaced mr={[1, 2, 3]} includeLast={false}>
-          <Button onClick={() => clearScores()}>Clear Scores</Button>
+          <Button onClick={() => clearVotes()}>Clear Votes</Button>
+          <Button onClick={() => showVotes()}>Show Votes</Button>
         </Spaced>
       </Flex>
     </Box>

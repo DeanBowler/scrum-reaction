@@ -6,9 +6,9 @@ import styled from 'styled-components';
 
 import {
   useGetPokerSessionSubscription,
-  Poker_User_Session,
   useUpsetUserSessionMutation,
   Poker_Session,
+  Users,
 } from '../../generated/graphql';
 
 import { useAuth } from '../../contexts/authContext';
@@ -21,6 +21,9 @@ import Card from '../../components/Card';
 
 import { differenceInSeconds, parseISO } from 'date-fns';
 import SessionOwnerControls from './SessionOwnerControls';
+import { FaEyeSlash } from 'react-icons/fa';
+import { useRouter } from 'next/router';
+import Button from '../../styled/Button';
 
 const USER_INACTIVITY_THRESHOLD_SECONDS = 30;
 
@@ -30,6 +33,7 @@ export const GET_POKER_SESSION = gql`
       id
       name
       owner_id
+      votes_visible
       user_sessions_aggregate {
         aggregate {
           count
@@ -59,7 +63,13 @@ const StyledUserSessionContainer = styled(Flex)`
   }
 `;
 
-function UserSession({ user, current_vote }: Poker_User_Session) {
+interface UserSessionProps {
+  user: Pick<Users, 'id' | 'name' | 'last_seen'>;
+  current_vote: string;
+  votes_visible: boolean;
+}
+
+function UserSession({ user, current_vote, votes_visible }: UserSessionProps) {
   const isUserActive = pipe(
     parseISO,
     ls => differenceInSeconds(new Date(), ls),
@@ -68,7 +78,6 @@ function UserSession({ user, current_vote }: Poker_User_Session) {
 
   return (
     <StyledUserSessionContainer
-      key={user.id}
       p={[1, 2]}
       alignItems="center"
       opacity={isUserActive ? 1 : 0.5}
@@ -79,7 +88,7 @@ function UserSession({ user, current_vote }: Poker_User_Session) {
       </Box>
       <Text fontSize={[3, 4]} fontWeight="bold">
         {' '}
-        {current_vote || '-'}{' '}
+        {current_vote ? votes_visible ? current_vote : <FaEyeSlash /> : '-'}{' '}
       </Text>
     </StyledUserSessionContainer>
   );
@@ -88,11 +97,7 @@ function UserSession({ user, current_vote }: Poker_User_Session) {
 export default function PlanningPokerSession({ sessionId }: PlanningPokerSessionProps) {
   const { userId, isLoadingAuth } = useAuth();
 
-  const [joinSession, { loading: joiningSession }] = useUpsetUserSessionMutation();
-  useEffect(() => {
-    if (!userId) return;
-    joinSession({ variables: { sessionId, userId } });
-  }, [userId]);
+  const router = useRouter();
 
   const {
     loading: loadingSession,
@@ -101,7 +106,26 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
     variables: { id: sessionId },
   });
 
-  if (loadingSession || joiningSession || isLoadingAuth) return <div>loading</div>;
+  const [joinSession, { loading: joiningSession }] = useUpsetUserSessionMutation();
+  useEffect(() => {
+    if (!userId) return;
+    joinSession({ variables: { sessionId, userId } });
+  }, [userId]);
+
+  if (loadingSession || joiningSession || isLoadingAuth) return <div></div>; //todo debounced loader here
+
+  if (!session)
+    return (
+      <Box marginX="auto" marginY={[4, 5]} textAlign="center">
+        <Text as="h2" fontWeight="400" fontSize={[3, 4, 5]}>
+          Could not find the session you&apos;re looking for
+        </Text>
+        <Button onClick={() => router.push('/planning-poker')}>
+          Find or create a session
+        </Button>
+      </Box>
+    );
+
   return (
     <Box maxWidth={[9]} margin="0 auto">
       <Head>
@@ -114,7 +138,16 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
       <PlanningPokerVoter sessionId={sessionId} />
       <Flex justifyContent="space-between" flexDirection={['column', 'row']}>
         <Card title="Votes">
-          <>{session.user_sessions.flatMap(UserSession)}</>
+          <>
+            {session.user_sessions.flatMap(us => (
+              <UserSession
+                key={us.user.id}
+                user={us.user}
+                current_vote={us.current_vote}
+                votes_visible={session.votes_visible}
+              />
+            ))}
+          </>
         </Card>
         <SessionStats {...(session as Poker_Session)} />
       </Flex>

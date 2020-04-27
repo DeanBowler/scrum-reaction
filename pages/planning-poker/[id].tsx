@@ -9,7 +9,7 @@ import { FeatureRequiresAuth } from '../../components/FeatureRequiresAuth';
 export default function PlanningPoker() {
   const { query } = useRouter();
 
-  if (typeof query.id !== 'string') return <div>error</div>;
+  if (typeof query.id !== 'string') return null;
 
   const sessionId = Number.parseInt(query.id);
 

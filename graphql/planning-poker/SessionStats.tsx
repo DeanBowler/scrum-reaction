@@ -9,10 +9,12 @@ import Text from '../../styled/Text';
 import Card from '../../components/Card';
 
 export default function SessionStats(session: Poker_Session) {
-  const votes = pipe(
-    map((s: Poker_User_Session) => s.current_vote),
-    filter(v => !!v),
-  )(session.user_sessions);
+  const votes = !session.votes_visible
+    ? []
+    : pipe(
+        map((s: Poker_User_Session) => s.current_vote),
+        filter(v => !!v),
+      )(session.user_sessions);
 
   const unknownVotes = votes.length ? filter(v => v === '?')(votes).length : undefined;
 
@@ -42,7 +44,9 @@ export default function SessionStats(session: Poker_Session) {
 
   useLayoutEffect(() => {
     if (consensusReached) {
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
+        if (!consensusTextRef.current) return;
+
         const consensusTextEl = consensusTextRef.current;
         const textCenterX = consensusTextEl.offsetLeft + consensusTextEl.offsetWidth / 2;
 
@@ -56,6 +60,7 @@ export default function SessionStats(session: Poker_Session) {
           },
         });
       }, 1000);
+      return () => clearTimeout(timeout);
     }
   }, [consensusReached]);
 
