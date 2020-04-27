@@ -1,0 +1,14 @@
+- args:
+    permission:
+      allow_aggregations: true
+      columns:
+      - id
+      - last_seen
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: online_users
+      schema: public
+  type: create_select_permission

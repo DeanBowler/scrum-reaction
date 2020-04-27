@@ -1,0 +1,6 @@
+- args:
+    role: user
+    table:
+      name: poker_user_session
+      schema: public
+  type: drop_insert_permission

@@ -1,0 +1,15 @@
+- args:
+    permission:
+      allow_aggregations: true
+      columns:
+      - id
+      - name
+      - owner_id
+      computed_fields: []
+      filter: {}
+      limit: null
+    role: user
+    table:
+      name: poker_session
+      schema: public
+  type: create_select_permission

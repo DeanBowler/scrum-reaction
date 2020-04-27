@@ -1,0 +1,16 @@
+- args:
+    permission:
+      columns:
+      - current_vote
+      filter:
+        user_id:
+          _eq: X-Hasura-User-Id
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: user
+    table:
+      name: poker_user_session
+      schema: public
+  type: create_update_permission
