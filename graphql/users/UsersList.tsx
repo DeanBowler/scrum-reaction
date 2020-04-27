@@ -23,6 +23,11 @@ interface User {
 export default function UserList() {
   const { loading, error, data } = useGetOnlineUsersSubscription();
 
+  if (error) {
+    console.error(error);
+    return null;
+  }
+
   if (loading) return <div>loading</div>;
 
   return (

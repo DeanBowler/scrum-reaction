@@ -1308,6 +1308,38 @@ export enum Users_Update_Column {
   Name = 'name'
 }
 
+export type CreatePokerSessionMutationVariables = {
+  name: Scalars['String'];
+  owner_id: Scalars['String'];
+};
+
+
+export type CreatePokerSessionMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_poker_session?: Maybe<(
+    { __typename?: 'poker_session_mutation_response' }
+    & Pick<Poker_Session_Mutation_Response, 'affected_rows'>
+    & { returning: Array<(
+      { __typename?: 'poker_session' }
+      & Pick<Poker_Session, 'id'>
+    )> }
+  )> }
+);
+
+export type UpsetUserSessionMutationVariables = {
+  sessionId: Scalars['Int'];
+  userId: Scalars['String'];
+};
+
+
+export type UpsetUserSessionMutation = (
+  { __typename?: 'mutation_root' }
+  & { insert_poker_user_session?: Maybe<(
+    { __typename?: 'poker_user_session_mutation_response' }
+    & Pick<Poker_User_Session_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
 export type GetPokerSessionSubscriptionVariables = {
   id: Scalars['Int'];
 };
@@ -1332,20 +1364,6 @@ export type GetPokerSessionSubscription = (
         & Pick<Users, 'name' | 'last_seen' | 'id'>
       ) }
     )> }
-  )> }
-);
-
-export type UpsetUserSessionMutationVariables = {
-  sessionId: Scalars['Int'];
-  userId: Scalars['String'];
-};
-
-
-export type UpsetUserSessionMutation = (
-  { __typename?: 'mutation_root' }
-  & { insert_poker_user_session?: Maybe<(
-    { __typename?: 'poker_user_session_mutation_response' }
-    & Pick<Poker_User_Session_Mutation_Response, 'affected_rows'>
   )> }
 );
 
@@ -1393,6 +1411,75 @@ export type GetOnlineUsersSubscription = (
 );
 
 
+export const CreatePokerSessionDocument = gql`
+    mutation createPokerSession($name: String!, $owner_id: String!) {
+  insert_poker_session(objects: {name: $name, owner_id: $owner_id}) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
+    `;
+export type CreatePokerSessionMutationFn = ApolloReactCommon.MutationFunction<CreatePokerSessionMutation, CreatePokerSessionMutationVariables>;
+
+/**
+ * __useCreatePokerSessionMutation__
+ *
+ * To run a mutation, you first call `useCreatePokerSessionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreatePokerSessionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createPokerSessionMutation, { data, loading, error }] = useCreatePokerSessionMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *      owner_id: // value for 'owner_id'
+ *   },
+ * });
+ */
+export function useCreatePokerSessionMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<CreatePokerSessionMutation, CreatePokerSessionMutationVariables>) {
+        return ApolloReactHooks.useMutation<CreatePokerSessionMutation, CreatePokerSessionMutationVariables>(CreatePokerSessionDocument, baseOptions);
+      }
+export type CreatePokerSessionMutationHookResult = ReturnType<typeof useCreatePokerSessionMutation>;
+export type CreatePokerSessionMutationResult = ApolloReactCommon.MutationResult<CreatePokerSessionMutation>;
+export type CreatePokerSessionMutationOptions = ApolloReactCommon.BaseMutationOptions<CreatePokerSessionMutation, CreatePokerSessionMutationVariables>;
+export const UpsetUserSessionDocument = gql`
+    mutation upsetUserSession($sessionId: Int!, $userId: String!) {
+  insert_poker_user_session(objects: {user_id: $userId, session_id: $sessionId}, on_conflict: {constraint: poker_user_session_pkey, update_columns: current_vote}) {
+    affected_rows
+  }
+}
+    `;
+export type UpsetUserSessionMutationFn = ApolloReactCommon.MutationFunction<UpsetUserSessionMutation, UpsetUserSessionMutationVariables>;
+
+/**
+ * __useUpsetUserSessionMutation__
+ *
+ * To run a mutation, you first call `useUpsetUserSessionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpsetUserSessionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [upsetUserSessionMutation, { data, loading, error }] = useUpsetUserSessionMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useUpsetUserSessionMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpsetUserSessionMutation, UpsetUserSessionMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpsetUserSessionMutation, UpsetUserSessionMutationVariables>(UpsetUserSessionDocument, baseOptions);
+      }
+export type UpsetUserSessionMutationHookResult = ReturnType<typeof useUpsetUserSessionMutation>;
+export type UpsetUserSessionMutationResult = ApolloReactCommon.MutationResult<UpsetUserSessionMutation>;
+export type UpsetUserSessionMutationOptions = ApolloReactCommon.BaseMutationOptions<UpsetUserSessionMutation, UpsetUserSessionMutationVariables>;
 export const GetPokerSessionDocument = gql`
     subscription getPokerSession($id: Int!) {
   poker_session_by_pk(id: $id) {
@@ -1437,39 +1524,6 @@ export function useGetPokerSessionSubscription(baseOptions?: ApolloReactHooks.Su
       }
 export type GetPokerSessionSubscriptionHookResult = ReturnType<typeof useGetPokerSessionSubscription>;
 export type GetPokerSessionSubscriptionResult = ApolloReactCommon.SubscriptionResult<GetPokerSessionSubscription>;
-export const UpsetUserSessionDocument = gql`
-    mutation upsetUserSession($sessionId: Int!, $userId: String!) {
-  insert_poker_user_session(objects: {user_id: $userId, session_id: $sessionId}, on_conflict: {constraint: poker_user_session_pkey, update_columns: current_vote}) {
-    affected_rows
-  }
-}
-    `;
-export type UpsetUserSessionMutationFn = ApolloReactCommon.MutationFunction<UpsetUserSessionMutation, UpsetUserSessionMutationVariables>;
-
-/**
- * __useUpsetUserSessionMutation__
- *
- * To run a mutation, you first call `useUpsetUserSessionMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useUpsetUserSessionMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [upsetUserSessionMutation, { data, loading, error }] = useUpsetUserSessionMutation({
- *   variables: {
- *      sessionId: // value for 'sessionId'
- *      userId: // value for 'userId'
- *   },
- * });
- */
-export function useUpsetUserSessionMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpsetUserSessionMutation, UpsetUserSessionMutationVariables>) {
-        return ApolloReactHooks.useMutation<UpsetUserSessionMutation, UpsetUserSessionMutationVariables>(UpsetUserSessionDocument, baseOptions);
-      }
-export type UpsetUserSessionMutationHookResult = ReturnType<typeof useUpsetUserSessionMutation>;
-export type UpsetUserSessionMutationResult = ApolloReactCommon.MutationResult<UpsetUserSessionMutation>;
-export type UpsetUserSessionMutationOptions = ApolloReactCommon.BaseMutationOptions<UpsetUserSessionMutation, UpsetUserSessionMutationVariables>;
 export const UpdateVoteDocument = gql`
     mutation updateVote($sessionId: Int!, $userId: String!, $vote: String) {
   update_poker_user_session(where: {session_id: {_eq: $sessionId}, user_id: {_eq: $userId}}, _set: {current_vote: $vote}) {

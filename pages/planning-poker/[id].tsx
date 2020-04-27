@@ -4,6 +4,7 @@ import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Box from '../../styled/Box';
 import PlanningPokerSession from '../../graphql/planning-poker/PlanningPokerSession';
+import { FeatureRequiresAuth } from '../../components/FeatureRequiresAuth';
 
 export default function PlanningPoker() {
   const { query } = useRouter();
@@ -18,7 +19,9 @@ export default function PlanningPoker() {
         <title>Planning Poker</title>
       </Head>
       <Box>
-        <PlanningPokerSession sessionId={sessionId} />
+        <FeatureRequiresAuth>
+          <PlanningPokerSession sessionId={sessionId} />
+        </FeatureRequiresAuth>
       </Box>
     </>
   );

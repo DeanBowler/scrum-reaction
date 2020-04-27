@@ -43,17 +43,6 @@ export const GET_POKER_SESSION = gql`
   }
 `;
 
-export const JOIN_POKER_SESSION = gql`
-  mutation upsetUserSession($sessionId: Int!, $userId: String!) {
-    insert_poker_user_session(
-      objects: { user_id: $userId, session_id: $sessionId }
-      on_conflict: { constraint: poker_user_session_pkey, update_columns: current_vote }
-    ) {
-      affected_rows
-    }
-  }
-`;
-
 interface PlanningPokerSessionProps {
   sessionId: number;
 }

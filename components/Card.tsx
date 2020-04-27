@@ -31,7 +31,7 @@ export default function Card({ title, children, ...rest }: CardProps) {
         borderWidth="1px"
         borderRadius="5px"
         borderStyle="solid"
-        padding={[2, 3, 4]}
+        padding={[3, 4]}
         mb="5px"
         boxShadow="rgba(0, 0, 0, 0.1) 0px 5px 0px -1px"
       >

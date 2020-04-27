@@ -1,7 +1,6 @@
 import React from 'react';
 import { Poker_Session } from '../../generated/graphql';
 import Box from '../../styled/Box';
-import Text from '../../styled/Text';
 import { pipe, map, filter, min, max, mean, median, reduce } from 'ramda';
 import Card from '../../components/Card';
 
