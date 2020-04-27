@@ -46,7 +46,7 @@ interface AuthContextProviderProps {
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [auth0Client, setAuth0Client] = useState<Auth0Client>();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(undefined);
   const [user, setUser] = useState<AuthUser>(undefined);
   const [userId, setUserId] = useState<string>(undefined);
@@ -111,7 +111,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         logout: (...p) => auth0Client && auth0Client.logout(...p),
       }}
     >
-      {isLoading ? <div>loading</div> : children}
+      {children}
     </AuthContext.Provider>
   );
 }
