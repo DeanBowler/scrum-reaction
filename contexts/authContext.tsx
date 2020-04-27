@@ -58,6 +58,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         client_id:
           process.env.REACT_APP_AUTH0_CLIENT_ID || 'OjVi0uiIuSX2VgDZVOsWLR6hTn4Dlktx',
         redirect_uri: window.origin,
+        audience: 'https://morning-sound-9681.eu.auth0.com/api/v2/',
       };
 
       const client = await createAuth0Client(config);
@@ -80,9 +81,20 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         const user = await client.getUser();
         setUser(user);
 
-        const hasuraClaims = user['https://hasura.io/jwt/claims'];
+        // const token = await client.getTokenSilently({
+        //   scope: 'user',
+        // });
 
-        setUserId(hasuraClaims['x-hasura-user-id']);
+        // console.log(token);
+
+        // const claims = await client.getIdTokenClaims();
+
+        // console.log(claims);
+
+        // debugger;
+        // const hasuraClaims = user['https://hasura.io/jwt/claims'];
+
+        setUserId(user.sub);
       }
 
       setIsLoading(false);
@@ -104,7 +116,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         logout: (...p) => auth0Client && auth0Client.logout(...p),
       }}
     >
-      {children}
+      {isLoading ? <div>loading</div> : children}
     </AuthContext.Provider>
   );
 }
