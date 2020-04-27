@@ -1,22 +1,26 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import gql from 'graphql-tag';
-import Text from '../../styled/Text';
+import { pipe } from 'ramda';
+import styled from 'styled-components';
+
 import {
   useGetPokerSessionSubscription,
   Poker_User_Session,
   useUpsetUserSessionMutation,
   Poker_Session,
 } from '../../generated/graphql';
-import PlanningPokerVoter from './PlanningPokerVoter';
+
 import { useAuth } from '../../contexts/authContext';
+import Text from '../../styled/Text';
 import Box from '../../styled/Box';
 import Flex from '../../styled/Flex';
+import PlanningPokerVoter from './PlanningPokerVoter';
 import SessionStats from './SessionStats';
 import Card from '../../components/Card';
 
 import { differenceInSeconds, parseISO } from 'date-fns';
-import { pipe } from 'ramda';
+import SessionOwnerControls from './SessionOwnerControls';
 
 const USER_INACTIVITY_THRESHOLD_SECONDS = 30;
 
@@ -47,6 +51,14 @@ interface PlanningPokerSessionProps {
   sessionId: number;
 }
 
+const StyledUserSessionContainer = styled(Flex)`
+  border-radius: 5px;
+
+  :hover {
+    background: ${p => p.theme.colors.neutralLight};
+  }
+`;
+
 function UserSession({ user, current_vote }: Poker_User_Session) {
   const isUserActive = pipe(
     parseISO,
@@ -55,7 +67,12 @@ function UserSession({ user, current_vote }: Poker_User_Session) {
   )(user.last_seen);
 
   return (
-    <Flex key={user.id} my={[2, 3]} alignItems="center" opacity={isUserActive ? 1 : 0.5}>
+    <StyledUserSessionContainer
+      key={user.id}
+      p={[1, 2]}
+      alignItems="center"
+      opacity={isUserActive ? 1 : 0.5}
+    >
       <Box width={[6, , 7]}>
         <Text fontSize={[1, 2, 3]}>{user.name}</Text>
         {!isUserActive && <Text> (inactive)</Text>}
@@ -64,7 +81,7 @@ function UserSession({ user, current_vote }: Poker_User_Session) {
         {' '}
         {current_vote || '-'}{' '}
       </Text>
-    </Flex>
+    </StyledUserSessionContainer>
   );
 }
 
@@ -93,6 +110,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
       <Text as="h2" fontWeight="400" fontSize={[3, 4, 5]}>
         Planning Poker > {session.name}
       </Text>
+      {session.owner_id === userId && <SessionOwnerControls sessionId={session.id} />}
       <PlanningPokerVoter sessionId={sessionId} />
       <Flex justifyContent="space-between" flexDirection={['column', 'row']}>
         <Card title="Votes">

@@ -24,7 +24,7 @@ const theme: AppTheme = {
     neutralDark: '#414549',
     neutralMid: '#cacdcd',
     neutralMidLight: '#d9dbdb',
-    neutralLight: '#e8ebeb',
+    neutralLight: '#eaeded',
     neutralLightest: '#fff',
   },
   space: [0, '0.25rem', '0.5rem', '1rem', '2rem', '4rem', '8rem', '16rem'],

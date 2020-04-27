@@ -1382,6 +1382,19 @@ export type UpdateVoteMutation = (
   )> }
 );
 
+export type ClearScoresMutationVariables = {
+  sessionId: Scalars['Int'];
+};
+
+
+export type ClearScoresMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_poker_user_session?: Maybe<(
+    { __typename?: 'poker_user_session_mutation_response' }
+    & Pick<Poker_User_Session_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
 export type UpdateLastSeenMutationVariables = {
   userId: Scalars['String'];
   lastSeen: Scalars['timestamptz'];
@@ -1558,6 +1571,38 @@ export function useUpdateVoteMutation(baseOptions?: ApolloReactHooks.MutationHoo
 export type UpdateVoteMutationHookResult = ReturnType<typeof useUpdateVoteMutation>;
 export type UpdateVoteMutationResult = ApolloReactCommon.MutationResult<UpdateVoteMutation>;
 export type UpdateVoteMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVoteMutation, UpdateVoteMutationVariables>;
+export const ClearScoresDocument = gql`
+    mutation clearScores($sessionId: Int!) {
+  update_poker_user_session(where: {poker_session: {id: {_eq: $sessionId}}}, _set: {current_vote: null}) {
+    affected_rows
+  }
+}
+    `;
+export type ClearScoresMutationFn = ApolloReactCommon.MutationFunction<ClearScoresMutation, ClearScoresMutationVariables>;
+
+/**
+ * __useClearScoresMutation__
+ *
+ * To run a mutation, you first call `useClearScoresMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useClearScoresMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [clearScoresMutation, { data, loading, error }] = useClearScoresMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *   },
+ * });
+ */
+export function useClearScoresMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ClearScoresMutation, ClearScoresMutationVariables>) {
+        return ApolloReactHooks.useMutation<ClearScoresMutation, ClearScoresMutationVariables>(ClearScoresDocument, baseOptions);
+      }
+export type ClearScoresMutationHookResult = ReturnType<typeof useClearScoresMutation>;
+export type ClearScoresMutationResult = ApolloReactCommon.MutationResult<ClearScoresMutation>;
+export type ClearScoresMutationOptions = ApolloReactCommon.BaseMutationOptions<ClearScoresMutation, ClearScoresMutationVariables>;
 export const UpdateLastSeenDocument = gql`
     mutation updateLastSeen($userId: String!, $lastSeen: timestamptz!) {
   update_users(where: {id: {_eq: $userId}}, _set: {last_seen: $lastSeen}) {

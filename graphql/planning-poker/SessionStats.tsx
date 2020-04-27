@@ -14,8 +14,6 @@ export default function SessionStats(session: Poker_Session) {
     filter(v => !!v),
   )(session.user_sessions);
 
-  // session.user_sessions.map(s => s.current_vote);
-
   const unknownVotes = votes.length ? filter(v => v === '?')(votes).length : undefined;
 
   const numericVotes = pipe(

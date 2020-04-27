@@ -44,7 +44,7 @@ export default function PlanningPokerVoter({ sessionId }: PlanningPokerVoterProp
     update({ variables: { sessionId, userId, vote } });
 
   return (
-    <Box as="section" my={[2, 3]}>
+    <Box as="section" my={[2, 4]}>
       <Text as="h3">Submit your vote</Text>
       <Flex flexWrap="wrap" justifyContent={['center', 'unset']}>
         <Spaced margin={[1, 2]}>
