@@ -2,7 +2,7 @@ import React from 'react';
 import { Poker_Session } from '../../generated/graphql';
 import Box from '../../styled/Box';
 import Text from '../../styled/Text';
-import { pipe, map, filter, min, max, mean, reduce } from 'ramda';
+import { pipe, map, filter, min, max, mean, median, reduce } from 'ramda';
 import Card from '../../components/Card';
 
 export default function SessionStats(session: Poker_Session) {
@@ -22,13 +22,16 @@ export default function SessionStats(session: Poker_Session) {
   const lowestVote = numericVotes.length
     ? reduce(min, Infinity, numericVotes)
     : undefined;
-  const average = numericVotes.length ? mean(numericVotes) : undefined;
+
+  const meanVote = numericVotes.length ? mean(numericVotes) : undefined;
+  const medianVote = numericVotes.length ? median(numericVotes) : undefined;
 
   return (
     <Card ml={[1, 2]} title="Stats" flex="0 0" minWidth={[6, , 7]}>
       <Box>Highest: {highestVote}</Box>
       <Box>Lowest: {lowestVote}</Box>
-      <Box>Average: {average}</Box>
+      <Box>Mean: {meanVote}</Box>
+      <Box>Median: {medianVote}</Box>
       <Box>No idea: {unknownVotes}</Box>
     </Card>
   );

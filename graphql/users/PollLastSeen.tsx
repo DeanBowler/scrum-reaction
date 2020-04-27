@@ -2,7 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { useUpdateLastSeenMutation } from '../../generated/graphql';
 import { useAuth } from '../../contexts/authContext';
-import { useInterval } from 'react-use';
+import { useInterval, useMount } from 'react-use';
 import useWindowVisible from '../../hooks/useWindowVisible';
 
 export const MUTATE_UPDATE_LAST_SEEN = gql`
@@ -20,13 +20,19 @@ export default function PollLastSeen() {
 
   const isVisible = useWindowVisible();
 
+  const updateLastSeen = () => {
+    if (!userId) return null;
+
+    const lastSeen = new Date().toISOString();
+
+    update({ variables: { userId, lastSeen } });
+  };
+
+  useMount(() => updateLastSeen());
+
   useInterval(
     () => {
-      if (!userId) return null;
-
-      const lastSeen = new Date().toISOString();
-
-      update({ variables: { userId, lastSeen } });
+      updateLastSeen();
     },
     isVisible ? 10000 : null,
   );

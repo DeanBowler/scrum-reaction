@@ -15,6 +15,11 @@ import Flex from '../../styled/Flex';
 import SessionStats from './SessionStats';
 import Card from '../../components/Card';
 
+import { differenceInSeconds, parseISO } from 'date-fns';
+import { pipe } from 'ramda';
+
+const USER_INACTIVITY_THRESHOLD_SECONDS = 30;
+
 export const GET_POKER_SESSION = gql`
   subscription getPokerSession($id: Int!) {
     poker_session_by_pk(id: $id) {
@@ -54,10 +59,17 @@ interface PlanningPokerSessionProps {
 }
 
 function UserSession({ user, current_vote }: Poker_User_Session) {
+  const isUserActive = pipe(
+    parseISO,
+    ls => differenceInSeconds(new Date(), ls),
+    difference => difference < USER_INACTIVITY_THRESHOLD_SECONDS,
+  )(user.last_seen);
+
   return (
-    <Flex key={user.id} my={[2, 3]}>
+    <Flex key={user.id} my={[2, 3]} alignItems="center" opacity={isUserActive ? 1 : 0.5}>
       <Box width={[6, , 7]}>
         <Text fontSize={[1, 2, 3]}>{user.name}</Text>
+        {!isUserActive && <Text> (inactive)</Text>}
       </Box>
       <Text fontSize={[3, 4]} fontWeight="bold">
         {' '}
