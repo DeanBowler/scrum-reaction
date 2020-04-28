@@ -43,7 +43,7 @@ export const GET_POKER_SESSION = gql`
         current_vote
         user {
           name
-          last_seen
+          # last_seen
           id
         }
       }
@@ -64,7 +64,7 @@ const StyledUserSessionContainer = styled(Flex)`
 `;
 
 interface UserSessionProps {
-  user: Pick<Users, 'id' | 'name' | 'last_seen'>;
+  user: Pick<Users, 'id' | 'name'>;
   current_vote: string;
   votes_visible: boolean;
 }
@@ -72,11 +72,11 @@ interface UserSessionProps {
 function UserSession({ user, current_vote, votes_visible }: UserSessionProps) {
   const { userId } = useAuth();
 
-  const isUserActive = pipe(
-    parseISO,
-    ls => differenceInSeconds(new Date(), ls),
-    difference => difference < USER_INACTIVITY_THRESHOLD_SECONDS,
-  )(user.last_seen);
+  // const isUserActive = pipe(
+  //   parseISO,
+  //   ls => differenceInSeconds(new Date(), ls),
+  //   difference => difference < USER_INACTIVITY_THRESHOLD_SECONDS,
+  // )(user.last_seen);
 
   const isVoteVisible = votes_visible || user.id === userId;
 
@@ -84,11 +84,11 @@ function UserSession({ user, current_vote, votes_visible }: UserSessionProps) {
     <StyledUserSessionContainer
       p={[1, 2]}
       alignItems="center"
-      opacity={isUserActive ? 1 : 0.5}
+      // opacity={isUserActive ? 1 : 0.5}
     >
       <Box width={[6, , 7]}>
         <Text fontSize={[1, 2, 3]}>{user.name}</Text>
-        {!isUserActive && <Text> (inactive)</Text>}
+        {/* {!isUserActive && <Text> (inactive)</Text>} */}
       </Box>
       <Text fontSize={[3, 4]} fontWeight="bold">
         {' '}
@@ -141,7 +141,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
         Planning Poker > {session.name}
       </Text>
       {session.owner_id === userId && <SessionOwnerControls sessionId={session.id} />}
-      <PlanningPokerVoter sessionId={sessionId} />
+      <PlanningPokerVoter sessionId={sessionId} allowVoting={!session.votes_visible} />
       <Flex justifyContent="space-between" flexDirection={['column', 'row']}>
         <Card title="Votes">
           <>

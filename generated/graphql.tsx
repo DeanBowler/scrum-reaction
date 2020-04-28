@@ -1383,7 +1383,7 @@ export type GetPokerSessionSubscription = (
       & Pick<Poker_User_Session, 'current_vote'>
       & { user: (
         { __typename?: 'users' }
-        & Pick<Users, 'name' | 'last_seen' | 'id'>
+        & Pick<Users, 'name' | 'id'>
       ) }
     )> }
   )> }
@@ -1547,7 +1547,6 @@ export const GetPokerSessionDocument = gql`
       current_vote
       user {
         name
-        last_seen
         id
       }
     }

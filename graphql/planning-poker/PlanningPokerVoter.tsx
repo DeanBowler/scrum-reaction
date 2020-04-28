@@ -21,6 +21,7 @@ export const UPDATE_VOTE = gql`
 
 interface PlanningPokerVoterProps {
   sessionId: number;
+  allowVoting: boolean;
 }
 
 const CARD_SIZES = [
@@ -35,18 +36,25 @@ const CARD_SIZES = [
   { value: '?' },
 ];
 
-export default function PlanningPokerVoter({ sessionId }: PlanningPokerVoterProps) {
+export default function PlanningPokerVoter({
+  sessionId,
+  allowVoting,
+}: PlanningPokerVoterProps) {
   const { userId } = useAuth();
 
   const [update] = useUpdateVoteMutation();
 
   const submitVote = (vote: string | null) =>
-    update({ variables: { sessionId, userId, vote } });
+    allowVoting && update({ variables: { sessionId, userId, vote } });
 
   return (
     <Box as="section" my={[2, 4]}>
       <Text as="h3">Submit your vote</Text>
-      <Flex flexWrap="wrap" justifyContent={['center', 'unset']}>
+      <Flex
+        flexWrap="wrap"
+        justifyContent={['center', 'unset']}
+        // opacity={allowVoting ? 1 : 0.5}
+      >
         <Spaced margin={[1, 2]}>
           {CARD_SIZES.map(c => (
             <PlanningPokerVoteCard
