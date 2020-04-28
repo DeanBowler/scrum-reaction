@@ -49,7 +49,7 @@ export default function PlanningPokerVoter({
 
   return (
     <Box as="section" my={[2, 4]}>
-      <Text as="h3">Submit your vote</Text>
+      <Text as="h3">{allowVoting ? 'Submit your vote' : 'Voting locked'}</Text>
       <Flex
         flexWrap="wrap"
         justifyContent={['center', 'unset']}
@@ -59,6 +59,7 @@ export default function PlanningPokerVoter({
           {CARD_SIZES.map(c => (
             <PlanningPokerVoteCard
               key={c.value}
+              disabled={!allowVoting}
               value={c.value}
               label={c.value}
               onClick={submitVote}
@@ -75,6 +76,7 @@ interface PlanningPokerVoteCardProps {
   label: string;
   onClick(value: string): void;
   className?: string;
+  disabled: boolean;
 }
 
 const StyledVoteCard: React.FunctionComponent<BorderBoxProps> = styled(BorderBox)`
@@ -84,7 +86,13 @@ const StyledVoteCard: React.FunctionComponent<BorderBoxProps> = styled(BorderBox
   border: 1px solid ${p => p.theme.colors.neutralMid};
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 0px -1px;
-  :hover {
+
+  :disabled {
+    cursor: not-allowed;
+    background: ${p => p.theme.colors.neutralLight};
+  }
+
+  :hover:not(:disabled) {
     background: ${p => p.theme.colors.neutralLight};
   }
 `;
@@ -94,6 +102,7 @@ const PlanningPokerVoteCard = ({
   label,
   onClick,
   className,
+  disabled,
 }: PlanningPokerVoteCardProps) => (
   <StyledVoteCard
     className={className}
@@ -106,6 +115,7 @@ const PlanningPokerVoteCard = ({
     minHeight={[3, 4]}
     fontFamily="Pacifico"
     flex="0 0"
+    disabled={disabled}
   >
     {label}
   </StyledVoteCard>
