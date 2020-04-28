@@ -70,11 +70,15 @@ interface UserSessionProps {
 }
 
 function UserSession({ user, current_vote, votes_visible }: UserSessionProps) {
+  const { userId } = useAuth();
+
   const isUserActive = pipe(
     parseISO,
     ls => differenceInSeconds(new Date(), ls),
     difference => difference < USER_INACTIVITY_THRESHOLD_SECONDS,
   )(user.last_seen);
+
+  const isVoteVisible = votes_visible || user.id === userId;
 
   return (
     <StyledUserSessionContainer
@@ -88,7 +92,7 @@ function UserSession({ user, current_vote, votes_visible }: UserSessionProps) {
       </Box>
       <Text fontSize={[3, 4]} fontWeight="bold">
         {' '}
-        {current_vote ? votes_visible ? current_vote : <FaEyeSlash /> : '-'}{' '}
+        {current_vote ? isVoteVisible ? current_vote : <FaEyeSlash /> : '-'}{' '}
       </Text>
     </StyledUserSessionContainer>
   );
@@ -111,6 +115,8 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
     if (!userId) return;
     joinSession({ variables: { sessionId, userId } });
   }, [userId]);
+
+  console.log({ session, joiningSession, isLoadingAuth, userId });
 
   if (loadingSession || joiningSession || isLoadingAuth) return <div></div>; //todo debounced loader here
 
