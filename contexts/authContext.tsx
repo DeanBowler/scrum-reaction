@@ -11,6 +11,7 @@ import createAuth0Client, {
   LogoutOptions,
 } from '@auth0/auth0-spa-js';
 import { useMount } from 'react-use';
+import LogRocket from 'logrocket';
 
 export interface AuthUser {
   given_name: string;
@@ -85,6 +86,11 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         setUser(user);
 
         setUserId(user.sub);
+
+        LogRocket.identify(user.sub, {
+          name: user.name,
+          email: user.email,
+        });
       }
 
       setIsLoading(false);

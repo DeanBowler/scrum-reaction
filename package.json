@@ -40,6 +40,8 @@
     "framer-motion": "^1.10.3",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
+    "logrocket": "^1.0.7",
+    "logrocket-react": "^4.0.1",
     "next": "^9.3.4",
     "ramda": "^0.27.0",
     "react": "^16.13.1",

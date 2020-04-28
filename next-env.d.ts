@@ -7,5 +7,6 @@ declare namespace NodeJS {
     readonly REACT_APP_AUTH0_CLIENT_ID: string;
     readonly REACT_APP_HASURA_ENDPOINT: string;
     readonly REACT_APP_HASURA_SOCKET_ENDPOINT: string;
+    readonly REACT_APP_LOGROCKET_KEY: string;
   }
 }

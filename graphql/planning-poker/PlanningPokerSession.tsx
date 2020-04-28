@@ -116,8 +116,6 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
     joinSession({ variables: { sessionId, userId } });
   }, [userId]);
 
-  console.log({ session, joiningSession, isLoadingAuth, userId });
-
   if (loadingSession || joiningSession || isLoadingAuth) return <div></div>; //todo debounced loader here
 
   if (!session)

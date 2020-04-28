@@ -1,5 +1,5 @@
 import React from 'react';
-import fetch from 'node-fetch';
+import nodeFetch from 'node-fetch';
 import { split } from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
 import ApolloClient from 'apollo-client';
@@ -38,7 +38,7 @@ export default function AuthorizedApolloProvider({
 
   const httpLink = new HttpLink({
     uri: process.env.REACT_APP_HASURA_ENDPOINT,
-    fetch: fetch,
+    fetch: process.browser ? fetch : nodeFetch,
   });
 
   const authLink = setContext(async (_, { headers }) => {
@@ -71,6 +71,7 @@ export default function AuthorizedApolloProvider({
   const client = new ApolloClient({
     assumeImmutableResults: true,
     link,
+
     cache: new InMemoryCache(),
   });
 
