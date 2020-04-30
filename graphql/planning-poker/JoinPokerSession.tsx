@@ -9,6 +9,7 @@ import { useUpsetUserSessionMutation } from '../../generated/graphql';
 import { useAuth } from '../../contexts/authContext';
 import { useRouter } from 'next/router';
 import { isProduction } from '../../utils/env';
+import useDebouncedState from '../../hooks/useDebouncedState';
 
 export const JOIN_POKER_SESSION = gql`
   mutation upsetUserSession($sessionId: Int!, $userId: String!) {
@@ -44,6 +45,8 @@ export default function JoinPokerSession({ className }: JoinPokerSessionProps) {
 
   const canJoin = !loading && sessionId && sessionId > 0;
 
+  const debouncedLoading = useDebouncedState(loading);
+
   const handleSessionIdInputChange = ({
     target: { valueAsNumber },
   }: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,7 +62,11 @@ export default function JoinPokerSession({ className }: JoinPokerSessionProps) {
             onChange={handleSessionIdInputChange}
             placeholder="session id"
           />
-          <Button disabled={!canJoin} onClick={() => joinSession()}>
+          <Button
+            isLoading={debouncedLoading}
+            disabled={!canJoin}
+            onClick={() => canJoin && joinSession()}
+          >
             Join Session
           </Button>
         </Spaced>

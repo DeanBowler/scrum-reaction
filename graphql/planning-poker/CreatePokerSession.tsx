@@ -9,6 +9,7 @@ import { useCreatePokerSessionMutation } from '../../generated/graphql';
 import { useAuth } from '../../contexts/authContext';
 import { useRouter } from 'next/router';
 import { isProduction } from '../../utils/env';
+import useDebouncedState from '../../hooks/useDebouncedState';
 
 export const CREATE_POKER_SESSION = gql`
   mutation createPokerSession($name: String!, $owner_id: String!) {
@@ -43,6 +44,8 @@ export default function CreatePokerSession({ className }: CreatePokerSessionProp
     },
   });
 
+  const debouncedLoading = useDebouncedState(loading);
+
   const canCreate = !loading && sessionName.length > 0;
 
   const handleSessionNameInputChange = ({
@@ -60,7 +63,11 @@ export default function CreatePokerSession({ className }: CreatePokerSessionProp
             disabled={loading}
             placeholder="session name"
           />
-          <Button disabled={!canCreate} onClick={() => createSession()}>
+          <Button
+            isLoading={debouncedLoading}
+            disabled={!canCreate}
+            onClick={() => canCreate && createSession()}
+          >
             Start New Session
           </Button>
         </Spaced>
