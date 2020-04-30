@@ -35,7 +35,7 @@ const theme: AppTheme = {
     '2.618rem',
     '4.24rem',
     '6.85rem',
-    '11rem',
+    '12rem',
     '18rem',
     '32rem',
     '52rem',

@@ -8,6 +8,7 @@ import Spaced from '../../styled/Spaced';
 import { FeatureRequiresAuth } from '../../components/FeatureRequiresAuth';
 import CreatePokerSession from '../../graphql/planning-poker/CreatePokerSession';
 import JoinPokerSession from '../../graphql/planning-poker/JoinPokerSession';
+import RecentPokerSessions from '../../graphql/planning-poker/RecentPokerSessions';
 
 const PlanningPoker = () => (
   <>
@@ -23,12 +24,19 @@ const PlanningPoker = () => (
         others then discuss, argue, fall in love and eventually reach consensus.
       </Text>
       <FeatureRequiresAuth>
-        <Flex flexDirection={['column', , 'row']} maxWidth={[9]} mx="auto" my={[1, 3, 5]}>
-          <Spaced p="2" pb="0">
+        <Flex
+          flexDirection={['column', , 'row']}
+          maxWidth={[9]}
+          mx="auto"
+          mt={[1, 3, 5]}
+          mb={[2, 4, 6]}
+        >
+          <Spaced px={[2, 2, 2, 3]} py={[2, 3, 0]}>
             <CreatePokerSession />
             <JoinPokerSession />
           </Spaced>
         </Flex>
+        <RecentPokerSessions />
       </FeatureRequiresAuth>
     </Box>
   </>

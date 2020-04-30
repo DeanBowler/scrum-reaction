@@ -65,7 +65,7 @@ const StyledUserSessionContainer = styled(Flex)`
 
 interface UserSessionProps {
   user: Pick<Users, 'id' | 'name'>;
-  current_vote: string;
+  current_vote: string | number;
   votes_visible: boolean;
 }
 

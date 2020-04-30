@@ -329,6 +329,7 @@ export enum Order_By {
 /** columns and relationships of "poker_session" */
 export type Poker_Session = {
    __typename?: 'poker_session';
+  created_at: Scalars['timestamptz'];
   id: Scalars['Int'];
   name: Scalars['String'];
   owner_id: Scalars['String'];
@@ -428,6 +429,7 @@ export type Poker_Session_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Poker_Session_Bool_Exp>>>;
   _not?: Maybe<Poker_Session_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Poker_Session_Bool_Exp>>>;
+  created_at?: Maybe<Timestamptz_Comparison_Exp>;
   id?: Maybe<Int_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
   owner_id?: Maybe<String_Comparison_Exp>;
@@ -449,6 +451,7 @@ export type Poker_Session_Inc_Input = {
 
 /** input type for inserting data into table "poker_session" */
 export type Poker_Session_Insert_Input = {
+  created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   owner_id?: Maybe<Scalars['String']>;
@@ -460,6 +463,7 @@ export type Poker_Session_Insert_Input = {
 /** aggregate max on columns */
 export type Poker_Session_Max_Fields = {
    __typename?: 'poker_session_max_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   owner_id?: Maybe<Scalars['String']>;
@@ -467,6 +471,7 @@ export type Poker_Session_Max_Fields = {
 
 /** order by max() on columns of table "poker_session" */
 export type Poker_Session_Max_Order_By = {
+  created_at?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
   owner_id?: Maybe<Order_By>;
@@ -475,6 +480,7 @@ export type Poker_Session_Max_Order_By = {
 /** aggregate min on columns */
 export type Poker_Session_Min_Fields = {
    __typename?: 'poker_session_min_fields';
+  created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   owner_id?: Maybe<Scalars['String']>;
@@ -482,6 +488,7 @@ export type Poker_Session_Min_Fields = {
 
 /** order by min() on columns of table "poker_session" */
 export type Poker_Session_Min_Order_By = {
+  created_at?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
   owner_id?: Maybe<Order_By>;
@@ -511,6 +518,7 @@ export type Poker_Session_On_Conflict = {
 
 /** ordering options when selecting data from "poker_session" */
 export type Poker_Session_Order_By = {
+  created_at?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
   owner_id?: Maybe<Order_By>;
@@ -521,6 +529,8 @@ export type Poker_Session_Order_By = {
 
 /** select columns of table "poker_session" */
 export enum Poker_Session_Select_Column {
+  /** column name */
+  CreatedAt = 'created_at',
   /** column name */
   Id = 'id',
   /** column name */
@@ -533,6 +543,7 @@ export enum Poker_Session_Select_Column {
 
 /** input type for updating data in table "poker_session" */
 export type Poker_Session_Set_Input = {
+  created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
   owner_id?: Maybe<Scalars['String']>;
@@ -585,6 +596,8 @@ export type Poker_Session_Sum_Order_By = {
 
 /** update columns of table "poker_session" */
 export enum Poker_Session_Update_Column {
+  /** column name */
+  CreatedAt = 'created_at',
   /** column name */
   Id = 'id',
   /** column name */
@@ -1404,6 +1417,19 @@ export type UpdateVoteMutation = (
   )> }
 );
 
+export type GetRecentSessionsQueryVariables = {
+  userId: Scalars['String'];
+};
+
+
+export type GetRecentSessionsQuery = (
+  { __typename?: 'query_root' }
+  & { poker_session: Array<(
+    { __typename?: 'poker_session' }
+    & Pick<Poker_Session, 'name' | 'owner_id' | 'id' | 'created_at'>
+  )> }
+);
+
 export type ClearVotesMutationVariables = {
   sessionId: Scalars['Int'];
 };
@@ -1609,6 +1635,42 @@ export function useUpdateVoteMutation(baseOptions?: ApolloReactHooks.MutationHoo
 export type UpdateVoteMutationHookResult = ReturnType<typeof useUpdateVoteMutation>;
 export type UpdateVoteMutationResult = ApolloReactCommon.MutationResult<UpdateVoteMutation>;
 export type UpdateVoteMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVoteMutation, UpdateVoteMutationVariables>;
+export const GetRecentSessionsDocument = gql`
+    query getRecentSessions($userId: String!) {
+  poker_session(where: {user_sessions: {user_id: {_eq: $userId}}}, order_by: {created_at: desc}, limit: 6) {
+    name
+    owner_id
+    id
+    created_at
+  }
+}
+    `;
+
+/**
+ * __useGetRecentSessionsQuery__
+ *
+ * To run a query within a React component, call `useGetRecentSessionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecentSessionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecentSessionsQuery({
+ *   variables: {
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useGetRecentSessionsQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetRecentSessionsQuery, GetRecentSessionsQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetRecentSessionsQuery, GetRecentSessionsQueryVariables>(GetRecentSessionsDocument, baseOptions);
+      }
+export function useGetRecentSessionsLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetRecentSessionsQuery, GetRecentSessionsQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetRecentSessionsQuery, GetRecentSessionsQueryVariables>(GetRecentSessionsDocument, baseOptions);
+        }
+export type GetRecentSessionsQueryHookResult = ReturnType<typeof useGetRecentSessionsQuery>;
+export type GetRecentSessionsLazyQueryHookResult = ReturnType<typeof useGetRecentSessionsLazyQuery>;
+export type GetRecentSessionsQueryResult = ApolloReactCommon.QueryResult<GetRecentSessionsQuery, GetRecentSessionsQueryVariables>;
 export const ClearVotesDocument = gql`
     mutation clearVotes($sessionId: Int!) {
   update_poker_user_session(where: {poker_session: {id: {_eq: $sessionId}}}, _set: {current_vote: null}) {

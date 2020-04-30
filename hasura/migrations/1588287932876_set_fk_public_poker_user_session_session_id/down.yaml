@@ -1,0 +1,12 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      alter table "public"."poker_user_session" drop constraint "poker_user_session_session_id_fkey",
+                add constraint "poker_user_session_session_id_fkey"
+                foreign key ("session_id")
+                references "public"."poker_session"
+                ("id")
+                on update restrict
+                on delete restrict;
+  type: run_sql
