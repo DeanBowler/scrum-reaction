@@ -20,7 +20,7 @@ export default function SessionStats(session: Poker_Session) {
   const unknownVotes = votes.length ? filter(v => v === '?')(votes).length : undefined;
 
   const numericVotes = pipe(
-    map(Number.parseInt),
+    map(n => +n),
     filter(n => !Number.isNaN(n)),
   )(votes);
 

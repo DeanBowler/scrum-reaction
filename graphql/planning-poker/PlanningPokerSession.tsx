@@ -86,14 +86,16 @@ function UserSession({ user, current_vote, votes_visible }: UserSessionProps) {
       alignItems="center"
       // opacity={isUserActive ? 1 : 0.5}
     >
-      <Box width={[6, , 7]}>
+      <Box flex="1 1">
         <Text fontSize={[1, 2, 3]}>{user.name}</Text>
         {/* {!isUserActive && <Text> (inactive)</Text>} */}
       </Box>
-      <Text fontSize={[3, 4]} fontWeight="bold">
-        {' '}
-        {current_vote ? isVoteVisible ? current_vote : <FaEyeSlash /> : '-'}{' '}
-      </Text>
+      <Box width={3} flex="0 0" mx={[1, 2]}>
+        <Text fontSize={[3, 4]} fontWeight="bold">
+          {' '}
+          {current_vote ? isVoteVisible ? current_vote : <FaEyeSlash /> : '-'}{' '}
+        </Text>
+      </Box>
     </StyledUserSessionContainer>
   );
 }

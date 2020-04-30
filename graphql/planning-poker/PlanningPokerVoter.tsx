@@ -24,8 +24,13 @@ interface PlanningPokerVoterProps {
   allowVoting: boolean;
 }
 
-const CARD_SIZES = [
+export const UNKNOWN_VALUE = '?';
+
+type CardSize = { value: string; label?: string };
+
+const CARD_SIZES: readonly CardSize[] = [
   { value: '0' },
+  { value: '0.5', label: '1/2' },
   { value: '1' },
   { value: '2' },
   { value: '3' },
@@ -33,7 +38,7 @@ const CARD_SIZES = [
   { value: '8' },
   { value: '13' },
   { value: '20' },
-  { value: '?' },
+  { value: UNKNOWN_VALUE },
 ];
 
 export default function PlanningPokerVoter({
@@ -50,18 +55,14 @@ export default function PlanningPokerVoter({
   return (
     <Box as="section" my={[2, 4]}>
       <Text as="h3">{allowVoting ? 'Submit your vote' : 'Voting locked'}</Text>
-      <Flex
-        flexWrap="wrap"
-        justifyContent={['center', 'unset']}
-        // opacity={allowVoting ? 1 : 0.5}
-      >
-        <Spaced margin={[1, 2]}>
+      <Flex flexWrap="wrap" justifyContent={['center', 'unset']}>
+        <Spaced mr={[1, 3]} includeLast={false}>
           {CARD_SIZES.map(c => (
             <PlanningPokerVoteCard
               key={c.value}
               disabled={!allowVoting}
               value={c.value}
-              label={c.value}
+              label={c.label || c.value}
               onClick={submitVote}
             />
           ))}
@@ -110,7 +111,8 @@ const PlanningPokerVoteCard = ({
     as="button"
     textAlign="center"
     onClick={() => onClick(value)}
-    fontSize={[3, 5]}
+    fontSize={[4, 5]}
+    my={[1, 2]}
     minWidth={[3, 4]}
     minHeight={[3, 4]}
     fontFamily="Pacifico"
