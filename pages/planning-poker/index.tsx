@@ -8,7 +8,6 @@ import Spaced from '../../styled/Spaced';
 import { FeatureRequiresAuth } from '../../components/FeatureRequiresAuth';
 import CreatePokerSession from '../../graphql/planning-poker/CreatePokerSession';
 import JoinPokerSession from '../../graphql/planning-poker/JoinPokerSession';
-import RecentPokerSessions from '../../graphql/planning-poker/RecentPokerSessions';
 
 const PlanningPoker = () => (
   <>
@@ -36,7 +35,7 @@ const PlanningPoker = () => (
             <JoinPokerSession />
           </Spaced>
         </Flex>
-        <RecentPokerSessions />
+        {/* <RecentPokerSessions /> */}
       </FeatureRequiresAuth>
     </Box>
   </>
