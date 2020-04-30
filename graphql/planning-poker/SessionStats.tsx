@@ -7,6 +7,7 @@ import { Poker_Session, Poker_User_Session } from '../../generated/graphql';
 import Box from '../../styled/Box';
 import Text from '../../styled/Text';
 import Card from '../../components/Card';
+import mode from '../../utils/mode';
 
 export default function SessionStats(session: Poker_Session) {
   const votes = !session.votes_visible
@@ -33,6 +34,7 @@ export default function SessionStats(session: Poker_Session) {
 
   const meanVote = numericVotes.length ? mean(numericVotes) : undefined;
   const medianVote = numericVotes.length ? median(numericVotes) : undefined;
+  const modeVote = numericVotes.length ? mode(numericVotes) : undefined;
 
   const areAllVotesNumeric = numericVotes.length == votes.length;
   const consensusReached =
@@ -74,6 +76,7 @@ export default function SessionStats(session: Poker_Session) {
       <Box>Highest: {highestVote}</Box>
       <Box>Lowest: {lowestVote}</Box>
       <Box>Mean: {meanVote}</Box>
+      <Box>Mode: {modeVote}</Box>
       <Box>Median: {medianVote}</Box>
       <Box>No idea: {unknownVotes}</Box>
     </Card>
