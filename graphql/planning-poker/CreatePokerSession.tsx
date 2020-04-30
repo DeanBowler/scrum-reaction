@@ -8,6 +8,7 @@ import Spaced from '../../styled/Spaced';
 import { useCreatePokerSessionMutation } from '../../generated/graphql';
 import { useAuth } from '../../contexts/authContext';
 import { useRouter } from 'next/router';
+import { isProduction } from '../../utils/env';
 
 export const CREATE_POKER_SESSION = gql`
   mutation createPokerSession($name: String!, $owner_id: String!) {
@@ -33,8 +34,13 @@ export default function CreatePokerSession({ className }: CreatePokerSessionProp
 
   const [createSession, { loading }] = useCreatePokerSessionMutation({
     variables: { owner_id: userId, name: sessionName },
-    onCompleted: ({ insert_poker_session }) =>
-      router.push(`/planning-poker/${insert_poker_session.returning[0].id}`),
+    onCompleted: async ({ insert_poker_session }) => {
+      const sessionId = insert_poker_session.returning[0].id;
+      if (isProduction) {
+        await router.prefetch(`/planning-poker/[id]`, `/planning-poker/${sessionId}`);
+      }
+      router.push(`/planning-poker/[id]`, `/planning-poker/${sessionId}`);
+    },
   });
 
   const canCreate = !loading && sessionName.length > 0;

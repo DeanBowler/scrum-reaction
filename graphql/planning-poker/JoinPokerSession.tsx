@@ -8,6 +8,7 @@ import Spaced from '../../styled/Spaced';
 import { useUpsetUserSessionMutation } from '../../generated/graphql';
 import { useAuth } from '../../contexts/authContext';
 import { useRouter } from 'next/router';
+import { isProduction } from '../../utils/env';
 
 export const JOIN_POKER_SESSION = gql`
   mutation upsetUserSession($sessionId: Int!, $userId: String!) {
@@ -33,7 +34,12 @@ export default function JoinPokerSession({ className }: JoinPokerSessionProps) {
 
   const [joinSession, { loading }] = useUpsetUserSessionMutation({
     variables: { userId, sessionId },
-    onCompleted: () => router.push(`/planning-poker/${sessionId}`),
+    onCompleted: async () => {
+      if (isProduction) {
+        await router.prefetch(`/planning-poker/[id]`, `/planning-poker/${sessionId}`);
+      }
+      router.push(`/planning-poker/[id]`, `/planning-poker/${sessionId}`);
+    },
   });
 
   const canJoin = !loading && sessionId && sessionId > 0;

@@ -3,11 +3,13 @@ import Box from '../../styled/Box';
 import Text from '../../styled/Text';
 import { useAuth } from '../../contexts/authContext';
 import Flex from '../../styled/Flex';
+import StyledLink from '../../styled/Link';
 import styled from 'styled-components';
 
 import { FaUser } from 'react-icons/fa';
 import BorderBox from '../../styled/BorderBox';
 import PopoutMenu from '../PopoutMenu';
+import Link, { LinkProps } from 'next/link';
 
 // const StyledHeader = Box.withComponent('header');
 
@@ -76,14 +78,24 @@ function HeaderUser() {
   );
 }
 
+const StyledHeaderLink = styled(StyledLink)`
+  color: ${({ theme }) => theme.colors.neutralLightest};
+
+  :hover {
+    color: ${({ theme }) => theme.colors.neutralMid};
+  }
+`;
+
 export default function Header() {
   return (
     <Flex as="header" px={[1, 4]} py={[1, 2]} backgroundColor="neutralDarker">
       <Box flex={['1 1', , '0 1']} />
       <Box flex="1 0" textAlign={['center', , 'left']}>
-        <Text color="neutralLight" fontSize={[3, 5]} fontFamily="Pacifico">
-          ScrumReaction
-        </Text>
+        <Link href="/">
+          <StyledHeaderLink fontSize={[3, 5]} fontFamily="Pacifico">
+            ScrumReaction
+          </StyledHeaderLink>
+        </Link>
       </Box>
       <Flex flex="1 1" alignItems="center" justifyContent="flex-end">
         <HeaderUser />

@@ -1,8 +1,8 @@
 import Head from 'next/head';
 import Box from '../styled/Box';
 import Text from '../styled/Text';
-import UserList from '../graphql/users/UsersList';
-import Link from '../styled/Link';
+import StyledLink from '../styled/Link';
+import Link from 'next/link';
 
 const Home = () => (
   <>
@@ -12,9 +12,8 @@ const Home = () => (
     <Box>
       <Text as="h2">Welcome!</Text>
       <Link href="/planning-poker">
-        <Text>Planning Poker</Text>
+        <StyledLink>Planning Poker</StyledLink>
       </Link>
-      {/* <UserList /> */}
     </Box>
   </>
 );

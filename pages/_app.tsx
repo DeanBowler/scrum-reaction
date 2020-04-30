@@ -30,9 +30,9 @@ export default function ({
                   when: 'afterChildren',
                 }}
                 key={router.pathname}
-                initial={{ x: 300, opacity: 0 }}
+                initial={{ x: 100, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -300, opacity: 0 }}
+                exit={{ x: -100, opacity: 0 }}
                 id="page-transition-container"
               >
                 <Component {...pageProps} key={router.route} />

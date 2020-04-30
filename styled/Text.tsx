@@ -14,7 +14,16 @@ import {
 } from 'styled-system';
 import { AppTheme } from '../theme';
 
-type TextProps = SpaceProps | LayoutProps | ColorProps<AppTheme> | TypographyProps;
+interface BaseProps extends React.RefAttributes<any> {
+  as?: React.ElementType;
+}
+
+export interface TextProps
+  extends BaseProps,
+    SpaceProps,
+    LayoutProps,
+    ColorProps<AppTheme>,
+    TypographyProps {}
 
 const Text = styled.span<TextProps>(
   fontSize,

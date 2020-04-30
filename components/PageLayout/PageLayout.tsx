@@ -51,7 +51,7 @@ export default function PageLayout({ children }: LayoutProps) {
           <title>Create Next App</title>
           <link rel="icon" href="/favicon.ico" />
           <link
-            href="https://fonts.googleapis.com/css?family=Raleway:300,400,700'&display=swap"
+            href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700'&display=swap"
             rel="stylesheet"
           />
           <link
