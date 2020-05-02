@@ -2,6 +2,8 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { pipe } from 'ramda';
 import styled from 'styled-components';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 import { useGetRecentSessionsQuery, Poker_Session } from '../../generated/graphql';
 import { useAuth } from '../../contexts/authContext';
@@ -10,7 +12,6 @@ import Text from '../../styled/Text';
 import { parseISO, formatRelative } from 'date-fns/fp';
 import Flex from '../../styled/Flex';
 import { isProduction } from '../../utils/env';
-import { useRouter } from 'next/router';
 
 export const GET_RECENT_SESSIONS = gql`
   query getRecentSessions($userId: String!) {
@@ -45,16 +46,14 @@ const PokerSessionListingContainer = styled(Flex)`
 const formatSessionCreation = pipe(parseISO, formatRelative(new Date()));
 
 const PokerSessionListing = ({ session, onSessionClick }: PokerSessionListingProps) => (
-  <PokerSessionListingContainer
-    role="link"
-    my={[2, 3]}
-    onClick={() => onSessionClick && onSessionClick(session.id)}
-  >
-    <Box width={[6]}>
-      <Text fontSize={[1, 2]}>{formatSessionCreation(session.created_at)}</Text>
-    </Box>
-    <Text fontSize={[2, 3]}>{session.name}</Text>
-  </PokerSessionListingContainer>
+  <Link href="/planning-poker/[id]" as={`/planning-poker/${session.id}`}>
+    <PokerSessionListingContainer role="link" my={[2, 3]}>
+      <Box width={[6]}>
+        <Text fontSize={[1, 2]}>{formatSessionCreation(session.created_at)}</Text>
+      </Box>
+      <Text fontSize={[2, 3]}>{session.name}</Text>
+    </PokerSessionListingContainer>
+  </Link>
 );
 
 export default function RecentPokerSessions() {
@@ -79,6 +78,7 @@ export default function RecentPokerSessions() {
       </Text>
       {data.poker_session.map(ps => (
         <PokerSessionListing
+          key={ps.id}
           session={ps}
           currentUserId={userId}
           onSessionClick={handleListingClick}

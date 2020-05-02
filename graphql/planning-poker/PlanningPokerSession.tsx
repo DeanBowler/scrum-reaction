@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import gql from 'graphql-tag';
-import { pipe } from 'ramda';
 import styled from 'styled-components';
 
 import {
@@ -19,13 +18,10 @@ import PlanningPokerVoter from './PlanningPokerVoter';
 import SessionStats from './SessionStats';
 import Card from '../../components/Card';
 
-import { differenceInSeconds, parseISO } from 'date-fns';
 import SessionOwnerControls from './SessionOwnerControls';
 import { FaEyeSlash } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import Button from '../../styled/Button';
-
-const USER_INACTIVITY_THRESHOLD_SECONDS = 30;
 
 export const GET_POKER_SESSION = gql`
   subscription getPokerSession($id: Int!) {
@@ -43,7 +39,6 @@ export const GET_POKER_SESSION = gql`
         current_vote
         user {
           name
-          # last_seen
           id
         }
       }
@@ -72,23 +67,12 @@ interface UserSessionProps {
 function UserSession({ user, current_vote, votes_visible }: UserSessionProps) {
   const { userId } = useAuth();
 
-  // const isUserActive = pipe(
-  //   parseISO,
-  //   ls => differenceInSeconds(new Date(), ls),
-  //   difference => difference < USER_INACTIVITY_THRESHOLD_SECONDS,
-  // )(user.last_seen);
-
   const isVoteVisible = votes_visible || user.id === userId;
 
   return (
-    <StyledUserSessionContainer
-      p={[1, 2]}
-      alignItems="center"
-      // opacity={isUserActive ? 1 : 0.5}
-    >
+    <StyledUserSessionContainer p={[1, 2]} alignItems="center">
       <Box flex="1 1">
         <Text fontSize={[1, 2, 3]}>{user.name}</Text>
-        {/* {!isUserActive && <Text> (inactive)</Text>} */}
       </Box>
       <Box width={3} flex="0 0" mx={[1, 2]}>
         <Text fontSize={[3, 4]} fontWeight="bold">
