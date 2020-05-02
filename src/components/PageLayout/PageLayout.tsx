@@ -8,6 +8,7 @@ import theme from '../../theme';
 
 import Header from './Header';
 import Footer from './Footer';
+import Flex from '@styled/Flex';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -36,7 +37,8 @@ body {
 }
 `;
 
-const Container = styled(Box)`
+const Container = styled(Flex)`
+  flex-direction: column;
   flex: 1 1 auto;
   background-image: url(/background.svg),
     linear-gradient(${theme.colors.neutralLightest}, ${theme.colors.neutralMidLight});
@@ -61,14 +63,12 @@ export default function PageLayout({ children }: LayoutProps) {
           />
         </Head>
         <Header />
-        {isLoadingAuth ? (
-          <div></div>
-        ) : (
-          <Box py={[1, 2]} px={[2, 3, 4, 5]}>
-            {children}
-          </Box>
-        )}
-        {/* <Footer /> */}
+
+        <Box flex="1 0" py={[1, 2]} px={[2, 3, 4, 5]}>
+          {isLoadingAuth ? <div></div> : children}
+        </Box>
+
+        <Footer />
       </Container>
       <GlobalStyle />
     </ThemeProvider>
