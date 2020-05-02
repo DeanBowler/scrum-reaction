@@ -4,10 +4,10 @@ module.exports = {
       'http://localhost:8080/v1/graphql': {},
     },
   ],
-  documents: ['graphql/**/*.tsx', 'graphql/**/*.ts'],
+  documents: ['src/graphql/**/*.tsx', 'src/graphql/**/*.ts'],
   overwrite: true,
   generates: {
-    './generated/graphql.tsx': {
+    './src/generated/graphql.tsx': {
       plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
       config: {
         skipTypename: false,
