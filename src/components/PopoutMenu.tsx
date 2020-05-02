@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
 import styled from 'styled-components';
-import BorderBox from '../styled/BorderBox';
 import { useClickAway, useKey } from 'react-use';
-import Box, { BoxProps } from '../styled/Box';
+
+import BorderBox from '@styled/BorderBox';
+import Box, { BoxProps } from '@styled/Box';
 
 const PopoutMenuMenuContainer = styled(BorderBox)`
   min-width: 12rem;

@@ -1,10 +1,10 @@
-import Box from '../../styled/Box';
-import Link from '../../styled/Link';
-import Text from '../../styled/Text';
-import Spaced from '../../styled/Spaced';
-import Flex from '../../styled/Flex';
-
 import { IoLogoGithub } from 'react-icons/io';
+
+import Box from '@styled/Box';
+import Link from '@styled/Link';
+import Text from '@styled/Text';
+import Spaced from '@styled/Spaced';
+import Flex from '@styled/Flex';
 
 // const StyledFooter = styled('footer')(css({
 //   position: 'fixed',

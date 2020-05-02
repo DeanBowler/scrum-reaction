@@ -1,8 +1,9 @@
 import Head from 'next/head';
-import Box from '../styled/Box';
-import Text from '../styled/Text';
-import StyledLink from '../styled/Link';
 import Link from 'next/link';
+
+import Box from '@styled/Box';
+import Text from '@styled/Text';
+import StyledLink from '@styled/Link';
 
 const Home = () => (
   <>

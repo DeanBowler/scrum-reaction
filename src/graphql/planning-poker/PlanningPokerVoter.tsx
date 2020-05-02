@@ -1,12 +1,13 @@
 import gql from 'graphql-tag';
-import { useAuth } from '../../contexts/authContext';
-import { useUpdateVoteMutation } from '../../generated/graphql';
 import styled from 'styled-components';
-import Box from '../../styled/Box';
-import BorderBox, { BorderBoxProps } from '../../styled/BorderBox';
-import Spaced from '../../styled/Spaced';
-import Flex from '../../styled/Flex';
-import Text from '../../styled/Text';
+
+import { useAuth } from '@contexts/authContext';
+import { useUpdateVoteMutation } from '@generated/graphql';
+import Box from '@styled/Box';
+import BorderBox, { BorderBoxProps } from '@styled/BorderBox';
+import Spaced from '@styled/Spaced';
+import Flex from '@styled/Flex';
+import Text from '@styled/Text';
 
 export const UPDATE_VOTE = gql`
   mutation updateVote($sessionId: Int!, $userId: String!, $vote: String) {

@@ -1,8 +1,8 @@
 import React from 'react';
-import { useAuth } from '../contexts/authContext';
-import Text from '../styled/Text';
-import Box from '../styled/Box';
-import Button from '../styled/Button';
+import { useAuth } from '@contexts/authContext';
+import Text from '@styled/Text';
+import Box from '@styled/Box';
+import Button from '@styled/Button';
 
 interface FeatureRequiresAuthProps {
   children: React.ReactNode;

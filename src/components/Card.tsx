@@ -1,9 +1,9 @@
 import React from 'react';
-import BorderBox, { BorderBoxProps } from '../styled/BorderBox';
-import Box from '../styled/Box';
-import Text from '../styled/Text';
-import styled from 'styled-components';
-import Flex from '../styled/Flex';
+
+import BorderBox, { BorderBoxProps } from '@styled/BorderBox';
+import Box from '@styled/Box';
+import Text from '@styled/Text';
+import Flex from '@styled/Flex';
 
 export interface CardProps extends BorderBoxProps {
   children: React.ReactNode;

@@ -1,13 +1,14 @@
 import React from 'react';
+
 import { NextComponentType, NextPageContext } from 'next';
 import { AppInitialProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { AnimatePresence, motion } from 'framer-motion';
-import PageLayout from '../components/PageLayout';
-import { AuthContextProvider } from '../contexts/authContext';
-import PollLastSeen from '../graphql/users/PollLastSeen';
-import AuthorizedApolloProvider from '../contexts/authorizedApolloProvider';
-import Tracking from '../components/Tracking';
+
+import PageLayout from '@components/PageLayout';
+import { AuthContextProvider } from '@contexts/authContext';
+import AuthorizedApolloProvider from '@contexts/authorizedApolloProvider';
+import Tracking from '@components/Tracking';
 
 export default function ({
   Component,

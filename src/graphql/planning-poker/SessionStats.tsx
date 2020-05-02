@@ -3,11 +3,11 @@ import { pipe, map, filter, min, max, mean, median, reduce, all } from 'ramda';
 
 import CanvasConfetti from 'canvas-confetti';
 
-import { Poker_Session, Poker_User_Session } from '../../generated/graphql';
-import Box from '../../styled/Box';
-import Text from '../../styled/Text';
-import Card from '../../components/Card';
-import mode from '../../utils/mode';
+import { Poker_Session, Poker_User_Session } from '@generated/graphql';
+import Box from '@styled/Box';
+import Text from '@styled/Text';
+import Card from '@components/Card';
+import mode from '@utils/mode';
 
 export default function SessionStats(session: Poker_Session) {
   const votes = !session.votes_visible

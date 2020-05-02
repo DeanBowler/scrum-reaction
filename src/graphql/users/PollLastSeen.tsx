@@ -1,9 +1,10 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { useUpdateLastSeenMutation } from '../../generated/graphql';
-import { useAuth } from '../../contexts/authContext';
 import { useInterval, useMount } from 'react-use';
-import useWindowVisible from '../../hooks/useWindowVisible';
+
+import { useUpdateLastSeenMutation } from '@generated/graphql';
+import { useAuth } from '@contexts/authContext';
+import useWindowVisible from '@hooks/useWindowVisible';
 
 export const MUTATE_UPDATE_LAST_SEEN = gql`
   mutation updateLastSeen($userId: String!, $lastSeen: timestamptz!) {

@@ -1,11 +1,12 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import Box from '../../styled/Box';
-import Flex from '../../styled/Flex';
-import Text from '../../styled/Text';
-import Button from '../../styled/Button';
-import Spaced from '../../styled/Spaced';
-import { useClearVotesMutation, useShowVotesMutation } from '../../generated/graphql';
+
+import { useClearVotesMutation, useShowVotesMutation } from '@generated/graphql';
+import Box from '@styled/Box';
+import Flex from '@styled/Flex';
+import Text from '@styled/Text';
+import Button from '@styled/Button';
+import Spaced from '@styled/Spaced';
 
 export const CLEAR_VOTES = gql`
   mutation clearVotes($sessionId: Int!) {

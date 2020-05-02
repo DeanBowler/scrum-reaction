@@ -3,7 +3,8 @@ import React from 'react';
 import LogRocket from 'logrocket';
 import setupLogRocketReact from 'logrocket-react';
 import { useMount } from 'react-use';
-import { isProduction } from '../utils/env';
+
+import { isProduction } from '@utils/env';
 
 export interface TrackingProps {
   children: React.ReactNode;

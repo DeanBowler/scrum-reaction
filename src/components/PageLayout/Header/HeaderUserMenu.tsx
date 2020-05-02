@@ -1,6 +1,7 @@
 import React from 'react';
-import { useAuth } from '../../../contexts/authContext';
-import PopoutMenu from '../../PopoutMenu';
+
+import { useAuth } from '@contexts/authContext';
+import PopoutMenu from '@components/PopoutMenu';
 
 export interface HeaderUserMenuProps {
   show: boolean;

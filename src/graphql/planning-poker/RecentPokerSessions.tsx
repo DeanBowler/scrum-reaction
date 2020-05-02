@@ -4,14 +4,14 @@ import { pipe } from 'ramda';
 import styled from 'styled-components';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-
-import { useGetRecentSessionsQuery, Poker_Session } from '../../generated/graphql';
-import { useAuth } from '../../contexts/authContext';
-import Box from '../../styled/Box';
-import Text from '../../styled/Text';
 import { parseISO, formatRelative } from 'date-fns/fp';
-import Flex from '../../styled/Flex';
-import { isProduction } from '../../utils/env';
+
+import { useGetRecentSessionsQuery, Poker_Session } from '@generated/graphql';
+import { useAuth } from '@contexts/authContext';
+import Box from '@styled/Box';
+import Text from '@styled/Text';
+import Flex from '@styled/Flex';
+import { isProduction } from '@utils/env';
 
 export const GET_RECENT_SESSIONS = gql`
   query getRecentSessions($userId: String!) {

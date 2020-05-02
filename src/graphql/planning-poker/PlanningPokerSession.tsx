@@ -2,26 +2,26 @@ import React, { useEffect } from 'react';
 import Head from 'next/head';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
+import { FaEyeSlash } from 'react-icons/fa';
+import { useRouter } from 'next/router';
 
 import {
   useGetPokerSessionSubscription,
   useUpsetUserSessionMutation,
   Poker_Session,
   Users,
-} from '../../generated/graphql';
+} from '@generated/graphql';
 
-import { useAuth } from '../../contexts/authContext';
-import Text from '../../styled/Text';
-import Box from '../../styled/Box';
-import Flex from '../../styled/Flex';
+import { useAuth } from '@contexts/authContext';
+import Card from '@components/Card';
+import Text from '@styled/Text';
+import Box from '@styled/Box';
+import Flex from '@styled/Flex';
+import Button from '@styled/Button';
+
 import PlanningPokerVoter from './PlanningPokerVoter';
 import SessionStats from './SessionStats';
-import Card from '../../components/Card';
-
 import SessionOwnerControls from './SessionOwnerControls';
-import { FaEyeSlash } from 'react-icons/fa';
-import { useRouter } from 'next/router';
-import Button from '../../styled/Button';
 
 export const GET_POKER_SESSION = gql`
   subscription getPokerSession($id: Int!) {

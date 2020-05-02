@@ -7,8 +7,9 @@ import { WebSocketLink } from 'apollo-link-ws';
 import { HttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
+
 import { ApolloProvider } from '@apollo/react-hooks';
-import { useAuth } from './authContext';
+import { useAuth } from '@contexts/authContext';
 
 interface AuthorizedApolloProviderProps {
   children: React.ReactNode;

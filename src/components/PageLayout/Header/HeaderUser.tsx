@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { FaUser } from 'react-icons/fa';
 import styled from 'styled-components';
 
-import Box from '../../../styled/Box';
-import BorderBox from '../../../styled/BorderBox';
-import { useAuth } from '../../../contexts/authContext';
+import Box from '@styled/Box';
+import BorderBox from '@styled/BorderBox';
+import { useAuth } from '@contexts/authContext';
+
 import HeaderUserMenu from './HeaderUserMenu';
 
 export const UserImage = styled.img`

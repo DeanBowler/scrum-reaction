@@ -1,14 +1,15 @@
 import React from 'react';
 
 import Head from 'next/head';
-import Box from '../../styled/Box';
-import Text from '../../styled/Text';
-import Flex from '../../styled/Flex';
-import Spaced from '../../styled/Spaced';
-import { FeatureRequiresAuth } from '../../components/FeatureRequiresAuth';
-import CreatePokerSession from '../../graphql/planning-poker/CreatePokerSession';
-import JoinPokerSession from '../../graphql/planning-poker/JoinPokerSession';
-import RecentPokerSessions from '../../graphql/planning-poker/RecentPokerSessions';
+
+import Box from '@styled/Box';
+import Text from '@styled/Text';
+import Flex from '@styled/Flex';
+import Spaced from '@styled/Spaced';
+import { FeatureRequiresAuth } from '@components/FeatureRequiresAuth';
+import CreatePokerSession from '@graphql/planning-poker/CreatePokerSession';
+import JoinPokerSession from '@graphql/planning-poker/JoinPokerSession';
+import RecentPokerSessions from '@graphql/planning-poker/RecentPokerSessions';
 
 const PlanningPoker = () => (
   <>

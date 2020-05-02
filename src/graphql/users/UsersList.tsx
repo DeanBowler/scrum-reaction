@@ -1,6 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { useGetOnlineUsersSubscription } from '../../generated/graphql';
+
+import { useGetOnlineUsersSubscription } from '@generated/graphql';
 
 export const GET_USERS = gql`
   subscription getOnlineUsers {

@@ -1,12 +1,13 @@
 import React from 'react';
 import Head from 'next/head';
-
-import Box from '../../styled/Box';
 import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
+
+import Box from '@styled/Box';
+import { useAuth } from '@contexts/authContext';
 import theme from '../../theme';
+
 import Header from './Header';
 import Footer from './Footer';
-import { useAuth } from '../../contexts/authContext';
 
 interface LayoutProps {
   children: React.ReactNode;

@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 
-import StyledLink from '../../../styled/Link';
+import StyledLink from '@styled/Link';
+import Flex from '@styled/Flex';
+import Box from '@styled/Box';
 
 import HeaderUser from './HeaderUser';
-import Flex from '../../../styled/Flex';
-import Box from '../../../styled/Box';
 
 const StyledHeaderLink = styled(StyledLink)`
   color: ${({ theme }) => theme.colors.neutralLightest};
