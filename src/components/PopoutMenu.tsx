@@ -1,12 +1,11 @@
 import React, { useRef } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useClickAway, useKey } from 'react-use';
 
 import BorderBox from '@styled/BorderBox';
 import Box, { BoxProps } from '@styled/Box';
 
 const PopoutMenuMenuContainer = styled(BorderBox)`
-  min-width: 12rem;
   position: absolute;
   top: 100%;
   left: auto;
@@ -14,7 +13,7 @@ const PopoutMenuMenuContainer = styled(BorderBox)`
   background: ${p => p.theme.colors.neutralLightest};
   border-radius: 5px;
   border: 1px solid ${p => p.theme.colors.neutralMid};
-  padding: 5px 0;
+  padding: 10px 0;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 0px -1px;
 `;
 
@@ -31,7 +30,7 @@ export default function PopoutMenu({ show, onClose, children }: PopoutMenuProps)
 
   return (
     show && (
-      <PopoutMenuMenuContainer ref={containerRef} marginTop="1">
+      <PopoutMenuMenuContainer minWidth="6" ref={containerRef} marginTop="1">
         {children}
       </PopoutMenuMenuContainer>
     )
@@ -40,18 +39,27 @@ export default function PopoutMenu({ show, onClose, children }: PopoutMenuProps)
 
 const StyledPopoutMenuDivider = styled.hr`
   border: 0;
-  border-top: 1px solid ${p => p.theme.colors.neutralMid};
-  margin: 5px;
+  border-top: 1px solid ${p => p.theme.colors.neutralMidLight};
+  margin: 10px;
 `;
 
 PopoutMenu.Divider = () => <StyledPopoutMenuDivider />;
 
-const PopoutMenuItemContainer: React.FunctionComponent<BoxProps> = styled(Box)`
+interface PopoutMenuItemContainerProps extends BoxProps {
+  isClickable?: boolean;
+}
+
+const PopoutMenuItemContainer = styled(Box)<PopoutMenuItemContainerProps>`
+  cursor: default;
   display: block;
-  cursor: pointer;
-  :hover {
-    background: ${p => p.theme.colors.neutralLight};
-  }
+  ${p =>
+    p.isClickable &&
+    css`
+      cursor: pointer;
+      :hover {
+        background: ${p => p.theme.colors.neutralLight};
+      }
+    `}
 `;
 
 export interface PopoutMenuItemProps {
@@ -61,7 +69,13 @@ export interface PopoutMenuItemProps {
 
 PopoutMenu.Item = function PopoutMenuItem({ children, onClick }: PopoutMenuItemProps) {
   return (
-    <PopoutMenuItemContainer as="a" onClick={onClick} px={[2, 3]} py={[1, 2]}>
+    <PopoutMenuItemContainer
+      as="a"
+      isClickable={!!onClick}
+      onClick={onClick}
+      px={[2, 3]}
+      py={[1, 2]}
+    >
       {children}
     </PopoutMenuItemContainer>
   );

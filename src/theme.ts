@@ -6,6 +6,7 @@ export interface AppTheme extends Theme {
     secondary: string;
     neutralDarker: string;
     neutralDark: string;
+    neutralMidDark: string;
     neutralMid: string;
     neutralMidLight: string;
     neutralLight: string;
@@ -22,6 +23,7 @@ const theme: AppTheme = {
     secondary: '#ae4ab7',
     neutralDarker: '#293132',
     neutralDark: '#414549',
+    neutralMidDark: '#85898b',
     neutralMid: '#cacdcd',
     neutralMidLight: '#d9dbdb',
     neutralLight: '#eaeded',

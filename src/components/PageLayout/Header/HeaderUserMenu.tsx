@@ -2,6 +2,8 @@ import React from 'react';
 
 import { useAuth } from '@contexts/authContext';
 import PopoutMenu from '@components/PopoutMenu';
+import Text from '@styled/Text';
+import Flex from '@styled/Flex';
 
 export interface HeaderUserMenuProps {
   show: boolean;
@@ -15,7 +17,14 @@ export default function HeaderUserMenu(props: HeaderUserMenuProps) {
     <PopoutMenu {...props}>
       {user && (
         <>
-          <PopoutMenu.Item>{user.name}</PopoutMenu.Item>
+          <PopoutMenu.Item>
+            <Flex textAlign="center" flexDirection="column">
+              <Text my="1">{user.name}</Text>
+              <Text color="neutralMidDark" my="1" fontSize="1">
+                {user.email}
+              </Text>
+            </Flex>
+          </PopoutMenu.Item>
           <PopoutMenu.Divider />
         </>
       )}
