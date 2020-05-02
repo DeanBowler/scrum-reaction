@@ -5,6 +5,7 @@ import Button from '@styled/Button';
 import gql from 'graphql-tag';
 import { useRemoveUserFromSessionMutation } from '@generated/graphql';
 import { useAuth } from '@contexts/authContext';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const DELETE_USER_SESSION = gql`
   mutation removeUserFromSession($sessionId: Int!, $userId: String!) {
@@ -38,7 +39,9 @@ export default function SessionUserMenu({ userId, sessionId }: SessionUserMenuPr
 
   const handleClose = () => {
     setShowMenu(false);
-    setClickedAction(undefined);
+
+    // delay change of the action until the menu has transitioned out to avoid messy animations
+    setTimeout(() => setClickedAction(undefined), 200);
   };
 
   const handleRemoveConfirm = () => {
@@ -54,22 +57,38 @@ export default function SessionUserMenu({ userId, sessionId }: SessionUserMenuPr
         hidden={isCurrentUser}
       />
       <PopoutMenu show={showMenu} onClose={handleClose}>
-        {!clickedAction && (
-          <PopoutMenu.Item onClick={() => setClickedAction('KICK')}>
-            Kick from session
-          </PopoutMenu.Item>
-        )}
+        <Box position="relative">
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={clickedAction}
+              transition={{ ease: 'easeInOut', duration: 0.5 }}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20, position: 'absolute' }}
+            >
+              {!clickedAction && (
+                <PopoutMenu.Item key="kick" onClick={() => setClickedAction('KICK')}>
+                  Kick from session
+                </PopoutMenu.Item>
+              )}
 
-        {clickedAction === 'KICK' && (
-          <>
-            <PopoutMenu.Item as="div">Are you sure?</PopoutMenu.Item>
-            <PopoutMenu.Item>
-              <Button fullWidth={true} onClick={handleRemoveConfirm} isLoading={loading}>
-                Kick
-              </Button>
-            </PopoutMenu.Item>
-          </>
-        )}
+              {clickedAction === 'KICK' && (
+                <>
+                  <PopoutMenu.Item as="div">Are you sure?</PopoutMenu.Item>
+                  <PopoutMenu.Item>
+                    <Button
+                      fullWidth={true}
+                      onClick={handleRemoveConfirm}
+                      isLoading={loading}
+                    >
+                      Kick
+                    </Button>
+                  </PopoutMenu.Item>
+                </>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </Box>
       </PopoutMenu>
     </Box>
   );
