@@ -41,10 +41,16 @@ export default function SessionUserMenu({ userId, sessionId }: SessionUserMenuPr
     setClickedAction(undefined);
   };
 
+  const handleRemoveConfirm = () => {
+    removeUser();
+    setShowMenu(false);
+  };
+
   return (
     <Box position="relative">
       <PopoutMenu.Button
-        onClick={() => !isCurrentUser && setShowMenu(true)}
+        tabIndex={isCurrentUser ? -1 : 0}
+        onClick={() => !isCurrentUser && setShowMenu(sm => !sm)}
         hidden={isCurrentUser}
       />
       <PopoutMenu show={showMenu} onClose={handleClose}>
@@ -58,7 +64,7 @@ export default function SessionUserMenu({ userId, sessionId }: SessionUserMenuPr
           <>
             <PopoutMenu.Item as="div">Are you sure?</PopoutMenu.Item>
             <PopoutMenu.Item>
-              <Button fullWidth={true} onClick={() => removeUser()} isLoading={loading}>
+              <Button fullWidth={true} onClick={handleRemoveConfirm} isLoading={loading}>
                 Kick
               </Button>
             </PopoutMenu.Item>

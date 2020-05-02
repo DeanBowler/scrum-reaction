@@ -5,6 +5,8 @@ import { useClickAway, useKey } from 'react-use';
 import BorderBox from '@styled/BorderBox';
 import Box, { BoxProps } from '@styled/Box';
 import { FaEllipsisV } from 'react-icons/fa';
+import { AnimatePresence, motion } from 'framer-motion';
+import useDebouncedState from '@hooks/useDebouncedState';
 
 const PopoutMenuMenuContainer = styled(BorderBox)`
   z-index: 1;
@@ -27,15 +29,29 @@ export interface PopoutMenuProps {
 
 export default function PopoutMenu({ show, onClose, children }: PopoutMenuProps) {
   const containerRef = useRef(null);
-  useClickAway(containerRef, onClose);
+
+  useClickAway(containerRef, () => setTimeout(onClose, 0), ['mouseup']);
   useKey('Escape', onClose);
 
+  const debouncedShow = useDebouncedState(show, 50);
+
   return (
-    show && (
-      <PopoutMenuMenuContainer minWidth="6" ref={containerRef} marginTop="1">
-        {children}
-      </PopoutMenuMenuContainer>
-    )
+    <AnimatePresence initial={false} exitBeforeEnter>
+      {debouncedShow && (
+        <motion.div
+          transition={{
+            ease: 'easeOut',
+          }}
+          initial={{ y: -10, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -10, opacity: 0 }}
+        >
+          <PopoutMenuMenuContainer minWidth="6" ref={containerRef} marginTop="1">
+            {children}
+          </PopoutMenuMenuContainer>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 

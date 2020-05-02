@@ -23,6 +23,7 @@ import PlanningPokerVoter from './PlanningPokerVoter';
 import SessionStats from './SessionStats';
 import SessionOwnerControls from './SessionOwnerControls';
 import SessionUserMenu from './SessionUserMenu';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 
 export const GET_POKER_SESSION = gql`
   subscription getPokerSession($id: Int!) {
@@ -129,6 +130,12 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
 
   const isSessionOwner = session.owner_id === userId;
 
+  const motionItemVariants: Variants = {
+    enter: { opacity: 1, x: 0 },
+    hidden: { opacity: 0, x: -70 },
+    exit: { opacity: 0, x: 70, transition: { ease: 'easeInOut' } },
+  };
+
   return (
     <Box maxWidth={[9]} margin="0 auto">
       <Head>
@@ -141,18 +148,26 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
       <PlanningPokerVoter sessionId={sessionId} allowVoting={!session.votes_visible} />
       <Flex justifyContent="space-between" flexDirection={['column', 'row']}>
         <Card title="Votes">
-          <>
+          <AnimatePresence initial={false}>
             {session.user_sessions.flatMap(us => (
-              <UserSession
-                showUserMenu={isSessionOwner}
+              <motion.div
                 key={us.user.id}
-                user={us.user}
-                sessionId={session.id}
-                current_vote={us.current_vote}
-                votes_visible={session.votes_visible}
-              />
+                variants={motionItemVariants}
+                initial="hidden"
+                animate="enter"
+                exit="exit"
+              >
+                <UserSession
+                  showUserMenu={isSessionOwner}
+                  key={us.user.id}
+                  user={us.user}
+                  sessionId={session.id}
+                  current_vote={us.current_vote}
+                  votes_visible={session.votes_visible}
+                />
+              </motion.div>
             ))}
-          </>
+          </AnimatePresence>
         </Card>
         <SessionStats {...(session as Poker_Session)} />
       </Flex>
