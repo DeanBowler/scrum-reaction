@@ -60,9 +60,11 @@ export default function RecentPokerSessions() {
   const { userId } = useAuth();
   const router = useRouter();
 
-  const { data, loading } = useGetRecentSessionsQuery({ variables: { userId } });
+  const { data, loading, error } = useGetRecentSessionsQuery({ variables: { userId } });
 
   if (loading || !data.poker_session.length) return null;
+
+  if (error) return <Box>Failed to fetch previous poker sessions</Box>;
 
   const handleListingClick = async (sessionId: number) => {
     if (isProduction) {

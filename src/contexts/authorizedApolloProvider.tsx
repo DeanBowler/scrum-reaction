@@ -1,15 +1,17 @@
 import React from 'react';
 import nodeFetch from 'node-fetch';
-import { split } from 'apollo-link';
+import * as ApolloLink from 'apollo-link';
 import { getMainDefinition } from 'apollo-utilities';
 import ApolloClient from 'apollo-client';
 import { WebSocketLink } from 'apollo-link-ws';
+import { onError } from 'apollo-link-error';
 import { HttpLink } from 'apollo-link-http';
 import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
 import { ApolloProvider } from '@apollo/react-hooks';
 import { useAuth } from '@contexts/authContext';
+import LogRocket from 'logrocket';
 
 interface AuthorizedApolloProviderProps {
   children: React.ReactNode;
@@ -56,23 +58,33 @@ export default function AuthorizedApolloProvider({
     };
   });
 
+  const errorLink = onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors)
+      graphQLErrors.map(({ message, locations, path }) => {
+        LogRocket.error(
+          `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
+        );
+      });
+
+    if (networkError) LogRocket.error(`[Network error]: ${networkError}`);
+  });
+
   const link = process.browser
-    ? split(
+    ? ApolloLink.split(
         //only create the split in the browser
         // split based on operation type
         ({ query }) => {
           const def = getMainDefinition(query);
           return def.kind === 'OperationDefinition' && def.operation === 'subscription';
         },
-        wsLink,
-        authLink.concat(httpLink),
+        errorLink.concat(wsLink),
+        ApolloLink.from([errorLink, authLink, httpLink]),
       )
-    : authLink.concat(httpLink);
+    : ApolloLink.from([errorLink, httpLink]);
 
   const client = new ApolloClient({
     assumeImmutableResults: true,
     link,
-
     cache: new InMemoryCache(),
   });
 
