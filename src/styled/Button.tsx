@@ -3,6 +3,7 @@ import styled, { keyframes, css } from 'styled-components';
 
 export interface ButtonProps extends SpaceProps, FontSizeProps {
   isLoading?: boolean;
+  fullWidth?: boolean;
 }
 
 const Button = styled.button<ButtonProps>`
@@ -16,6 +17,8 @@ const Button = styled.button<ButtonProps>`
   box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 0px -1px;
   transition: box-shadow 200ms ease-in-out;
   overflow: hidden;
+
+  width: ${p => (p.fullWidth ? '100%' : '')};
 
   ${({ isLoading }) =>
     isLoading

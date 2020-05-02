@@ -1,0 +1,14 @@
+- args:
+    permission:
+      filter:
+        _or:
+        - user_id:
+            _eq: X-Hasura-User-Id
+        - poker_session:
+            owner_id:
+              _eq: X-Hasura-User-Id
+    role: user
+    table:
+      name: poker_user_session
+      schema: public
+  type: create_delete_permission

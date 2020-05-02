@@ -1459,6 +1459,20 @@ export type ShowVotesMutation = (
   )> }
 );
 
+export type RemoveUserFromSessionMutationVariables = {
+  sessionId: Scalars['Int'];
+  userId: Scalars['String'];
+};
+
+
+export type RemoveUserFromSessionMutation = (
+  { __typename?: 'mutation_root' }
+  & { delete_poker_user_session?: Maybe<(
+    { __typename?: 'poker_user_session_mutation_response' }
+    & Pick<Poker_User_Session_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
 export type UpdateLastSeenMutationVariables = {
   userId: Scalars['String'];
   lastSeen: Scalars['timestamptz'];
@@ -1738,6 +1752,39 @@ export function useShowVotesMutation(baseOptions?: ApolloReactHooks.MutationHook
 export type ShowVotesMutationHookResult = ReturnType<typeof useShowVotesMutation>;
 export type ShowVotesMutationResult = ApolloReactCommon.MutationResult<ShowVotesMutation>;
 export type ShowVotesMutationOptions = ApolloReactCommon.BaseMutationOptions<ShowVotesMutation, ShowVotesMutationVariables>;
+export const RemoveUserFromSessionDocument = gql`
+    mutation removeUserFromSession($sessionId: Int!, $userId: String!) {
+  delete_poker_user_session(where: {user_id: {_eq: $userId}, session_id: {_eq: $sessionId}}) {
+    affected_rows
+  }
+}
+    `;
+export type RemoveUserFromSessionMutationFn = ApolloReactCommon.MutationFunction<RemoveUserFromSessionMutation, RemoveUserFromSessionMutationVariables>;
+
+/**
+ * __useRemoveUserFromSessionMutation__
+ *
+ * To run a mutation, you first call `useRemoveUserFromSessionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveUserFromSessionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeUserFromSessionMutation, { data, loading, error }] = useRemoveUserFromSessionMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useRemoveUserFromSessionMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<RemoveUserFromSessionMutation, RemoveUserFromSessionMutationVariables>) {
+        return ApolloReactHooks.useMutation<RemoveUserFromSessionMutation, RemoveUserFromSessionMutationVariables>(RemoveUserFromSessionDocument, baseOptions);
+      }
+export type RemoveUserFromSessionMutationHookResult = ReturnType<typeof useRemoveUserFromSessionMutation>;
+export type RemoveUserFromSessionMutationResult = ApolloReactCommon.MutationResult<RemoveUserFromSessionMutation>;
+export type RemoveUserFromSessionMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveUserFromSessionMutation, RemoveUserFromSessionMutationVariables>;
 export const UpdateLastSeenDocument = gql`
     mutation updateLastSeen($userId: String!, $lastSeen: timestamptz!) {
   update_users(where: {id: {_eq: $userId}}, _set: {last_seen: $lastSeen}) {

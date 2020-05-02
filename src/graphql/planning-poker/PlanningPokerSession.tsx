@@ -22,6 +22,7 @@ import Button from '@styled/Button';
 import PlanningPokerVoter from './PlanningPokerVoter';
 import SessionStats from './SessionStats';
 import SessionOwnerControls from './SessionOwnerControls';
+import SessionUserMenu from './SessionUserMenu';
 
 export const GET_POKER_SESSION = gql`
   subscription getPokerSession($id: Int!) {
@@ -46,42 +47,52 @@ export const GET_POKER_SESSION = gql`
   }
 `;
 
-interface PlanningPokerSessionProps {
-  sessionId: number;
-}
-
 const StyledUserSessionContainer = styled(Flex)`
   border-radius: 5px;
 
   :hover {
-    background: ${p => p.theme.colors.neutralLight};
+    /* background: ${p => p.theme.colors.neutralLight}; */
   }
 `;
 
 interface UserSessionProps {
   user: Pick<Users, 'id' | 'name'>;
+  sessionId: number;
+  showUserMenu: boolean;
   current_vote: string | number;
   votes_visible: boolean;
 }
 
-function UserSession({ user, current_vote, votes_visible }: UserSessionProps) {
+function UserSession({
+  user,
+  sessionId,
+  current_vote,
+  showUserMenu,
+  votes_visible,
+}: UserSessionProps) {
   const { userId } = useAuth();
 
   const isVoteVisible = votes_visible || user.id === userId;
 
   return (
-    <StyledUserSessionContainer p={[1, 2]} alignItems="center">
-      <Box flex="1 1">
+    <StyledUserSessionContainer py={[1, 2]} alignItems="baseline">
+      <Box pl={[1, 2]} flex="1 1">
         <Text fontSize={[1, 2, 3]}>{user.name}</Text>
       </Box>
-      <Box width={3} flex="0 0" mx={[1, 2]}>
+      <Box pr={[1, 2]} width={3} flex="0 0" mx={[1, 2]}>
         <Text fontSize={[3, 4]} fontWeight="bold">
           {' '}
           {current_vote ? isVoteVisible ? current_vote : <FaEyeSlash /> : '-'}{' '}
         </Text>
       </Box>
+
+      {showUserMenu && <SessionUserMenu userId={user.id} sessionId={sessionId} />}
     </StyledUserSessionContainer>
   );
+}
+
+interface PlanningPokerSessionProps {
+  sessionId: number;
 }
 
 export default function PlanningPokerSession({ sessionId }: PlanningPokerSessionProps) {
@@ -116,6 +127,8 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
       </Box>
     );
 
+  const isSessionOwner = session.owner_id === userId;
+
   return (
     <Box maxWidth={[9]} margin="0 auto">
       <Head>
@@ -124,15 +137,17 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
       <Text as="h2" fontWeight="400" fontSize={[3, 4, 5]}>
         Planning Poker > {session.name}
       </Text>
-      {session.owner_id === userId && <SessionOwnerControls sessionId={session.id} />}
+      {isSessionOwner && <SessionOwnerControls sessionId={session.id} />}
       <PlanningPokerVoter sessionId={sessionId} allowVoting={!session.votes_visible} />
       <Flex justifyContent="space-between" flexDirection={['column', 'row']}>
         <Card title="Votes">
           <>
             {session.user_sessions.flatMap(us => (
               <UserSession
+                showUserMenu={isSessionOwner}
                 key={us.user.id}
                 user={us.user}
+                sessionId={session.id}
                 current_vote={us.current_vote}
                 votes_visible={session.votes_visible}
               />

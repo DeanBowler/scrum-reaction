@@ -4,8 +4,10 @@ import { useClickAway, useKey } from 'react-use';
 
 import BorderBox from '@styled/BorderBox';
 import Box, { BoxProps } from '@styled/Box';
+import { FaEllipsisV } from 'react-icons/fa';
 
 const PopoutMenuMenuContainer = styled(BorderBox)`
+  z-index: 1;
   position: absolute;
   top: 100%;
   left: auto;
@@ -65,12 +67,17 @@ const PopoutMenuItemContainer = styled(Box)<PopoutMenuItemContainerProps>`
 export interface PopoutMenuItemProps {
   children: React.ReactNode;
   onClick?: () => void;
+  as?: React.ElementType;
 }
 
-PopoutMenu.Item = function PopoutMenuItem({ children, onClick }: PopoutMenuItemProps) {
+PopoutMenu.Item = function PopoutMenuItem({
+  children,
+  onClick,
+  as = 'a',
+}: PopoutMenuItemProps) {
   return (
     <PopoutMenuItemContainer
-      as="a"
+      as={as}
       isClickable={!!onClick}
       onClick={onClick}
       px={[2, 3]}
@@ -78,5 +85,51 @@ PopoutMenu.Item = function PopoutMenuItem({ children, onClick }: PopoutMenuItemP
     >
       {children}
     </PopoutMenuItemContainer>
+  );
+};
+
+const StyledMenuButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  border-radius: 50%;
+  height: 2.618rem;
+  width: 2.618rem;
+  color: ${({ theme }) => theme.colors.neutralMidDark};
+
+  border: 1px solid transparent;
+
+  :focus {
+    outline: none;
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
+
+  :hover {
+    color: ${({ theme }) => theme.colors.neutralDark};
+    background: ${({ theme }) => theme.colors.neutralLight};
+  }
+
+  :disabled {
+    color: ${({ theme }) => theme.colors.neutralMidLight};
+    border-color: transparent;
+    background: none;
+  }
+
+  &[hidden] {
+    user-select: none;
+    pointer-events: none;
+    opacity: 0;
+  }
+`;
+
+PopoutMenu.Button = function PopoutMenuButton(
+  p: React.ButtonHTMLAttributes<HTMLButtonElement>,
+) {
+  return (
+    <StyledMenuButton {...p}>
+      <FaEllipsisV />
+    </StyledMenuButton>
   );
 };
