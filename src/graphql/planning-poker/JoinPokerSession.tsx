@@ -11,6 +11,7 @@ import { useUpsetUserSessionMutation } from '@generated/graphql';
 import { useAuth } from '@contexts/authContext';
 import { isProduction } from '@utils/env';
 import useDebouncedState from '@hooks/useDebouncedState';
+import Text from '@styled/Text';
 
 export const JOIN_POKER_SESSION = gql`
   mutation upsetUserSession($sessionId: Int!, $userId: String!) {
@@ -34,7 +35,7 @@ export default function JoinPokerSession({ className }: JoinPokerSessionProps) {
 
   const [sessionId, setSessionId] = useState<number>();
 
-  const [joinSession, { loading }] = useUpsetUserSessionMutation({
+  const [joinSession, { loading, error }] = useUpsetUserSessionMutation({
     variables: { userId, sessionId },
     onCompleted: async () => {
       if (isProduction) {
@@ -54,10 +55,25 @@ export default function JoinPokerSession({ className }: JoinPokerSessionProps) {
     setSessionId(valueAsNumber);
   };
 
+  const errorMessage = React.useMemo(() => {
+    if (!error) return null;
+    if (
+      error.graphQLErrors &&
+      error.graphQLErrors[0].extensions.code === 'constraint-violation'
+    )
+      return 'Session does not exist';
+    return 'Unknown error occurred';
+  }, [error]);
+
   return (
     <Card title="Join an existing session" className={className}>
       <Flex flexDirection="column">
         <Spaced mb={[2, 3]} includeLast={false}>
+          {error && (
+            <Text as="div" color="negative" fontWeight="500">
+              {errorMessage}
+            </Text>
+          )}
           <TextInput
             type="number"
             onChange={handleSessionIdInputChange}
