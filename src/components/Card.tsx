@@ -37,6 +37,9 @@ interface CardContainerProps extends FlexProps {
 }
 
 const CardContainer = styled(Flex)<CardContainerProps>`
+  color: ${getColor('neutralDark')};
+  text-decoration: none;
+
   ${p =>
     p.variant === 'link' &&
     css`
@@ -44,15 +47,30 @@ const CardContainer = styled(Flex)<CardContainerProps>`
       :hover > ${CardTitle} {
         color: ${getColor('primary')};
       }
-      : hover > ${CardContentContainer} {
+      :hover > ${CardContentContainer} {
         box-shadow: 0px 8px 0px -2px rgba(0, 0, 0, 0.1);
+      }
+      :focus {
+        outline: none;
+        & > ${CardTitle} {
+          color: ${getColor('primary')};
+        }
+        & > ${CardContentContainer} {
+          border-color: ${getColor('primary')};
+        }
       }
     `};
 `;
 
 export default function Card({ title, children, variant, ...rest }: CardProps) {
   return (
-    <CardContainer variant={variant} flexDirection="column" flex="1 1 auto" {...rest}>
+    <CardContainer
+      tabIndex={variant === 'link' ? 0 : -1}
+      variant={variant}
+      flexDirection="column"
+      flex="1 1 auto"
+      {...rest}
+    >
       {title && (
         <CardTitle as="div" pb={[1]} fontSize={[2, 3]}>
           {title}

@@ -9,9 +9,15 @@ import Box from '@styled/Box';
 import HeaderUser from './HeaderUser';
 
 const StyledHeaderLink = styled(StyledLink)`
+  text-decoration: none;
   color: ${({ theme }) => theme.colors.neutralLightest};
 
   :hover {
+    color: ${({ theme }) => theme.colors.neutralMid};
+  }
+
+  :focus {
+    outline: none;
     color: ${({ theme }) => theme.colors.neutralMid};
   }
 `;
@@ -21,7 +27,7 @@ export default function Header() {
     <Flex as="header" px={[1, 4]} py={[1, 2]} backgroundColor="neutralDarker">
       <Box flex={['1 1', , '0 1']} />
       <Box flex="1 0" textAlign={['center', , 'left']}>
-        <Link href="/">
+        <Link href="/" passHref={true}>
           <StyledHeaderLink fontSize={[3, 5]} fontFamily="Pacifico">
             ScrumReaction
           </StyledHeaderLink>

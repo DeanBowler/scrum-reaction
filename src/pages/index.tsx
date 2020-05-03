@@ -17,9 +17,10 @@ const Home = () => (
     <Flex justifyContent="center" flexWrap="wrap">
       <Spaced my={[3]} mx={[0, 2, 3]}>
         <Box>
-          <Link href="/planning-poker">
+          <Link href="/planning-poker" passHref={true}>
             <Card
               flex="0 0 auto"
+              as="a"
               variant="link"
               role="link"
               title="Planning Poker"
