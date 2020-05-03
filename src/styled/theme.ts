@@ -1,4 +1,5 @@
 import { Theme } from 'styled-system';
+import { ThemedStyledProps, DefaultTheme } from 'styled-components';
 
 export interface AppTheme extends Theme {
   colors: {
@@ -16,9 +17,7 @@ export interface AppTheme extends Theme {
   buttonRadius: string;
 }
 
-// const generateScale = (start: number, length: number, scale: number) => Array(length).map((_, i) => i *  )
-
-const theme: AppTheme = {
+const baseTheme = {
   colors: {
     primary: '#50b87e',
     secondary: '#ae4ab7',
@@ -31,6 +30,12 @@ const theme: AppTheme = {
     neutralLight: '#eaeded',
     neutralLightest: '#fff',
   },
+};
+
+// const generateScale = (start: number, length: number, scale: number) => Array(length).map((_, i) => i *  )
+
+const theme: AppTheme = {
+  ...baseTheme,
   space: [0, '0.25rem', '0.5rem', '1rem', '2rem', '4rem', '8rem', '16rem'],
   sizes: [
     0,
@@ -49,6 +54,10 @@ const theme: AppTheme = {
 };
 
 export default theme;
+
+export const getColor = (color: keyof AppTheme['colors']) => (
+  p: ThemedStyledProps<unknown, DefaultTheme>,
+) => p.theme.colors[color];
 
 declare module 'styled-components' {
   export interface DefaultTheme extends AppTheme {}

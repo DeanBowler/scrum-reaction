@@ -4,7 +4,7 @@ import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 
 import Box from '@styled/Box';
 import { useAuth } from '@contexts/authContext';
-import theme from '../../theme';
+import theme from '../../styled/theme';
 
 import Header from './Header';
 import Footer from './Footer';

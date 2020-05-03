@@ -17,7 +17,7 @@ import {
   FlexboxProps,
   SizeProps,
 } from 'styled-system';
-import { AppTheme } from '../theme';
+import { AppTheme } from './theme';
 
 export interface BaseProps extends React.RefAttributes<any> {
   as?: React.ElementType;

@@ -7,6 +7,7 @@ import {
   ResponsiveValue,
 } from 'styled-system';
 import styled, { keyframes, css } from 'styled-components';
+import { getColor } from '@styled/theme';
 
 export interface ButtonProps extends SpaceProps, FontSizeProps {
   isLoading?: boolean;
@@ -18,8 +19,8 @@ const Button = styled.button<ButtonProps>`
   cursor: pointer;
   position: relative;
   font-family: 'Raleway';
-  background: ${p => p.theme.colors.neutralDark};
-  color: ${p => p.theme.colors.neutralLight};
+  background: ${getColor('neutralDark')};
+  color: ${getColor('neutralLight')};
   border-radius: ${p => p.theme.buttonRadius};
   border: none;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 0px -1px;
@@ -83,7 +84,7 @@ const Button = styled.button<ButtonProps>`
 
         :focus {
           opacity: 0.9;
-          outline: 2px solid ${p => p.theme.colors.primary};
+          outline: 2px solid ${getColor('primary')};
         }
 
         :active {

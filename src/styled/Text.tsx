@@ -12,7 +12,7 @@ import {
   ColorProps,
   TypographyProps,
 } from 'styled-system';
-import { AppTheme } from '../theme';
+import { AppTheme } from './theme';
 
 interface BaseProps extends React.RefAttributes<any> {
   as?: React.ElementType;

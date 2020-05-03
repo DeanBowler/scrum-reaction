@@ -12,7 +12,7 @@ import {
 
 import {} from '@styled-system/theme-get';
 
-import { AppTheme } from '../theme';
+import { AppTheme } from './theme';
 
 export interface TextInputProps
   extends SpaceProps,

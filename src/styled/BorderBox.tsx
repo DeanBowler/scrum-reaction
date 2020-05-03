@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { border, shadow, BorderProps, ShadowProps } from 'styled-system';
 import Box, { BoxProps } from './Box';
-import { AppTheme } from '../theme';
+import { AppTheme } from './theme';
 
 export interface BorderBoxProps extends BoxProps, BorderProps<AppTheme>, ShadowProps {}
 
