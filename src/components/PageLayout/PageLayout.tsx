@@ -51,7 +51,7 @@ export default function PageLayout({ children }: LayoutProps) {
     <ThemeProvider theme={theme}>
       <Container color="neutralDarker" minHeight="100%">
         <Head>
-          <title>Create Next App</title>
+          <title>Scrum Reaction</title>
           <link rel="icon" href="/favicon.ico" />
           <link
             href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700'&display=swap"

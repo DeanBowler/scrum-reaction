@@ -7,9 +7,6 @@ import StyledLink from '@styled/Link';
 
 const Home = () => (
   <>
-    <Head>
-      <title>Home</title>
-    </Head>
     <Box>
       <Text as="h2">Welcome!</Text>
       <Link href="/planning-poker">

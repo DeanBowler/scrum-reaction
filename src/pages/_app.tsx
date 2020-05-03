@@ -20,7 +20,6 @@ export default function ({
     <Tracking>
       <AuthContextProvider>
         <AuthorizedApolloProvider>
-          {/* <PollLastSeen /> */}
           <PageLayout>
             <AnimatePresence initial={false} exitBeforeEnter>
               <motion.div
@@ -31,9 +30,9 @@ export default function ({
                   when: 'afterChildren',
                 }}
                 key={router.pathname}
-                initial={{ x: 100, opacity: 0 }}
+                initial={{ x: 70, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -100, opacity: 0 }}
+                exit={{ x: -70, opacity: 0 }}
                 id="page-transition-container"
               >
                 <Component {...pageProps} key={router.route} />
