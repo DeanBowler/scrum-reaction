@@ -55,24 +55,27 @@ export default function CreatePokerSession({ className }: CreatePokerSessionProp
     setSessionName(value);
   };
 
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (canCreate) createSession();
+    e.preventDefault();
+  };
+
   return (
     <Card title="Start a new session" className={className}>
-      <Flex flexDirection="column">
-        <Spaced mb={[2, 3]} includeLast={false}>
-          <TextInput
-            onChange={handleSessionNameInputChange}
-            disabled={loading}
-            placeholder="session name"
-          />
-          <Button
-            isLoading={debouncedLoading}
-            disabled={!canCreate}
-            onClick={() => canCreate && createSession()}
-          >
-            Start New Session
-          </Button>
-        </Spaced>
-      </Flex>
+      <form onSubmit={handleFormSubmit}>
+        <Flex flexDirection="column">
+          <Spaced mb={[2, 3]} includeLast={false}>
+            <TextInput
+              onChange={handleSessionNameInputChange}
+              disabled={loading}
+              placeholder="session name"
+            />
+            <Button type="submit" isLoading={debouncedLoading} disabled={!canCreate}>
+              Start New Session
+            </Button>
+          </Spaced>
+        </Flex>
+      </form>
     </Card>
   );
 }

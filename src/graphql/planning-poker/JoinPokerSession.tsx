@@ -65,29 +65,32 @@ export default function JoinPokerSession({ className }: JoinPokerSessionProps) {
     return 'Unknown error occurred';
   }, [error]);
 
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    if (canJoin) joinSession();
+    e.preventDefault();
+  };
+
   return (
     <Card title="Join an existing session" className={className}>
-      <Flex flexDirection="column">
-        <Spaced mb={[2, 3]} includeLast={false}>
-          {error && (
-            <Text as="div" color="negative" fontWeight="500">
-              {errorMessage}
-            </Text>
-          )}
-          <TextInput
-            type="number"
-            onChange={handleSessionIdInputChange}
-            placeholder="session id"
-          />
-          <Button
-            isLoading={debouncedLoading}
-            disabled={!canJoin}
-            onClick={() => canJoin && joinSession()}
-          >
-            Join Session
-          </Button>
-        </Spaced>
-      </Flex>
+      <form onSubmit={handleFormSubmit}>
+        <Flex flexDirection="column">
+          <Spaced mb={[2, 3]} includeLast={false}>
+            {error && (
+              <Text as="div" color="negative" fontWeight="500">
+                {errorMessage}
+              </Text>
+            )}
+            <TextInput
+              type="number"
+              onChange={handleSessionIdInputChange}
+              placeholder="session id"
+            />
+            <Button type="submit" isLoading={debouncedLoading} disabled={!canJoin}>
+              Join Session
+            </Button>
+          </Spaced>
+        </Flex>
+      </form>
     </Card>
   );
 }

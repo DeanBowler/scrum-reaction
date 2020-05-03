@@ -5,9 +5,9 @@ import { AppInitialProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { AnimatePresence, motion } from 'framer-motion';
 
-import PageLayout from '@components/PageLayout';
 import { AuthContextProvider } from '@contexts/authContext';
 import AuthorizedApolloProvider from '@contexts/authorizedApolloProvider';
+import PageLayout from '@components/PageLayout';
 import Tracking from '@components/Tracking';
 
 export default function ({
