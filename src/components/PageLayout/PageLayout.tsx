@@ -15,26 +15,26 @@ interface LayoutProps {
 }
 
 const GlobalStyle = createGlobalStyle`
-html {
-  min-height: 100%;
-  height: 100%;
-  position:relative;
-}
+  html {
+    min-height: 100%;
+    height: 100%;
+    position:relative;
+  }
 
-body {  
-  position: relative;
-  min-height: 100%;
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  font-family: 'Raleway', 'Helvetica Neue', sans-serif;
-}
+  body {  
+    position: relative;
+    min-height: 100%;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    font-family: 'Raleway', 'Helvetica Neue', sans-serif;
+  }
 
-#__next {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
+  #__next {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const Container = styled(Flex)`
