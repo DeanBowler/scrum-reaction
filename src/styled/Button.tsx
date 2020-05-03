@@ -1,9 +1,17 @@
-import { space, SpaceProps, fontSize, FontSizeProps } from 'styled-system';
+import {
+  space,
+  SpaceProps,
+  fontSize,
+  FontSizeProps,
+  variant,
+  ResponsiveValue,
+} from 'styled-system';
 import styled, { keyframes, css } from 'styled-components';
 
 export interface ButtonProps extends SpaceProps, FontSizeProps {
   isLoading?: boolean;
   fullWidth?: boolean;
+  variant?: ResponsiveValue<'primary' | 'neutral' | 'negative' | 'outline'>;
 }
 
 const Button = styled.button<ButtonProps>`
@@ -19,6 +27,27 @@ const Button = styled.button<ButtonProps>`
   overflow: hidden;
 
   width: ${p => (p.fullWidth ? '100%' : '')};
+
+  ${variant({
+    variants: {
+      primary: {
+        backgroundColor: 'primary',
+      },
+      neutral: {
+        backgroundColor: 'neutral',
+      },
+      outline: {
+        backgroundColor: 'transparent',
+        color: 'neutralDark',
+        border: '1px solid',
+        borderColor: 'neutralMidDark',
+      },
+      negative: {
+        backgroundColor: 'negative',
+        color: 'neutralLightest',
+      },
+    },
+  })}
 
   ${({ isLoading }) =>
     isLoading
@@ -83,6 +112,6 @@ Button.defaultProps = {
   py: [2, 3],
   px: [3, 4],
   fontSize: [1, 2],
-  // fontSize
+  variant: 'neutral',
 };
 export default Button;

@@ -39,6 +39,7 @@ export default function PopoutMenu({ show, onClose, children }: PopoutMenuProps)
     <AnimatePresence initial={false} exitBeforeEnter>
       {debouncedShow && (
         <motion.div
+          style={{ position: 'relative', zIndex: 1 }}
           transition={{
             ease: 'easeOut',
           }}
