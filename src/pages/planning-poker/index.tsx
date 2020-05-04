@@ -20,7 +20,7 @@ const PlanningPoker = () => (
       <Text as="h2" fontWeight="400" fontSize={[3, 4, 5]}>
         Planning Poker
       </Text>
-      <Text as="aside">
+      <Text lineHeight="copy" as="aside">
         Gameified backlog estimation! Estimate your work without being influenced by
         others then discuss, argue, fall in love and eventually reach consensus.
       </Text>

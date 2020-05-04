@@ -35,7 +35,7 @@ const Home = () => (
                   pl={2}
                   pb={[3, 4]}
                 />
-                <Text>Collaborative, gameified backlog estimation</Text>
+                <Text lineHeight="copy">Collaborative, gameified backlog estimation</Text>
                 <Text as="div" color="neutralMidDark" mt={[3, 4]}>
                   Tap to get started
                 </Text>

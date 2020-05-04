@@ -15,6 +15,7 @@ export interface AppTheme extends Theme {
     neutralLightest: string;
   };
   buttonRadius: string;
+  lineHeights: { [key in 'solid' | 'title' | 'copy']: string | number };
 }
 
 const baseTheme = {
@@ -32,8 +33,6 @@ const baseTheme = {
   },
 };
 
-// const generateScale = (start: number, length: number, scale: number) => Array(length).map((_, i) => i *  )
-
 const theme: AppTheme = {
   ...baseTheme,
   space: [0, '0.25rem', '0.5rem', '1rem', '2rem', '4rem', '8rem', '16rem'],
@@ -49,6 +48,11 @@ const theme: AppTheme = {
     '32rem',
     '52rem',
   ],
+  lineHeights: {
+    solid: '1',
+    title: '1.25rem',
+    copy: '1.5rem',
+  },
   breakpoints: ['420px', '768px', '992px', '1200px'],
   buttonRadius: '5px',
 };

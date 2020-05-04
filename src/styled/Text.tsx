@@ -20,10 +20,10 @@ interface BaseProps extends React.RefAttributes<any> {
 
 export interface TextProps
   extends BaseProps,
-    SpaceProps,
-    LayoutProps,
+    SpaceProps<AppTheme>,
+    LayoutProps<AppTheme>,
     ColorProps<AppTheme>,
-    TypographyProps {}
+    TypographyProps<AppTheme> {}
 
 const Text = styled.span<TextProps>(
   fontSize,

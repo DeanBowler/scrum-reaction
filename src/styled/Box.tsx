@@ -26,14 +26,14 @@ export interface BaseProps extends React.RefAttributes<any> {
 
 export interface BoxKnownProps
   extends BaseProps,
-    SpaceProps,
-    LayoutProps,
+    SpaceProps<AppTheme>,
+    LayoutProps<AppTheme>,
     ColorProps<AppTheme>,
-    TypographyProps,
-    PositionProps,
-    BackgroundProps,
-    FlexboxProps,
-    SizeProps {}
+    TypographyProps<AppTheme>,
+    PositionProps<AppTheme>,
+    BackgroundProps<AppTheme>,
+    FlexboxProps<AppTheme>,
+    SizeProps<AppTheme> {}
 
 export interface BoxProps
   extends BoxKnownProps,

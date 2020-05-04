@@ -7,9 +7,9 @@ import {
   ResponsiveValue,
 } from 'styled-system';
 import styled, { keyframes, css } from 'styled-components';
-import { getColor } from '@styled/theme';
+import { getColor, AppTheme } from '@styled/theme';
 
-export interface ButtonProps extends SpaceProps, FontSizeProps {
+export interface ButtonProps extends SpaceProps<AppTheme>, FontSizeProps<AppTheme> {
   isLoading?: boolean;
   fullWidth?: boolean;
   variant?: ResponsiveValue<'primary' | 'neutral' | 'negative' | 'outline'>;
