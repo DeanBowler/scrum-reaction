@@ -7,6 +7,7 @@ import BorderBox, { BorderBoxProps } from '@styled/BorderBox';
 import { useAuth } from '@contexts/authContext';
 
 import HeaderUserMenu from './HeaderUserMenu';
+import { AnimatePresence, motion } from 'framer-motion';
 
 export const UserImage = styled.img`
   border-radius: 50%;
@@ -27,7 +28,7 @@ export const HeaderUserContainer = styled(BorderBox)<BorderBoxProps>`
 `;
 
 export default function HeaderUser() {
-  const { user } = useAuth();
+  const { user, isLoadingAuth } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
 
   const handleClick = () => {
@@ -48,7 +49,22 @@ export default function HeaderUser() {
         height={['2', '3']}
         onClick={handleClick}
       >
-        {user && user.picture ? <UserImage src={user.picture} /> : <FaUser />}
+        <AnimatePresence>
+          {!isLoadingAuth && (
+            <motion.div
+              transition={{
+                ease: 'easeOut',
+                duration: 0.5,
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              {user && user.picture ? <UserImage src={user.picture} /> : <FaUser />}
+            </motion.div>
+          )}
+        </AnimatePresence>
+        {isLoadingAuth}
       </HeaderUserContainer>
       <HeaderUserMenu show={showMenu} onClose={handleClose} />
     </Box>
