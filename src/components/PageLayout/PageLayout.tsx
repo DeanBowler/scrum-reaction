@@ -52,19 +52,10 @@ export default function PageLayout({ children }: LayoutProps) {
       <Container color="neutralDarker" minHeight="100%">
         <Head>
           <title>Scrum Reaction</title>
-          <link rel="icon" href="/favicon.ico" />
-          <link
-            href="https://fonts.googleapis.com/css?family=Raleway:300,400,500,700'&display=swap"
-            rel="stylesheet"
-          />
-          <link
-            href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
-            rel="stylesheet"
-          />
         </Head>
         <Header />
 
-        <Box flex="1 0" py={[1, 2]} px={[2, 3, 4, 5]}>
+        <Box as="main" flex="1 0" py={[1, 2]} px={[2, 3, 4, 5]}>
           {isLoadingAuth ? <div></div> : children}
         </Box>
 
