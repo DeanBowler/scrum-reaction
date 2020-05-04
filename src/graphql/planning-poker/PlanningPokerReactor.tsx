@@ -33,7 +33,7 @@ const REACTIONS: { [key in Reaction]: string } = {
 };
 
 export const ReactionIcon = ({ reaction }: { reaction: string }) => (
-  <Text as="div" fontSize={[2, 3, 4]}>
+  <Text as="div" lineHeight="solid" fontSize={[2, 3, 4]}>
     {REACTIONS[reaction]}
   </Text>
 );

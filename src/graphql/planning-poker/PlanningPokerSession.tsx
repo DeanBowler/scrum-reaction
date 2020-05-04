@@ -85,51 +85,58 @@ const reactionMotions: Variants = {
   },
 };
 
-function UserSession({
-  user,
-  sessionId,
-  current_vote,
-  current_reaction,
-  showUserMenu,
-  votes_visible,
-}: UserSessionProps) {
-  const { userId } = useAuth();
+const UserSession = React.forwardRef(
+  (
+    {
+      user,
+      sessionId,
+      current_vote,
+      current_reaction,
+      showUserMenu,
+      votes_visible,
+    }: UserSessionProps,
+    ref,
+  ) => {
+    const { userId } = useAuth();
 
-  const isVoteVisible = votes_visible || user.id === userId;
+    const isVoteVisible = votes_visible || user.id === userId;
 
-  return (
-    <StyledUserSessionContainer py={[1, 2]} minHeight={[1, '2rem']} alignItems="baseline">
-      <Box flex="0 0" minWidth={[1, 2]} mr={[1, , 2]} position="relative">
-        <AnimatePresence initial={false} exitBeforeEnter>
-          <motion.div
-            key={current_reaction}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            variants={reactionMotions}
-          >
-            <ReactionIcon reaction={current_reaction} />
-          </motion.div>
-        </AnimatePresence>
-      </Box>
-      <Box pl={[1, 2]} flex="1 1">
-        <Text fontSize={[1, 2, 3]}>{user.name}</Text>
-      </Box>
-      <Box pr={[1, 2]} width={3} flex="0 0" mx={[1, 2]}>
-        <Text fontSize={[3, 4]} fontWeight="bold">
-          {' '}
-          {current_vote ? isVoteVisible ? current_vote : <FaEyeSlash /> : ' '}{' '}
-        </Text>
-      </Box>
+    return (
+      <StyledUserSessionContainer ref={ref} py={[1, 2]} alignItems="center">
+        <Box flex="0 0" minWidth={[1, 2]} mr={[1, , 2]} position="relative">
+          <AnimatePresence initial={false} exitBeforeEnter>
+            <motion.div
+              key={current_reaction}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+              variants={reactionMotions}
+            >
+              <ReactionIcon reaction={current_reaction} />
+            </motion.div>
+          </AnimatePresence>
+        </Box>
+        <Box pl={[1, 2]} flex="1 1">
+          <Text fontSize={[1, 2, 3]}>{user.name}</Text>
+        </Box>
+        <Box pr={[1, 2]} width={3} flex="0 0" mx={[1, 2]}>
+          <Text fontSize={[3, 4]} fontWeight="bold">
+            {' '}
+            {current_vote ? isVoteVisible ? current_vote : <FaEyeSlash /> : ' '}{' '}
+          </Text>
+        </Box>
 
-      {showUserMenu && <SessionUserMenu userId={user.id} sessionId={sessionId} />}
-    </StyledUserSessionContainer>
-  );
-}
+        {showUserMenu && <SessionUserMenu userId={user.id} sessionId={sessionId} />}
+      </StyledUserSessionContainer>
+    );
+  },
+);
 
 interface PlanningPokerSessionProps {
   sessionId: number;
 }
+
+const MotionSession = motion.custom(UserSession);
 
 export default function PlanningPokerSession({ sessionId }: PlanningPokerSessionProps) {
   const { userId, isLoadingAuth } = useAuth();
@@ -192,23 +199,19 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
         <Card title="Votes" spacingVariant="cosy">
           <AnimatePresence initial={false}>
             {session.user_sessions.flatMap(us => (
-              <motion.div
-                key={us.user.id}
+              <MotionSession
                 variants={motionItemVariants}
                 initial="hidden"
                 animate="enter"
                 exit="exit"
-              >
-                <UserSession
-                  showUserMenu={isSessionOwner}
-                  key={us.user.id}
-                  user={us.user}
-                  sessionId={session.id}
-                  current_vote={us.current_vote}
-                  current_reaction={us.current_reaction}
-                  votes_visible={session.votes_visible}
-                />
-              </motion.div>
+                showUserMenu={isSessionOwner}
+                key={us.user.id}
+                user={us.user}
+                sessionId={session.id}
+                current_vote={us.current_vote}
+                current_reaction={us.current_reaction}
+                votes_visible={session.votes_visible}
+              />
             ))}
           </AnimatePresence>
         </Card>
