@@ -12,7 +12,7 @@ export const CLEAR_VOTES = gql`
   mutation clearVotes($sessionId: Int!) {
     update_poker_user_session(
       where: { poker_session: { id: { _eq: $sessionId } } }
-      _set: { current_vote: null }
+      _set: { current_vote: null, current_reaction: null }
     ) {
       affected_rows
     }
@@ -46,7 +46,9 @@ export default function SessionOwnerControls({ sessionId }: SessionOwnerControls
 
   return (
     <Box as="section" my={[2, 4]}>
-      <Text as="h3">Session Controls</Text>
+      <Text as="h3" letterSpacing="tracked">
+        Control
+      </Text>
       <Flex flexWrap="wrap" justifyContent={['center', 'unset']}>
         <Spaced mr={[1, 2, 3]} includeLast={false}>
           <Button onClick={() => clearVotes()}>Clear Votes</Button>

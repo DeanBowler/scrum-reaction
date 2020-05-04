@@ -55,7 +55,9 @@ export default function PlanningPokerVoter({
 
   return (
     <Box as="section" my={[2, 4]}>
-      <Text as="h3">{allowVoting ? 'Submit your vote' : 'Voting locked'}</Text>
+      <Text as="h3" letterSpacing="tracked">
+        {allowVoting ? 'Vote' : 'Voting locked'}
+      </Text>
       <Flex flexWrap="wrap" justifyContent={['center', 'unset']}>
         <Spaced mr={[1, 3]} includeLast={false}>
           {CARD_SIZES.map(c => (

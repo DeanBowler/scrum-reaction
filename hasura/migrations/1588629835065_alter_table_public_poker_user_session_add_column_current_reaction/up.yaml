@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."poker_user_session" ADD COLUMN "current_reaction" text
+      NULL;
+  type: run_sql

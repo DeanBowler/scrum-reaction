@@ -644,6 +644,7 @@ export type Poker_Session_Variance_Order_By = {
 /** columns and relationships of "poker_user_session" */
 export type Poker_User_Session = {
    __typename?: 'poker_user_session';
+  current_reaction?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
   /** An object relationship */
   poker_session: Poker_Session;
@@ -720,6 +721,7 @@ export type Poker_User_Session_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Poker_User_Session_Bool_Exp>>>;
   _not?: Maybe<Poker_User_Session_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Poker_User_Session_Bool_Exp>>>;
+  current_reaction?: Maybe<String_Comparison_Exp>;
   current_vote?: Maybe<String_Comparison_Exp>;
   poker_session?: Maybe<Poker_Session_Bool_Exp>;
   session_id?: Maybe<Int_Comparison_Exp>;
@@ -740,6 +742,7 @@ export type Poker_User_Session_Inc_Input = {
 
 /** input type for inserting data into table "poker_user_session" */
 export type Poker_User_Session_Insert_Input = {
+  current_reaction?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
   poker_session?: Maybe<Poker_Session_Obj_Rel_Insert_Input>;
   session_id?: Maybe<Scalars['Int']>;
@@ -750,6 +753,7 @@ export type Poker_User_Session_Insert_Input = {
 /** aggregate max on columns */
 export type Poker_User_Session_Max_Fields = {
    __typename?: 'poker_user_session_max_fields';
+  current_reaction?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
   session_id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['String']>;
@@ -757,6 +761,7 @@ export type Poker_User_Session_Max_Fields = {
 
 /** order by max() on columns of table "poker_user_session" */
 export type Poker_User_Session_Max_Order_By = {
+  current_reaction?: Maybe<Order_By>;
   current_vote?: Maybe<Order_By>;
   session_id?: Maybe<Order_By>;
   user_id?: Maybe<Order_By>;
@@ -765,6 +770,7 @@ export type Poker_User_Session_Max_Order_By = {
 /** aggregate min on columns */
 export type Poker_User_Session_Min_Fields = {
    __typename?: 'poker_user_session_min_fields';
+  current_reaction?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
   session_id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['String']>;
@@ -772,6 +778,7 @@ export type Poker_User_Session_Min_Fields = {
 
 /** order by min() on columns of table "poker_user_session" */
 export type Poker_User_Session_Min_Order_By = {
+  current_reaction?: Maybe<Order_By>;
   current_vote?: Maybe<Order_By>;
   session_id?: Maybe<Order_By>;
   user_id?: Maybe<Order_By>;
@@ -801,6 +808,7 @@ export type Poker_User_Session_On_Conflict = {
 
 /** ordering options when selecting data from "poker_user_session" */
 export type Poker_User_Session_Order_By = {
+  current_reaction?: Maybe<Order_By>;
   current_vote?: Maybe<Order_By>;
   poker_session?: Maybe<Poker_Session_Order_By>;
   session_id?: Maybe<Order_By>;
@@ -811,6 +819,8 @@ export type Poker_User_Session_Order_By = {
 /** select columns of table "poker_user_session" */
 export enum Poker_User_Session_Select_Column {
   /** column name */
+  CurrentReaction = 'current_reaction',
+  /** column name */
   CurrentVote = 'current_vote',
   /** column name */
   SessionId = 'session_id',
@@ -820,6 +830,7 @@ export enum Poker_User_Session_Select_Column {
 
 /** input type for updating data in table "poker_user_session" */
 export type Poker_User_Session_Set_Input = {
+  current_reaction?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
   session_id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['String']>;
@@ -871,6 +882,8 @@ export type Poker_User_Session_Sum_Order_By = {
 
 /** update columns of table "poker_user_session" */
 export enum Poker_User_Session_Update_Column {
+  /** column name */
+  CurrentReaction = 'current_reaction',
   /** column name */
   CurrentVote = 'current_vote',
   /** column name */
@@ -1375,6 +1388,21 @@ export type UpsetUserSessionMutation = (
   )> }
 );
 
+export type UpdateReactionMutationVariables = {
+  sessionId: Scalars['Int'];
+  userId: Scalars['String'];
+  reaction?: Maybe<Scalars['String']>;
+};
+
+
+export type UpdateReactionMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_poker_user_session?: Maybe<(
+    { __typename?: 'poker_user_session_mutation_response' }
+    & Pick<Poker_User_Session_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
 export type GetPokerSessionSubscriptionVariables = {
   id: Scalars['Int'];
 };
@@ -1393,7 +1421,7 @@ export type GetPokerSessionSubscription = (
       )> }
     ), user_sessions: Array<(
       { __typename?: 'poker_user_session' }
-      & Pick<Poker_User_Session, 'current_vote'>
+      & Pick<Poker_User_Session, 'current_vote' | 'current_reaction'>
       & { user: (
         { __typename?: 'users' }
         & Pick<Users, 'name' | 'id'>
@@ -1571,6 +1599,40 @@ export function useUpsetUserSessionMutation(baseOptions?: ApolloReactHooks.Mutat
 export type UpsetUserSessionMutationHookResult = ReturnType<typeof useUpsetUserSessionMutation>;
 export type UpsetUserSessionMutationResult = ApolloReactCommon.MutationResult<UpsetUserSessionMutation>;
 export type UpsetUserSessionMutationOptions = ApolloReactCommon.BaseMutationOptions<UpsetUserSessionMutation, UpsetUserSessionMutationVariables>;
+export const UpdateReactionDocument = gql`
+    mutation updateReaction($sessionId: Int!, $userId: String!, $reaction: String) {
+  update_poker_user_session(where: {session_id: {_eq: $sessionId}, user_id: {_eq: $userId}}, _set: {current_reaction: $reaction}) {
+    affected_rows
+  }
+}
+    `;
+export type UpdateReactionMutationFn = ApolloReactCommon.MutationFunction<UpdateReactionMutation, UpdateReactionMutationVariables>;
+
+/**
+ * __useUpdateReactionMutation__
+ *
+ * To run a mutation, you first call `useUpdateReactionMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateReactionMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateReactionMutation, { data, loading, error }] = useUpdateReactionMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *      userId: // value for 'userId'
+ *      reaction: // value for 'reaction'
+ *   },
+ * });
+ */
+export function useUpdateReactionMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateReactionMutation, UpdateReactionMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateReactionMutation, UpdateReactionMutationVariables>(UpdateReactionDocument, baseOptions);
+      }
+export type UpdateReactionMutationHookResult = ReturnType<typeof useUpdateReactionMutation>;
+export type UpdateReactionMutationResult = ApolloReactCommon.MutationResult<UpdateReactionMutation>;
+export type UpdateReactionMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateReactionMutation, UpdateReactionMutationVariables>;
 export const GetPokerSessionDocument = gql`
     subscription getPokerSession($id: Int!) {
   poker_session_by_pk(id: $id) {
@@ -1585,6 +1647,7 @@ export const GetPokerSessionDocument = gql`
     }
     user_sessions(order_by: {user_id: asc}) {
       current_vote
+      current_reaction
       user {
         name
         id
@@ -1687,7 +1750,7 @@ export type GetRecentSessionsLazyQueryHookResult = ReturnType<typeof useGetRecen
 export type GetRecentSessionsQueryResult = ApolloReactCommon.QueryResult<GetRecentSessionsQuery, GetRecentSessionsQueryVariables>;
 export const ClearVotesDocument = gql`
     mutation clearVotes($sessionId: Int!) {
-  update_poker_user_session(where: {poker_session: {id: {_eq: $sessionId}}}, _set: {current_vote: null}) {
+  update_poker_user_session(where: {poker_session: {id: {_eq: $sessionId}}}, _set: {current_vote: null, current_reaction: null}) {
     affected_rows
   }
   update_poker_session(where: {user_sessions: {}, id: {_eq: $sessionId}}, _set: {votes_visible: false}) {

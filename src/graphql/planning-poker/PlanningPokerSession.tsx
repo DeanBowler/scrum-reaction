@@ -24,6 +24,7 @@ import SessionStats from './SessionStats';
 import SessionOwnerControls from './SessionOwnerControls';
 import SessionUserMenu from './SessionUserMenu';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
+import PlanningPokerReactor, { ReactionIcon } from './PlanningPokerReactor';
 
 export const GET_POKER_SESSION = gql`
   subscription getPokerSession($id: Int!) {
@@ -39,6 +40,7 @@ export const GET_POKER_SESSION = gql`
       }
       user_sessions(order_by: { user_id: asc }) {
         current_vote
+        current_reaction
         user {
           name
           id
@@ -60,14 +62,34 @@ interface UserSessionProps {
   user: Pick<Users, 'id' | 'name'>;
   sessionId: number;
   showUserMenu: boolean;
-  current_vote: string | number;
+  current_vote: string | number | null;
+  current_reaction: string | null;
   votes_visible: boolean;
 }
+
+const reactionMotions: Variants = {
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      type: 'spring',
+      stiffness: 200,
+    },
+  },
+  exit: {
+    opacity: 0,
+  },
+  hidden: {
+    y: -15,
+    opacity: 0,
+  },
+};
 
 function UserSession({
   user,
   sessionId,
   current_vote,
+  current_reaction,
   showUserMenu,
   votes_visible,
 }: UserSessionProps) {
@@ -76,14 +98,27 @@ function UserSession({
   const isVoteVisible = votes_visible || user.id === userId;
 
   return (
-    <StyledUserSessionContainer py={[1, 2]} alignItems="baseline">
+    <StyledUserSessionContainer py={[1, 2]} minHeight={[1, '2rem']} alignItems="baseline">
+      <Box flex="0 0" minWidth={[1, 2]} mr={[1, , 2]} position="relative">
+        <AnimatePresence initial={false} exitBeforeEnter>
+          <motion.div
+            key={current_reaction}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            variants={reactionMotions}
+          >
+            <ReactionIcon reaction={current_reaction} />
+          </motion.div>
+        </AnimatePresence>
+      </Box>
       <Box pl={[1, 2]} flex="1 1">
         <Text fontSize={[1, 2, 3]}>{user.name}</Text>
       </Box>
       <Box pr={[1, 2]} width={3} flex="0 0" mx={[1, 2]}>
         <Text fontSize={[3, 4]} fontWeight="bold">
           {' '}
-          {current_vote ? isVoteVisible ? current_vote : <FaEyeSlash /> : '-'}{' '}
+          {current_vote ? isVoteVisible ? current_vote : <FaEyeSlash /> : ' '}{' '}
         </Text>
       </Box>
 
@@ -136,6 +171,8 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
     exit: { opacity: 0, x: 70, transition: { ease: 'easeInOut' } },
   };
 
+  const voterDisplay = session.votes_visible ? 'react' : 'vote';
+
   return (
     <Box maxWidth={[9]} margin="0 auto">
       <Head>
@@ -145,9 +182,14 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
         Planning Poker > {session.name}
       </Text>
       {isSessionOwner && <SessionOwnerControls sessionId={session.id} />}
-      <PlanningPokerVoter sessionId={sessionId} allowVoting={!session.votes_visible} />
-      <Flex justifyContent="space-between" flexDirection={['column', 'row']}>
-        <Card title="Votes">
+
+      {voterDisplay === 'vote' && (
+        <PlanningPokerVoter sessionId={sessionId} allowVoting={!session.votes_visible} />
+      )}
+      {voterDisplay === 'react' && <PlanningPokerReactor sessionId={sessionId} />}
+
+      <Flex justifyContent="space-between" flexDirection={['column', , 'row']}>
+        <Card title="Votes" spacingVariant="cosy">
           <AnimatePresence initial={false}>
             {session.user_sessions.flatMap(us => (
               <motion.div
@@ -163,6 +205,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
                   user={us.user}
                   sessionId={session.id}
                   current_vote={us.current_vote}
+                  current_reaction={us.current_reaction}
                   votes_visible={session.votes_visible}
                 />
               </motion.div>

@@ -11,7 +11,6 @@ import { useAuth } from '@contexts/authContext';
 import Box, { BoxProps } from '@styled/Box';
 import Text from '@styled/Text';
 import Flex from '@styled/Flex';
-import { isProduction } from '@utils/env';
 import { getColor } from '@styled/theme';
 
 export const GET_RECENT_SESSIONS = gql`
@@ -65,7 +64,6 @@ const PokerSessionListing = ({ session }: PokerSessionListingProps) => (
 
 export default function RecentPokerSessions() {
   const { userId } = useAuth();
-  const router = useRouter();
 
   const { data, loading, error } = useGetRecentSessionsQuery({ variables: { userId } });
 

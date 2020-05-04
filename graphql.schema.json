@@ -3642,6 +3642,18 @@
         "description": "columns and relationships of \"poker_user_session\"",
         "fields": [
           {
+            "name": "current_reaction",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "current_vote",
             "description": null,
             "args": [],
@@ -4195,6 +4207,16 @@
             "defaultValue": null
           },
           {
+            "name": "current_reaction",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "current_vote",
             "description": null,
             "type": {
@@ -4294,6 +4316,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "current_reaction",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "current_vote",
             "description": null,
             "type": {
@@ -4354,6 +4386,18 @@
         "description": "aggregate max on columns",
         "fields": [
           {
+            "name": "current_reaction",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "current_vote",
             "description": null,
             "args": [],
@@ -4402,6 +4446,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "current_reaction",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "current_vote",
             "description": null,
             "type": {
@@ -4441,6 +4495,18 @@
         "name": "poker_user_session_min_fields",
         "description": "aggregate min on columns",
         "fields": [
+          {
+            "name": "current_reaction",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "current_vote",
             "description": null,
@@ -4489,6 +4555,16 @@
         "description": "order by min() on columns of table \"poker_user_session\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "current_reaction",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
           {
             "name": "current_vote",
             "description": null,
@@ -4674,6 +4750,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "current_reaction",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "current_vote",
             "description": null,
             "type": {
@@ -4737,6 +4823,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "current_reaction",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "current_vote",
             "description": "column name",
             "isDeprecated": false,
@@ -4763,6 +4855,16 @@
         "description": "input type for updating data in table \"poker_user_session\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "current_reaction",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
           {
             "name": "current_vote",
             "description": null,
@@ -4982,6 +5084,12 @@
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
+          {
+            "name": "current_reaction",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "current_vote",
             "description": "column name",
