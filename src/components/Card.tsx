@@ -62,10 +62,11 @@ const CardContainer = styled(Flex)<CardContainerProps>`
     `};
 `;
 
-export default function Card({ title, children, variant, ...rest }: CardProps) {
+const Card = React.forwardRef(({ title, children, variant, ...rest }: CardProps, ref) => {
   return (
     <CardContainer
-      tabIndex={variant === 'link' ? 0 : -1}
+      ref={ref}
+      tabIndex={variant === 'link' ? 0 : undefined}
       variant={variant}
       flexDirection="column"
       flex="1 1 auto"
@@ -81,4 +82,6 @@ export default function Card({ title, children, variant, ...rest }: CardProps) {
       </CardContentContainer>
     </CardContainer>
   );
-}
+});
+
+export default Card;

@@ -79,6 +79,11 @@ const PopoutMenuItemContainer = styled(Box)<PopoutMenuItemContainerProps>`
         background: ${p => p.theme.colors.neutralLight};
       }
     `}
+
+  :focus {
+    outline: none;
+    background: ${p => p.theme.colors.neutralLight};
+  }
 `;
 
 export interface PopoutMenuItemProps {
@@ -96,6 +101,7 @@ PopoutMenu.Item = function PopoutMenuItem({
     <PopoutMenuItemContainer
       as={as}
       isClickable={!!onClick}
+      tabIndex={onClick ? 0 : undefined}
       onClick={onClick}
       px={[2, 3]}
       py={[1, 2]}

@@ -69,7 +69,13 @@ export default function SessionStats(session: Poker_Session) {
   return (
     <Card ml={[1, 2]} title="Stats" flex="0 0" minWidth={[6, , 7]}>
       {consensusReached && (
-        <Text as="div" mb="3" ref={consensusTextRef} fontWeight="bold">
+        <Text
+          letterSpacing="mega"
+          as="div"
+          mb="3"
+          ref={consensusTextRef}
+          fontWeight="bold"
+        >
           CONSENSUS
         </Text>
       )}

@@ -1,6 +1,9 @@
 import { Theme } from 'styled-system';
 import { ThemedStyledProps, DefaultTheme } from 'styled-components';
 
+type LineHeight = 'solid' | 'title' | 'copy';
+type LetterSpacing = 'normal' | 'tracked' | 'tight' | 'mega';
+
 export interface AppTheme extends Theme {
   colors: {
     primary: string;
@@ -15,7 +18,8 @@ export interface AppTheme extends Theme {
     neutralLightest: string;
   };
   buttonRadius: string;
-  lineHeights: { [key in 'solid' | 'title' | 'copy']: string | number };
+  lineHeights: { [key in LineHeight]: string | number };
+  letterSpacings: { [key in LetterSpacing]: string | number };
 }
 
 const baseTheme = {
@@ -52,6 +56,12 @@ const theme: AppTheme = {
     solid: '1',
     title: '1.25rem',
     copy: '1.5rem',
+  },
+  letterSpacings: {
+    normal: 'normal',
+    tracked: '0.1em',
+    tight: '-0.05em',
+    mega: '0.25em',
   },
   breakpoints: ['420px', '768px', '992px', '1200px'],
   buttonRadius: '5px',
