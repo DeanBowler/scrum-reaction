@@ -12,7 +12,7 @@ import {
 
 import {} from '@styled-system/theme-get';
 
-import { AppTheme } from './theme';
+import { AppTheme, getColor } from './theme';
 
 export interface TextInputProps
   extends SpaceProps,
@@ -23,14 +23,22 @@ export interface TextInputProps
 const TextInput = styled.input<TextInputProps>`
   border-radius: 5px;
   border: 1px solid;
-  border-color: ${p => p.theme.colors.neutralMid};
+  border-color: ${getColor('neutralMid')};
+  font-family: 'Raleway';
+
   ${space}
   ${layout}
   ${typography}
   ${color};
+
+  :focus {
+    outline: none;
+    border-color: ${getColor('primary')}
+  }
 `;
 
 TextInput.defaultProps = {
+  fontSize: [1],
   p: [1, 2],
 };
 

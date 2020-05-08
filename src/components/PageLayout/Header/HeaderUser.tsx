@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { FaUser } from 'react-icons/fa';
 import styled from 'styled-components';
+import { AnimatePresence, motion } from 'framer-motion';
 
+import { getColor } from '@styled/theme';
 import Box from '@styled/Box';
 import BorderBox, { BorderBoxProps } from '@styled/BorderBox';
 import { useAuth } from '@contexts/authContext';
 
 import HeaderUserMenu from './HeaderUserMenu';
-import { AnimatePresence, motion } from 'framer-motion';
 
 export const UserImage = styled.img`
   border-radius: 50%;
@@ -21,8 +22,8 @@ export const HeaderUserContainer = styled(BorderBox)<BorderBoxProps>`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  background: ${p => p.theme.colors.neutralLight};
-  color: ${p => p.theme.colors.neutralDarker};
+  background: ${getColor('neutralLight')};
+  color: ${getColor('neutralDarker')};
   border: none;
   padding: 0;
 `;

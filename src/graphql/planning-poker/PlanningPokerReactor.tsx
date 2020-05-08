@@ -80,9 +80,7 @@ export default function PlanningPokerReactor({ sessionId }: PlanningPokerReactor
 
   return (
     <Box as="section" my={[2, 4]}>
-      <Text as="h3" letterSpacing="tracked">
-        React
-      </Text>
+      <Text as="h3">Give a reaction</Text>
       <Flex flexWrap="wrap" alignItems="flex-end" justifyContent={['center', 'unset']}>
         <Spaced mr={[1, 3]} includeLast={false}>
           {reactionKeys.map(r => (

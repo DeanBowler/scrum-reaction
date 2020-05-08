@@ -22,7 +22,7 @@ const Button = styled.button<ButtonProps>`
   background: ${getColor('neutralDark')};
   color: ${getColor('neutralLight')};
   border-radius: ${p => p.theme.buttonRadius};
-  border: none;
+  border: 1px solid transparent;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 0px -1px;
   transition: box-shadow 200ms ease-in-out;
   overflow: hidden;
@@ -84,7 +84,8 @@ const Button = styled.button<ButtonProps>`
 
         :focus {
           opacity: 0.9;
-          outline: 2px solid ${getColor('primary')};
+          outline: none;
+          border-color: ${getColor('primary')};
         }
 
         :active {

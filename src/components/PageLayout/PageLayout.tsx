@@ -28,6 +28,7 @@ const GlobalStyle = createGlobalStyle`
     width: 100%;
     margin: 0;
     font-family: 'Raleway', 'Helvetica Neue', sans-serif;
+    font-size: 16px;
   }
 
   #__next {
@@ -41,7 +42,7 @@ const Container = styled(Flex)`
   flex-direction: column;
   flex: 1 1 auto;
   background-image: url(/background.svg),
-    linear-gradient(${theme.colors.neutralLightest}, ${theme.colors.neutralMidLight});
+    linear-gradient(${theme.colors.neutralLightest}, ${theme.colors.neutralMid});
 `;
 
 export default function PageLayout({ children }: LayoutProps) {

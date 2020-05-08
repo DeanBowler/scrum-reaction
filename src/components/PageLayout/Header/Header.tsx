@@ -5,20 +5,21 @@ import Link from 'next/link';
 import StyledLink from '@styled/Link';
 import Flex from '@styled/Flex';
 import Box from '@styled/Box';
+import { getColor } from '@styled/theme';
 
 import HeaderUser from './HeaderUser';
 
 const StyledHeaderLink = styled(StyledLink)`
   text-decoration: none;
-  color: ${({ theme }) => theme.colors.neutralLightest};
+  color: ${getColor('neutralLightest')};
 
   :hover {
-    color: ${({ theme }) => theme.colors.neutralMid};
+    color: ${getColor('neutralMid')};
   }
 
   :focus {
     outline: none;
-    color: ${({ theme }) => theme.colors.neutralMid};
+    color: ${getColor('neutralMid')};
   }
 `;
 

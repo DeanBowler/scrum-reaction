@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 import { FaEyeSlash } from 'react-icons/fa';
 import { useRouter } from 'next/router';
+import { AnimatePresence, motion, Variants } from 'framer-motion';
 
 import {
   useGetPokerSessionSubscription,
@@ -14,6 +15,7 @@ import {
 
 import { useAuth } from '@contexts/authContext';
 import Card from '@components/Card';
+import { getColor } from '@styled/theme';
 import Text from '@styled/Text';
 import Box from '@styled/Box';
 import Flex from '@styled/Flex';
@@ -23,7 +25,6 @@ import PlanningPokerVoter from './PlanningPokerVoter';
 import SessionStats from './SessionStats';
 import SessionOwnerControls from './SessionOwnerControls';
 import SessionUserMenu from './SessionUserMenu';
-import { AnimatePresence, motion, Variants } from 'framer-motion';
 import PlanningPokerReactor, { ReactionIcon } from './PlanningPokerReactor';
 
 export const GET_POKER_SESSION = gql`
@@ -54,7 +55,7 @@ const StyledUserSessionContainer = styled(Flex)`
   border-radius: 5px;
 
   :hover {
-    /* background: ${p => p.theme.colors.neutralLight}; */
+    /* background: ${getColor('neutralLight')}; */
   }
 `;
 

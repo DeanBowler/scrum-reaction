@@ -7,6 +7,8 @@ import Box, { BoxProps } from '@styled/Box';
 import { FaEllipsisV } from 'react-icons/fa';
 import { AnimatePresence, motion } from 'framer-motion';
 import useDebouncedState from '@hooks/useDebouncedState';
+import { LayoutProps, layout } from 'styled-system';
+import { getColor } from '@styled/theme';
 
 const PopoutMenuMenuContainer = styled(BorderBox)`
   z-index: 1;
@@ -14,9 +16,9 @@ const PopoutMenuMenuContainer = styled(BorderBox)`
   top: 100%;
   left: auto;
   right: 0;
-  background: ${p => p.theme.colors.neutralLightest};
+  background: ${getColor('neutralLightest')};
   border-radius: 5px;
-  border: 1px solid ${p => p.theme.colors.neutralMid};
+  border: 1px solid ${getColor('neutralMid')};
   padding: 10px 0;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 0px -1px;
 `;
@@ -58,7 +60,7 @@ export default function PopoutMenu({ show, onClose, children }: PopoutMenuProps)
 
 const StyledPopoutMenuDivider = styled.hr`
   border: 0;
-  border-top: 1px solid ${p => p.theme.colors.neutralMidLight};
+  border-top: 1px solid ${getColor('neutralMidLight')};
   margin: 10px;
 `;
 
@@ -76,13 +78,13 @@ const PopoutMenuItemContainer = styled(Box)<PopoutMenuItemContainerProps>`
     css`
       cursor: pointer;
       :hover {
-        background: ${p => p.theme.colors.neutralLight};
+        background: ${getColor('neutralLight')};
       }
     `}
 
   :focus {
     outline: none;
-    background: ${p => p.theme.colors.neutralLight};
+    background: ${getColor('neutralLight')};
   }
 `;
 
@@ -111,31 +113,32 @@ PopoutMenu.Item = function PopoutMenuItem({
   );
 };
 
-const StyledMenuButton = styled.button`
+const StyledMenuButton = styled.button<LayoutProps>`
   display: flex;
+  cursor: pointer;
   align-items: center;
   justify-content: center;
   border: none;
   background: transparent;
   border-radius: 50%;
-  height: 2.618rem;
-  width: 2.618rem;
-  color: ${({ theme }) => theme.colors.neutralMidDark};
+  color: ${getColor('neutralMidDark')};
 
   border: 1px solid transparent;
 
+  ${layout};
+
   :focus {
     outline: none;
-    border-color: ${({ theme }) => theme.colors.primary};
+    border-color: ${getColor('primary')};
   }
 
   :hover {
-    color: ${({ theme }) => theme.colors.neutralDark};
-    background: ${({ theme }) => theme.colors.neutralLight};
+    color: ${getColor('neutralDark')};
+    background: ${getColor('neutralLight')};
   }
 
   :disabled {
-    color: ${({ theme }) => theme.colors.neutralMidLight};
+    color: ${getColor('neutralMidLight')};
     border-color: transparent;
     background: none;
   }
@@ -147,11 +150,11 @@ const StyledMenuButton = styled.button`
   }
 `;
 
-PopoutMenu.Button = function PopoutMenuButton(
-  p: React.ButtonHTMLAttributes<HTMLButtonElement>,
-) {
+interface PopoutMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+PopoutMenu.Button = function PopoutMenuButton({ ...p }: PopoutMenuButtonProps) {
   return (
-    <StyledMenuButton {...p}>
+    <StyledMenuButton width={[2]} height={[2]} {...p}>
       <FaEllipsisV />
     </StyledMenuButton>
   );

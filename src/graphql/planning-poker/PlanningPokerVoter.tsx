@@ -8,6 +8,7 @@ import BorderBox, { BorderBoxProps } from '@styled/BorderBox';
 import Spaced from '@styled/Spaced';
 import Flex from '@styled/Flex';
 import Text from '@styled/Text';
+import { getColor } from '@styled/theme';
 
 export const UPDATE_VOTE = gql`
   mutation updateVote($sessionId: Int!, $userId: String!, $vote: String) {
@@ -55,9 +56,7 @@ export default function PlanningPokerVoter({
 
   return (
     <Box as="section" my={[2, 4]}>
-      <Text as="h3" letterSpacing="tracked">
-        {allowVoting ? 'Vote' : 'Voting locked'}
-      </Text>
+      <Text as="h3">{allowVoting ? 'Submit your vote' : 'Voting locked'}</Text>
       <Flex flexWrap="wrap" justifyContent={['center', 'unset']}>
         <Spaced mr={[1, 3]} includeLast={false}>
           {CARD_SIZES.map(c => (
@@ -85,19 +84,24 @@ interface PlanningPokerVoteCardProps {
 
 const StyledVoteCard: React.FunctionComponent<BorderBoxProps> = styled(BorderBox)`
   cursor: pointer;
-  color: ${p => p.theme.colors.neutralDark};
-  background: ${p => p.theme.colors.neutralLightest};
-  border: 1px solid ${p => p.theme.colors.neutralMid};
+  color: ${getColor('neutralDark')};
+  background: ${getColor('neutralLightest')};
+  border: 1px solid ${getColor('neutralMid')};
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 0px -1px;
 
   :disabled {
     cursor: not-allowed;
-    background: ${p => p.theme.colors.neutralLight};
+    background: ${getColor('neutralLight')};
+  }
+
+  :focus {
+    outline: none;
+    border-color: ${getColor('primary')};
   }
 
   :hover:not(:disabled) {
-    background: ${p => p.theme.colors.neutralLight};
+    background: ${getColor('neutralLight')};
   }
 `;
 

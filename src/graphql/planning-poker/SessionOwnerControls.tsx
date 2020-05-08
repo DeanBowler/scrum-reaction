@@ -46,9 +46,7 @@ export default function SessionOwnerControls({ sessionId }: SessionOwnerControls
 
   return (
     <Box as="section" my={[2, 4]}>
-      <Text as="h3" letterSpacing="tracked">
-        Control
-      </Text>
+      <Text as="h3">Session Controls</Text>
       <Flex flexWrap="wrap" justifyContent={['center', 'unset']}>
         <Spaced mr={[1, 2, 3]} includeLast={false}>
           <Button onClick={() => clearVotes()}>Clear Votes</Button>
