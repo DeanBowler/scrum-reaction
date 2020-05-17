@@ -3,9 +3,13 @@ import Box from '@styled/Box';
 import PopoutMenu from '@components/PopoutMenu';
 import Button from '@styled/Button';
 import gql from 'graphql-tag';
-import { useRemoveUserFromSessionMutation } from '@generated/graphql';
+import {
+  useRemoveUserFromSessionMutation,
+  useChangeOwnershipMutation,
+} from '@generated/graphql';
 import { useAuth } from '@contexts/authContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toPairs } from 'ramda';
 
 export const DELETE_USER_SESSION = gql`
   mutation removeUserFromSession($sessionId: Int!, $userId: String!) {
@@ -17,12 +21,51 @@ export const DELETE_USER_SESSION = gql`
   }
 `;
 
+export const CHANGE_SESSION_OWNER = gql`
+  mutation changeOwnership($sessionId: Int!, $userId: String!) {
+    update_poker_session(
+      where: { id: { _eq: $sessionId } }
+      _set: { owner_id: $userId }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
 export interface SessionUserMenuProps {
   sessionId: number;
   userId: string;
 }
 
-type SessionUserAction = 'KICK';
+type SessionUserActionType = 'KICK' | 'MAKE_OWNER';
+
+type SessionUserActionDefinition = {
+  actionText: string;
+  confirmationText?: string;
+  confirmButtonText: string;
+  action(): void;
+  isInProgress?: boolean;
+};
+
+type SessionUserActionMap = {
+  [key in SessionUserActionType]: SessionUserActionDefinition;
+};
+
+const SessionUserMenuAction = ({
+  confirmationText,
+  confirmButtonText,
+  action,
+  isInProgress,
+}: SessionUserActionDefinition) => (
+  <>
+    <PopoutMenu.Item as="div">{confirmationText || 'Are you sure?'}</PopoutMenu.Item>
+    <PopoutMenu.Item>
+      <Button fullWidth={true} onClick={action} isLoading={isInProgress}>
+        {confirmButtonText}
+      </Button>
+    </PopoutMenu.Item>
+  </>
+);
 
 export default function SessionUserMenu({ userId, sessionId }: SessionUserMenuProps) {
   const { userId: currentUserId } = useAuth();
@@ -31,9 +74,13 @@ export default function SessionUserMenu({ userId, sessionId }: SessionUserMenuPr
 
   const [showMenu, setShowMenu] = useState(false);
 
-  const [clickedAction, setClickedAction] = useState<SessionUserAction>();
+  const [clickedAction, setClickedAction] = useState<SessionUserActionType>();
 
-  const [removeUser, { loading }] = useRemoveUserFromSessionMutation({
+  const [removeUser, { loading: removingUser }] = useRemoveUserFromSessionMutation({
+    variables: { userId, sessionId },
+  });
+
+  const [giveOwnership, { loading: givingOwnership }] = useChangeOwnershipMutation({
     variables: { userId, sessionId },
   });
 
@@ -47,6 +94,26 @@ export default function SessionUserMenu({ userId, sessionId }: SessionUserMenuPr
   const handleRemoveConfirm = () => {
     removeUser();
     setShowMenu(false);
+  };
+
+  const handleChangeOwnershipConfirm = () => {
+    giveOwnership();
+    setShowMenu(false);
+  };
+
+  const actions: SessionUserActionMap = {
+    KICK: {
+      actionText: 'Kick from session',
+      confirmButtonText: 'Kick',
+      action: handleRemoveConfirm,
+      isInProgress: removingUser,
+    },
+    MAKE_OWNER: {
+      actionText: 'Make session owner',
+      confirmButtonText: 'Give control',
+      action: handleChangeOwnershipConfirm,
+      isInProgress: givingOwnership,
+    },
   };
 
   return (
@@ -67,25 +134,21 @@ export default function SessionUserMenu({ userId, sessionId }: SessionUserMenuPr
               exit={{ opacity: 0, x: 20, position: 'absolute' }}
             >
               {!clickedAction && (
-                <PopoutMenu.Item key="kick" onClick={() => setClickedAction('KICK')}>
-                  Kick from session
-                </PopoutMenu.Item>
-              )}
-
-              {clickedAction === 'KICK' && (
                 <>
-                  <PopoutMenu.Item as="div">Are you sure?</PopoutMenu.Item>
-                  <PopoutMenu.Item>
-                    <Button
-                      fullWidth={true}
-                      onClick={handleRemoveConfirm}
-                      isLoading={loading}
-                    >
-                      Kick
-                    </Button>
-                  </PopoutMenu.Item>
+                  {toPairs(actions).map(
+                    ([type, def]: [
+                      SessionUserActionType,
+                      SessionUserActionDefinition,
+                    ]) => (
+                      <PopoutMenu.Item key={type} onClick={() => setClickedAction(type)}>
+                        {def.actionText}
+                      </PopoutMenu.Item>
+                    ),
+                  )}
                 </>
               )}
+
+              {clickedAction && <SessionUserMenuAction {...actions[clickedAction]} />}
             </motion.div>
           </AnimatePresence>
         </Box>

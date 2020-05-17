@@ -1501,6 +1501,20 @@ export type RemoveUserFromSessionMutation = (
   )> }
 );
 
+export type ChangeOwnershipMutationVariables = {
+  sessionId: Scalars['Int'];
+  userId: Scalars['String'];
+};
+
+
+export type ChangeOwnershipMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_poker_session?: Maybe<(
+    { __typename?: 'poker_session_mutation_response' }
+    & Pick<Poker_Session_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
 export type UpdateLastSeenMutationVariables = {
   userId: Scalars['String'];
   lastSeen: Scalars['timestamptz'];
@@ -1848,6 +1862,39 @@ export function useRemoveUserFromSessionMutation(baseOptions?: ApolloReactHooks.
 export type RemoveUserFromSessionMutationHookResult = ReturnType<typeof useRemoveUserFromSessionMutation>;
 export type RemoveUserFromSessionMutationResult = ApolloReactCommon.MutationResult<RemoveUserFromSessionMutation>;
 export type RemoveUserFromSessionMutationOptions = ApolloReactCommon.BaseMutationOptions<RemoveUserFromSessionMutation, RemoveUserFromSessionMutationVariables>;
+export const ChangeOwnershipDocument = gql`
+    mutation changeOwnership($sessionId: Int!, $userId: String!) {
+  update_poker_session(where: {id: {_eq: $sessionId}}, _set: {owner_id: $userId}) {
+    affected_rows
+  }
+}
+    `;
+export type ChangeOwnershipMutationFn = ApolloReactCommon.MutationFunction<ChangeOwnershipMutation, ChangeOwnershipMutationVariables>;
+
+/**
+ * __useChangeOwnershipMutation__
+ *
+ * To run a mutation, you first call `useChangeOwnershipMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useChangeOwnershipMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [changeOwnershipMutation, { data, loading, error }] = useChangeOwnershipMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *      userId: // value for 'userId'
+ *   },
+ * });
+ */
+export function useChangeOwnershipMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ChangeOwnershipMutation, ChangeOwnershipMutationVariables>) {
+        return ApolloReactHooks.useMutation<ChangeOwnershipMutation, ChangeOwnershipMutationVariables>(ChangeOwnershipDocument, baseOptions);
+      }
+export type ChangeOwnershipMutationHookResult = ReturnType<typeof useChangeOwnershipMutation>;
+export type ChangeOwnershipMutationResult = ApolloReactCommon.MutationResult<ChangeOwnershipMutation>;
+export type ChangeOwnershipMutationOptions = ApolloReactCommon.BaseMutationOptions<ChangeOwnershipMutation, ChangeOwnershipMutationVariables>;
 export const UpdateLastSeenDocument = gql`
     mutation updateLastSeen($userId: String!, $lastSeen: timestamptz!) {
   update_users(where: {id: {_eq: $userId}}, _set: {last_seen: $lastSeen}) {

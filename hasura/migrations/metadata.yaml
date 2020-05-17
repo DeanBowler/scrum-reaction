@@ -60,6 +60,7 @@ tables:
     permission:
       columns:
       - name
+      - owner_id
       - votes_visible
       filter:
         owner_id:
