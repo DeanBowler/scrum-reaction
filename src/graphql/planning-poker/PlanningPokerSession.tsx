@@ -107,6 +107,7 @@ const UserSession = React.forwardRef(
         <Box flex="0 0" minWidth={[1, 2]} mr={[1, , 2]} position="relative">
           <AnimatePresence initial={false} exitBeforeEnter>
             <motion.div
+              positionTransition={true}
               key={current_reaction}
               initial="hidden"
               animate="visible"
@@ -187,7 +188,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
         <title>{session.name}</title>
       </Head>
       <Text as="h2" fontWeight="400" fontSize={[3, 4, 5]}>
-        Planning Poker > {session.name}
+        Planning Poker &gt; {session.name}
       </Text>
       {isSessionOwner && <SessionOwnerControls sessionId={session.id} />}
 
