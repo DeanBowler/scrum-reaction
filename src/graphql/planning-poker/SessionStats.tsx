@@ -50,15 +50,21 @@ export default function SessionStats(session: Poker_Session) {
         if (!consensusTextRef.current) return;
 
         const consensusTextEl = consensusTextRef.current;
-        const textCenterX = consensusTextEl.offsetLeft + consensusTextEl.offsetWidth / 2;
+
+        var viewportOffset = consensusTextEl.getBoundingClientRect();
+
+        const textCenterX = viewportOffset.left + consensusTextEl.offsetWidth / 2;
+
+        const yOffset = viewportOffset.top / window.innerHeight;
+        const xOffset = textCenterX / window.innerWidth;
 
         CanvasConfetti({
           particleCount: 100,
-          startVelocity: 45,
-          spread: 70,
+          startVelocity: 30,
+          spread: 80,
           origin: {
-            y: consensusTextEl.offsetTop / window.innerHeight,
-            x: textCenterX / window.innerWidth,
+            y: yOffset,
+            x: xOffset,
           },
         });
       }, 1000);
