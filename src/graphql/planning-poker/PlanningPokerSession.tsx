@@ -21,11 +21,11 @@ import Box from '@styled/Box';
 import Flex from '@styled/Flex';
 import Button from '@styled/Button';
 
-import PlanningPokerVoter from './PlanningPokerVoter';
 import SessionStats from './SessionStats';
 import SessionOwnerControls from './SessionOwnerControls';
 import SessionUserMenu from './SessionUserMenu';
-import PlanningPokerReactor, { ReactionIcon } from './PlanningPokerReactor';
+import { ReactionIcon } from './PlanningPokerReactor';
+import VoterControls from './VoterControls';
 
 export const GET_POKER_SESSION = gql`
   subscription getPokerSession($id: Int!) {
@@ -180,8 +180,6 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
     exit: { opacity: 0, x: 70, transition: { ease: 'easeInOut' } },
   };
 
-  const voterDisplay = session.votes_visible ? 'react' : 'vote';
-
   return (
     <Box maxWidth={[9]} margin="0 auto">
       <Head>
@@ -192,10 +190,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
       </Text>
       {isSessionOwner && <SessionOwnerControls sessionId={session.id} />}
 
-      {voterDisplay === 'vote' && (
-        <PlanningPokerVoter sessionId={sessionId} allowVoting={!session.votes_visible} />
-      )}
-      {voterDisplay === 'react' && <PlanningPokerReactor sessionId={sessionId} />}
+      <VoterControls sessionId={sessionId} votesVisible={session.votes_visible} />
 
       <Flex justifyContent="space-between" flexDirection={['column', , 'row']}>
         <Card title="Votes" spacingVariant="cosy">

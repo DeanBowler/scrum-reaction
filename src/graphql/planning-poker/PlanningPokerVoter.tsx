@@ -7,7 +7,6 @@ import Box from '@styled/Box';
 import BorderBox, { BorderBoxProps } from '@styled/BorderBox';
 import Spaced from '@styled/Spaced';
 import Flex from '@styled/Flex';
-import Text from '@styled/Text';
 import { getColor } from '@styled/theme';
 
 export const UPDATE_VOTE = gql`
@@ -55,8 +54,7 @@ export default function PlanningPokerVoter({
     allowVoting && update({ variables: { sessionId, userId, vote } });
 
   return (
-    <Box as="section" my={[2, 4]}>
-      <Text as="h3">{allowVoting ? 'Submit your vote' : 'Voting locked'}</Text>
+    <Box as="section">
       <Flex flexWrap="wrap" justifyContent={['center', 'unset']}>
         <Spaced mr={[1, 3]} includeLast={false}>
           {CARD_SIZES.map(c => (
@@ -121,7 +119,7 @@ const PlanningPokerVoteCard = ({
     fontSize={[4, 5]}
     my={[1, 2]}
     minWidth={[3, 4]}
-    minHeight={[3, 4]}
+    height={[3, 4]}
     fontFamily="Pacifico"
     flex="0 0"
     disabled={disabled}

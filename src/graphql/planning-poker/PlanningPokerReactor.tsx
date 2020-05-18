@@ -43,9 +43,10 @@ const reactionKeys = keys(REACTIONS);
 interface ReactionCardProps {
   reaction: Reaction;
   onClick(reaction: Reaction): void;
+  className?: string;
 }
 
-function ReactionCard({ reaction, onClick }: ReactionCardProps) {
+function ReactionCard({ reaction, onClick, className }: ReactionCardProps) {
   return (
     <Card
       as="button"
@@ -53,9 +54,12 @@ function ReactionCard({ reaction, onClick }: ReactionCardProps) {
       spacingVariant="narrow"
       flex="0 0"
       my={[1, 2]}
+      height={[3, 4]}
+      p={0}
       onClick={() => onClick(reaction)}
+      className={className}
     >
-      <Text fontSize={[5, 6]}>{REACTIONS[reaction]}</Text>
+      <Text fontSize={[4, 5]}>{REACTIONS[reaction]}</Text>
     </Card>
   );
 }
@@ -79,8 +83,7 @@ export default function PlanningPokerReactor({ sessionId }: PlanningPokerReactor
     });
 
   return (
-    <Box as="section" my={[2, 4]}>
-      <Text as="h3">Give a reaction</Text>
+    <Box as="section">
       <Flex flexWrap="wrap" alignItems="flex-end" justifyContent={['center', 'unset']}>
         <Spaced mr={[1, 3]} includeLast={false}>
           {reactionKeys.map(r => (
