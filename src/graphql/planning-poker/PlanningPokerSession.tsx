@@ -180,6 +180,11 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
     exit: { opacity: 0, x: 70, transition: { ease: 'easeInOut' } },
   };
 
+  const currentVoteCount = session.user_sessions.filter(us => us.current_vote !== null)
+    .length;
+
+  const userCount = session.user_sessions.length;
+
   return (
     <Box maxWidth={[9]} margin="0 auto">
       <Head>
@@ -188,7 +193,14 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
       <Text as="h2" fontWeight="400" fontSize={[3, 4, 5]}>
         Planning Poker &gt; {session.name}
       </Text>
-      {isSessionOwner && <SessionOwnerControls sessionId={session.id} />}
+      {isSessionOwner && (
+        <SessionOwnerControls
+          sessionId={session.id}
+          userCount={userCount}
+          currentVoteCount={currentVoteCount}
+          votesVisible={session.votes_visible}
+        />
+      )}
 
       <VoterControls sessionId={sessionId} votesVisible={session.votes_visible} />
 

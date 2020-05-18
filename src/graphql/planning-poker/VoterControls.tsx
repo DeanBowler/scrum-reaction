@@ -9,25 +9,28 @@ import Spaced from '@styled/Spaced';
 import PlanningPokerVoter from './PlanningPokerVoter';
 import PlanningPokerReactor from './PlanningPokerReactor';
 import { AnimatePresence, motion } from 'framer-motion';
+import { toPairs, keysIn } from 'ramda';
 
-type VoterDisplay = 'react' | 'vote';
+type ControlType = 'react' | 'vote';
 
-interface VoterControlsProps {
-  sessionId: number;
-  votesVisible: boolean;
+interface ControlTabDefinition {
+  text: string;
+  content: React.ReactNode;
 }
 
-interface DisplayTabButtonProps {
+interface ControlTabButtonProps {
   isActive?: boolean;
 }
 
-const DisplayTabButton = styled.button<DisplayTabButtonProps & FontSizeProps>`
+const ControlTabButton = styled.button<ControlTabButtonProps & FontSizeProps>`
   cursor: pointer;
   border: none;
   background: transparent;
   font-family: 'Raleway';
 
   border-bottom: 5px solid transparent;
+
+  color: ${getColor('neutralDark')};
 
   border-color: ${p => (p.isActive ? getColor('primary') : 'transparent')};
 
@@ -42,32 +45,60 @@ const DisplayTabButton = styled.button<DisplayTabButtonProps & FontSizeProps>`
   ${fontSize};
 `;
 
-DisplayTabButton.defaultProps = {
-  fontSize: [2, 3],
+ControlTabButton.defaultProps = {
+  fontSize: [3, 4],
 };
 
+interface VoterControlsProps {
+  sessionId: number;
+  votesVisible: boolean;
+}
+
 export default function VoterControls({ sessionId, votesVisible }: VoterControlsProps) {
-  const [voterDisplay, setVoterDisplay] = useState<VoterDisplay>('vote');
+  const [voterDisplay, setVoterDisplay] = useState<ControlType>(
+    votesVisible ? 'react' : 'vote',
+  );
+
   useEffect(() => setVoterDisplay(votesVisible ? 'react' : 'vote'), [votesVisible]);
+
+  const [direction, setDirection] = useState<'left' | 'right'>('right');
+
+  const tabs: { [key in ControlType]: ControlTabDefinition } = {
+    vote: {
+      text: 'Vote',
+      content: <PlanningPokerVoter sessionId={sessionId} allowVoting={!votesVisible} />,
+    },
+    react: {
+      text: 'React',
+      content: <PlanningPokerReactor sessionId={sessionId} />,
+    },
+  };
+
+  const handleTabClick = (clicked: ControlType) => {
+    const tabKeys = keysIn(tabs) as ControlType[];
+    const previousIndex = tabKeys.indexOf(voterDisplay);
+    const nextIndex = tabKeys.indexOf(clicked);
+
+    setDirection(nextIndex > previousIndex ? 'right' : 'left');
+    setVoterDisplay(clicked);
+  };
+
+  const directionMult = direction === 'right' ? -1 : 1;
 
   return (
     <Box my={[4]}>
       <Box my={[1, 2]}>
         <Spaced mr={[2, 3]}>
-          <DisplayTabButton
-            isActive={voterDisplay === 'vote'}
-            role="tab"
-            onClick={() => setVoterDisplay('vote')}
-          >
-            Vote
-          </DisplayTabButton>
-          <DisplayTabButton
-            isActive={voterDisplay === 'react'}
-            role="tab"
-            onClick={() => setVoterDisplay('react')}
-          >
-            React
-          </DisplayTabButton>
+          {toPairs(tabs).map(([type, def]: [ControlType, ControlTabDefinition]) => (
+            <ControlTabButton
+              key={type}
+              isActive={voterDisplay === type}
+              role="tab"
+              onClick={() => handleTabClick(type)}
+            >
+              {def.text}
+            </ControlTabButton>
+          ))}
         </Spaced>
       </Box>
       <Box position="relative">
@@ -77,14 +108,11 @@ export default function VoterControls({ sessionId, votesVisible }: VoterControls
             transition={{
               ease: 'easeInOut',
             }}
-            initial={{ x: -10, opacity: 0 }}
+            initial={{ x: 10 * directionMult, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            exit={{ x: 10, opacity: 0 }}
+            exit={{ x: 10 * directionMult, opacity: 0 }}
           >
-            {voterDisplay === 'vote' && (
-              <PlanningPokerVoter sessionId={sessionId} allowVoting={!votesVisible} />
-            )}
-            {voterDisplay === 'react' && <PlanningPokerReactor sessionId={sessionId} />}
+            {tabs[voterDisplay].content}
           </motion.div>
         </AnimatePresence>
       </Box>

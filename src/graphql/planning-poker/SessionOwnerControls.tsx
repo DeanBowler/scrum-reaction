@@ -38,19 +38,39 @@ export const SHOW_VOTES = gql`
 
 export interface SessionOwnerControlsProps {
   sessionId: number;
+  votesVisible: boolean;
+  userCount: number;
+  currentVoteCount: number;
 }
 
-export default function SessionOwnerControls({ sessionId }: SessionOwnerControlsProps) {
+export default function SessionOwnerControls({
+  sessionId,
+  votesVisible,
+  userCount,
+  currentVoteCount,
+}: SessionOwnerControlsProps) {
   const [clearVotes] = useClearVotesMutation({ variables: { sessionId } });
   const [showVotes] = useShowVotesMutation({ variables: { sessionId } });
 
+  const allUsersVoted = userCount === currentVoteCount;
+
   return (
     <Box as="section" my={[2, 4]}>
-      <Text as="h3">Session Controls</Text>
       <Flex flexWrap="wrap" justifyContent={['center', 'unset']}>
         <Spaced mr={[1, 2, 3]} includeLast={false}>
-          <Button onClick={() => clearVotes()}>Clear Votes</Button>
-          <Button onClick={() => showVotes()}>Show Votes</Button>
+          <Button
+            disabled={votesVisible || !currentVoteCount}
+            onClick={() => showVotes()}
+            variant={!votesVisible && allUsersVoted ? 'primary' : 'neutral'}
+          >
+            Show Votes
+          </Button>
+          <Button
+            disabled={!votesVisible || !currentVoteCount}
+            onClick={() => clearVotes()}
+          >
+            Clear Votes
+          </Button>
         </Spaced>
       </Flex>
     </Box>

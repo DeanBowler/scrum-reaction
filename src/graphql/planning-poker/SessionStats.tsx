@@ -9,6 +9,12 @@ import Text from '@styled/Text';
 import Card from '@components/Card';
 import mode from '@utils/mode';
 
+const formatStat = (value: number | undefined) =>
+  value &&
+  value.toLocaleString(undefined, {
+    maximumFractionDigits: 2,
+  });
+
 export default function SessionStats(session: Poker_Session) {
   const votes = !session.votes_visible
     ? []
@@ -85,12 +91,26 @@ export default function SessionStats(session: Poker_Session) {
           CONSENSUS
         </Text>
       )}
-      <Box>Highest: {highestVote}</Box>
-      <Box>Lowest: {lowestVote}</Box>
-      <Box>Mean: {meanVote}</Box>
-      <Box>Mode: {modeVote}</Box>
-      <Box>Median: {medianVote}</Box>
-      <Box>No idea: {unknownVotes}</Box>
+      <Box>
+        Highest: <Text fontSize={3}>{highestVote}</Text>
+      </Box>
+      <Box>
+        Lowest: <Text fontSize={3}>{lowestVote}</Text>
+      </Box>
+      <br />
+      <Box>
+        Mean: <Text fontSize={3}>{formatStat(meanVote)}</Text>
+      </Box>
+      <Box>
+        Mode: <Text fontSize={3}>{formatStat(modeVote)}</Text>
+      </Box>
+      <Box>
+        Median: <Text fontSize={3}>{formatStat(medianVote)}</Text>
+      </Box>
+      <br />
+      <Box>
+        No idea: <Text fontSize={3}>{unknownVotes}</Text>
+      </Box>
     </Card>
   );
 }

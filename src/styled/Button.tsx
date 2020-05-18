@@ -20,11 +20,12 @@ const Button = styled.button<ButtonProps>`
   position: relative;
   font-family: 'Raleway';
   background: ${getColor('neutralDark')};
-  color: ${getColor('neutralLight')};
+  color: ${getColor('neutralLightest')};
   border-radius: ${p => p.theme.buttonRadius};
   border: 1px solid transparent;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 0px -1px;
-  transition: box-shadow 200ms ease-in-out;
+  transition: box-shadow 200ms ease-in-out, background 300ms ease-in-out,
+    opacity 300ms ease-in-out;
   overflow: hidden;
 
   width: ${p => (p.fullWidth ? '100%' : '')};
