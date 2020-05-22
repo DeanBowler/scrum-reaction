@@ -42,23 +42,26 @@ tables:
         owner_id:
           _eq: X-Hasura-User-Id
       columns:
+      - allow_revotes
       - name
       - owner_id
   select_permissions:
   - role: user
     permission:
       columns:
-      - created_at
       - id
       - name
       - owner_id
       - votes_visible
+      - created_at
+      - allow_revotes
       filter: {}
       allow_aggregations: true
   update_permissions:
   - role: user
     permission:
       columns:
+      - allow_revotes
       - name
       - owner_id
       - votes_visible
@@ -89,10 +92,11 @@ tables:
   - role: user
     permission:
       columns:
-      - current_reaction
-      - current_vote
-      - session_id
       - user_id
+      - session_id
+      - current_vote
+      - current_reaction
+      - current_revote
       filter: {}
       allow_aggregations: true
   update_permissions:
@@ -100,6 +104,7 @@ tables:
     permission:
       columns:
       - current_reaction
+      - current_revote
       - current_vote
       filter:
         _or:

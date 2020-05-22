@@ -1791,6 +1791,22 @@
         "description": "columns and relationships of \"poker_session\"",
         "fields": [
           {
+            "name": "allow_revotes",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "created_at",
             "description": null,
             "args": [],
@@ -2548,6 +2564,16 @@
             "defaultValue": null
           },
           {
+            "name": "allow_revotes",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "Boolean_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "created_at",
             "description": null,
             "type": {
@@ -2666,6 +2692,16 @@
         "description": "input type for inserting data into table \"poker_session\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "allow_revotes",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
           {
             "name": "created_at",
             "description": null,
@@ -3111,6 +3147,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "allow_revotes",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "created_at",
             "description": null,
             "type": {
@@ -3194,6 +3240,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "allow_revotes",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "created_at",
             "description": "column name",
             "isDeprecated": false,
@@ -3232,6 +3284,16 @@
         "description": "input type for updating data in table \"poker_session\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "allow_revotes",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
           {
             "name": "created_at",
             "description": null,
@@ -3472,6 +3534,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "allow_revotes",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "created_at",
             "description": "column name",
             "isDeprecated": false,
@@ -3643,6 +3711,18 @@
         "fields": [
           {
             "name": "current_reaction",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "current_revote",
             "description": null,
             "args": [],
             "type": {
@@ -4217,6 +4297,16 @@
             "defaultValue": null
           },
           {
+            "name": "current_revote",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "current_vote",
             "description": null,
             "type": {
@@ -4326,6 +4416,16 @@
             "defaultValue": null
           },
           {
+            "name": "current_revote",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "current_vote",
             "description": null,
             "type": {
@@ -4398,6 +4498,18 @@
             "deprecationReason": null
           },
           {
+            "name": "current_revote",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "current_vote",
             "description": null,
             "args": [],
@@ -4447,6 +4559,16 @@
         "inputFields": [
           {
             "name": "current_reaction",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "current_revote",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4508,6 +4630,18 @@
             "deprecationReason": null
           },
           {
+            "name": "current_revote",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "current_vote",
             "description": null,
             "args": [],
@@ -4557,6 +4691,16 @@
         "inputFields": [
           {
             "name": "current_reaction",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "current_revote",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4760,6 +4904,16 @@
             "defaultValue": null
           },
           {
+            "name": "current_revote",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "current_vote",
             "description": null,
             "type": {
@@ -4829,6 +4983,12 @@
             "deprecationReason": null
           },
           {
+            "name": "current_revote",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "current_vote",
             "description": "column name",
             "isDeprecated": false,
@@ -4857,6 +5017,16 @@
         "inputFields": [
           {
             "name": "current_reaction",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "current_revote",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -5086,6 +5256,12 @@
         "enumValues": [
           {
             "name": "current_reaction",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "current_revote",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
