@@ -1,12 +1,17 @@
 import React from 'react';
 import gql from 'graphql-tag';
 
-import { useClearVotesMutation, useShowVotesMutation } from '@generated/graphql';
+import {
+  useClearVotesMutation,
+  useShowVotesMutation,
+  useSetAllowRevotesMutation,
+} from '@generated/graphql';
 import Box from '@styled/Box';
 import Flex from '@styled/Flex';
-import Text from '@styled/Text';
 import Button from '@styled/Button';
 import Spaced from '@styled/Spaced';
+import Toggle from '@components/Toggle';
+import useControlledState from '@hooks/useControlledState';
 
 export const CLEAR_VOTES = gql`
   mutation clearVotes($sessionId: Int!) {
@@ -36,9 +41,21 @@ export const SHOW_VOTES = gql`
   }
 `;
 
+export const SET_ALLOW_REVOTES = gql`
+  mutation setAllowRevotes($sessionId: Int!, $allowRevotes: Boolean!) {
+    update_poker_session(
+      where: { id: { _eq: $sessionId } }
+      _set: { allow_revotes: $allowRevotes }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
 export interface SessionOwnerControlsProps {
   sessionId: number;
   votesVisible: boolean;
+  allowRevotes: boolean;
   userCount: number;
   currentVoteCount: number;
 }
@@ -48,9 +65,22 @@ export default function SessionOwnerControls({
   votesVisible,
   userCount,
   currentVoteCount,
+  allowRevotes,
 }: SessionOwnerControlsProps) {
   const [clearVotes] = useClearVotesMutation({ variables: { sessionId } });
   const [showVotes] = useShowVotesMutation({ variables: { sessionId } });
+
+  const [setAllowRevotes] = useSetAllowRevotesMutation();
+
+  const [allowRevotesSetting, setAllowRevotesSetting] = useControlledState(allowRevotes);
+
+  const handleRevoteToggle = () => {
+    setAllowRevotesSetting(ar => {
+      const toggled = !ar;
+      setAllowRevotes({ variables: { sessionId, allowRevotes: toggled } });
+      return toggled;
+    });
+  };
 
   const allUsersVoted = userCount === currentVoteCount;
 
@@ -71,6 +101,11 @@ export default function SessionOwnerControls({
           >
             Clear Votes
           </Button>
+          <Toggle
+            label="Allow Revotes"
+            currentValue={allowRevotesSetting}
+            onClick={handleRevoteToggle}
+          />
         </Spaced>
       </Flex>
     </Box>

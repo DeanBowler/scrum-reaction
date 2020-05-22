@@ -34,6 +34,7 @@ export const GET_POKER_SESSION = gql`
       name
       owner_id
       votes_visible
+      allow_revotes
       user_sessions_aggregate {
         aggregate {
           count
@@ -41,6 +42,7 @@ export const GET_POKER_SESSION = gql`
       }
       user_sessions(order_by: { user_id: asc }) {
         current_vote
+        current_revote
         current_reaction
         user {
           name
@@ -199,6 +201,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
           userCount={userCount}
           currentVoteCount={currentVoteCount}
           votesVisible={session.votes_visible}
+          allowRevotes={session.allow_revotes}
         />
       )}
 

@@ -329,6 +329,7 @@ export enum Order_By {
 /** columns and relationships of "poker_session" */
 export type Poker_Session = {
    __typename?: 'poker_session';
+  allow_revotes: Scalars['Boolean'];
   created_at: Scalars['timestamptz'];
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -429,6 +430,7 @@ export type Poker_Session_Bool_Exp = {
   _and?: Maybe<Array<Maybe<Poker_Session_Bool_Exp>>>;
   _not?: Maybe<Poker_Session_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Poker_Session_Bool_Exp>>>;
+  allow_revotes?: Maybe<Boolean_Comparison_Exp>;
   created_at?: Maybe<Timestamptz_Comparison_Exp>;
   id?: Maybe<Int_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
@@ -451,6 +453,7 @@ export type Poker_Session_Inc_Input = {
 
 /** input type for inserting data into table "poker_session" */
 export type Poker_Session_Insert_Input = {
+  allow_revotes?: Maybe<Scalars['Boolean']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -518,6 +521,7 @@ export type Poker_Session_On_Conflict = {
 
 /** ordering options when selecting data from "poker_session" */
 export type Poker_Session_Order_By = {
+  allow_revotes?: Maybe<Order_By>;
   created_at?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
@@ -529,6 +533,8 @@ export type Poker_Session_Order_By = {
 
 /** select columns of table "poker_session" */
 export enum Poker_Session_Select_Column {
+  /** column name */
+  AllowRevotes = 'allow_revotes',
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
@@ -543,6 +549,7 @@ export enum Poker_Session_Select_Column {
 
 /** input type for updating data in table "poker_session" */
 export type Poker_Session_Set_Input = {
+  allow_revotes?: Maybe<Scalars['Boolean']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -597,6 +604,8 @@ export type Poker_Session_Sum_Order_By = {
 /** update columns of table "poker_session" */
 export enum Poker_Session_Update_Column {
   /** column name */
+  AllowRevotes = 'allow_revotes',
+  /** column name */
   CreatedAt = 'created_at',
   /** column name */
   Id = 'id',
@@ -645,6 +654,7 @@ export type Poker_Session_Variance_Order_By = {
 export type Poker_User_Session = {
    __typename?: 'poker_user_session';
   current_reaction?: Maybe<Scalars['String']>;
+  current_revote?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
   /** An object relationship */
   poker_session: Poker_Session;
@@ -722,6 +732,7 @@ export type Poker_User_Session_Bool_Exp = {
   _not?: Maybe<Poker_User_Session_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Poker_User_Session_Bool_Exp>>>;
   current_reaction?: Maybe<String_Comparison_Exp>;
+  current_revote?: Maybe<String_Comparison_Exp>;
   current_vote?: Maybe<String_Comparison_Exp>;
   poker_session?: Maybe<Poker_Session_Bool_Exp>;
   session_id?: Maybe<Int_Comparison_Exp>;
@@ -743,6 +754,7 @@ export type Poker_User_Session_Inc_Input = {
 /** input type for inserting data into table "poker_user_session" */
 export type Poker_User_Session_Insert_Input = {
   current_reaction?: Maybe<Scalars['String']>;
+  current_revote?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
   poker_session?: Maybe<Poker_Session_Obj_Rel_Insert_Input>;
   session_id?: Maybe<Scalars['Int']>;
@@ -754,6 +766,7 @@ export type Poker_User_Session_Insert_Input = {
 export type Poker_User_Session_Max_Fields = {
    __typename?: 'poker_user_session_max_fields';
   current_reaction?: Maybe<Scalars['String']>;
+  current_revote?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
   session_id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['String']>;
@@ -762,6 +775,7 @@ export type Poker_User_Session_Max_Fields = {
 /** order by max() on columns of table "poker_user_session" */
 export type Poker_User_Session_Max_Order_By = {
   current_reaction?: Maybe<Order_By>;
+  current_revote?: Maybe<Order_By>;
   current_vote?: Maybe<Order_By>;
   session_id?: Maybe<Order_By>;
   user_id?: Maybe<Order_By>;
@@ -771,6 +785,7 @@ export type Poker_User_Session_Max_Order_By = {
 export type Poker_User_Session_Min_Fields = {
    __typename?: 'poker_user_session_min_fields';
   current_reaction?: Maybe<Scalars['String']>;
+  current_revote?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
   session_id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['String']>;
@@ -779,6 +794,7 @@ export type Poker_User_Session_Min_Fields = {
 /** order by min() on columns of table "poker_user_session" */
 export type Poker_User_Session_Min_Order_By = {
   current_reaction?: Maybe<Order_By>;
+  current_revote?: Maybe<Order_By>;
   current_vote?: Maybe<Order_By>;
   session_id?: Maybe<Order_By>;
   user_id?: Maybe<Order_By>;
@@ -809,6 +825,7 @@ export type Poker_User_Session_On_Conflict = {
 /** ordering options when selecting data from "poker_user_session" */
 export type Poker_User_Session_Order_By = {
   current_reaction?: Maybe<Order_By>;
+  current_revote?: Maybe<Order_By>;
   current_vote?: Maybe<Order_By>;
   poker_session?: Maybe<Poker_Session_Order_By>;
   session_id?: Maybe<Order_By>;
@@ -821,6 +838,8 @@ export enum Poker_User_Session_Select_Column {
   /** column name */
   CurrentReaction = 'current_reaction',
   /** column name */
+  CurrentRevote = 'current_revote',
+  /** column name */
   CurrentVote = 'current_vote',
   /** column name */
   SessionId = 'session_id',
@@ -831,6 +850,7 @@ export enum Poker_User_Session_Select_Column {
 /** input type for updating data in table "poker_user_session" */
 export type Poker_User_Session_Set_Input = {
   current_reaction?: Maybe<Scalars['String']>;
+  current_revote?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
   session_id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['String']>;
@@ -884,6 +904,8 @@ export type Poker_User_Session_Sum_Order_By = {
 export enum Poker_User_Session_Update_Column {
   /** column name */
   CurrentReaction = 'current_reaction',
+  /** column name */
+  CurrentRevote = 'current_revote',
   /** column name */
   CurrentVote = 'current_vote',
   /** column name */
@@ -1412,7 +1434,7 @@ export type GetPokerSessionSubscription = (
   { __typename?: 'subscription_root' }
   & { poker_session_by_pk?: Maybe<(
     { __typename?: 'poker_session' }
-    & Pick<Poker_Session, 'id' | 'name' | 'owner_id' | 'votes_visible'>
+    & Pick<Poker_Session, 'id' | 'name' | 'owner_id' | 'votes_visible' | 'allow_revotes'>
     & { user_sessions_aggregate: (
       { __typename?: 'poker_user_session_aggregate' }
       & { aggregate?: Maybe<(
@@ -1421,7 +1443,7 @@ export type GetPokerSessionSubscription = (
       )> }
     ), user_sessions: Array<(
       { __typename?: 'poker_user_session' }
-      & Pick<Poker_User_Session, 'current_vote' | 'current_reaction'>
+      & Pick<Poker_User_Session, 'current_vote' | 'current_revote' | 'current_reaction'>
       & { user: (
         { __typename?: 'users' }
         & Pick<Users, 'name' | 'id'>
@@ -1480,6 +1502,20 @@ export type ShowVotesMutationVariables = {
 
 
 export type ShowVotesMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_poker_session?: Maybe<(
+    { __typename?: 'poker_session_mutation_response' }
+    & Pick<Poker_Session_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
+export type SetAllowRevotesMutationVariables = {
+  sessionId: Scalars['Int'];
+  allowRevotes: Scalars['Boolean'];
+};
+
+
+export type SetAllowRevotesMutation = (
   { __typename?: 'mutation_root' }
   & { update_poker_session?: Maybe<(
     { __typename?: 'poker_session_mutation_response' }
@@ -1654,6 +1690,7 @@ export const GetPokerSessionDocument = gql`
     name
     owner_id
     votes_visible
+    allow_revotes
     user_sessions_aggregate {
       aggregate {
         count
@@ -1661,6 +1698,7 @@ export const GetPokerSessionDocument = gql`
     }
     user_sessions(order_by: {user_id: asc}) {
       current_vote
+      current_revote
       current_reaction
       user {
         name
@@ -1829,6 +1867,39 @@ export function useShowVotesMutation(baseOptions?: ApolloReactHooks.MutationHook
 export type ShowVotesMutationHookResult = ReturnType<typeof useShowVotesMutation>;
 export type ShowVotesMutationResult = ApolloReactCommon.MutationResult<ShowVotesMutation>;
 export type ShowVotesMutationOptions = ApolloReactCommon.BaseMutationOptions<ShowVotesMutation, ShowVotesMutationVariables>;
+export const SetAllowRevotesDocument = gql`
+    mutation setAllowRevotes($sessionId: Int!, $allowRevotes: Boolean!) {
+  update_poker_session(where: {id: {_eq: $sessionId}}, _set: {allow_revotes: $allowRevotes}) {
+    affected_rows
+  }
+}
+    `;
+export type SetAllowRevotesMutationFn = ApolloReactCommon.MutationFunction<SetAllowRevotesMutation, SetAllowRevotesMutationVariables>;
+
+/**
+ * __useSetAllowRevotesMutation__
+ *
+ * To run a mutation, you first call `useSetAllowRevotesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetAllowRevotesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setAllowRevotesMutation, { data, loading, error }] = useSetAllowRevotesMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *      allowRevotes: // value for 'allowRevotes'
+ *   },
+ * });
+ */
+export function useSetAllowRevotesMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SetAllowRevotesMutation, SetAllowRevotesMutationVariables>) {
+        return ApolloReactHooks.useMutation<SetAllowRevotesMutation, SetAllowRevotesMutationVariables>(SetAllowRevotesDocument, baseOptions);
+      }
+export type SetAllowRevotesMutationHookResult = ReturnType<typeof useSetAllowRevotesMutation>;
+export type SetAllowRevotesMutationResult = ApolloReactCommon.MutationResult<SetAllowRevotesMutation>;
+export type SetAllowRevotesMutationOptions = ApolloReactCommon.BaseMutationOptions<SetAllowRevotesMutation, SetAllowRevotesMutationVariables>;
 export const RemoveUserFromSessionDocument = gql`
     mutation removeUserFromSession($sessionId: Int!, $userId: String!) {
   delete_poker_user_session(where: {user_id: {_eq: $userId}, session_id: {_eq: $sessionId}}) {
