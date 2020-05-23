@@ -2,7 +2,7 @@ import gql from 'graphql-tag';
 import styled from 'styled-components';
 
 import { useAuth } from '@contexts/authContext';
-import { useUpdateVoteMutation } from '@generated/graphql';
+import { useUpdateVoteMutation, useUpdateRevoteMutation } from '@generated/graphql';
 import Box from '@styled/Box';
 import BorderBox, { BorderBoxProps } from '@styled/BorderBox';
 import Spaced from '@styled/Spaced';
@@ -12,8 +12,29 @@ import { getColor } from '@styled/theme';
 export const UPDATE_VOTE = gql`
   mutation updateVote($sessionId: Int!, $userId: String!, $vote: String) {
     update_poker_user_session(
-      where: { session_id: { _eq: $sessionId }, user_id: { _eq: $userId } }
+      where: {
+        session_id: { _eq: $sessionId }
+        user_id: { _eq: $userId }
+        poker_session: { votes_visible: { _eq: false } }
+      }
       _set: { current_vote: $vote }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
+export const UPDATE_REVOTE = gql`
+  mutation updateRevote($sessionId: Int!, $userId: String!, $vote: String) {
+    update_poker_user_session(
+      where: {
+        session_id: { _eq: $sessionId }
+        user_id: { _eq: $userId }
+        poker_session: {
+          _and: { allow_revotes: { _eq: true }, votes_visible: { _eq: true } }
+        }
+      }
+      _set: { current_revote: $vote }
     ) {
       affected_rows
     }
@@ -23,6 +44,7 @@ export const UPDATE_VOTE = gql`
 interface PlanningPokerVoterProps {
   sessionId: number;
   allowVoting: boolean;
+  isRevoting: boolean;
 }
 
 export const UNKNOWN_VALUE = '?';
@@ -45,13 +67,22 @@ const CARD_SIZES: readonly CardSize[] = [
 export default function PlanningPokerVoter({
   sessionId,
   allowVoting,
+  isRevoting,
 }: PlanningPokerVoterProps) {
   const { userId } = useAuth();
 
   const [update] = useUpdateVoteMutation();
+  const [updateRevote] = useUpdateRevoteMutation();
 
-  const submitVote = (vote: string | null) =>
-    allowVoting && update({ variables: { sessionId, userId, vote } });
+  const submitVote = (vote: string | null) => {
+    if (!allowVoting) return;
+
+    if (!isRevoting) {
+      update({ variables: { sessionId, userId, vote } });
+    } else {
+      updateRevote({ variables: { sessionId, userId, vote } });
+    }
+  };
 
   return (
     <Box as="section">
@@ -87,6 +118,8 @@ const StyledVoteCard: React.FunctionComponent<BorderBoxProps> = styled(BorderBox
   border: 1px solid ${getColor('neutralMid')};
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 0px -1px;
+
+  transition: background 300ms ease-in-out;
 
   :disabled {
     cursor: not-allowed;

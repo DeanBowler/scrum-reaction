@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import gql from 'graphql-tag';
-import styled from 'styled-components';
-import { FaEyeSlash } from 'react-icons/fa';
 import { useRouter } from 'next/router';
 import { AnimatePresence, motion, Variants } from 'framer-motion';
 
@@ -15,7 +13,6 @@ import {
 
 import { useAuth } from '@contexts/authContext';
 import Card from '@components/Card';
-import { getColor } from '@styled/theme';
 import Text from '@styled/Text';
 import Box from '@styled/Box';
 import Flex from '@styled/Flex';
@@ -23,9 +20,8 @@ import Button from '@styled/Button';
 
 import SessionStats from './SessionStats';
 import SessionOwnerControls from './SessionOwnerControls';
-import SessionUserMenu from './SessionUserMenu';
-import { ReactionIcon } from './PlanningPokerReactor';
 import VoterControls from './VoterControls';
+import UserSessionRow from './UserSessionRow';
 
 export const GET_POKER_SESSION = gql`
   subscription getPokerSession($id: Int!) {
@@ -53,94 +49,11 @@ export const GET_POKER_SESSION = gql`
   }
 `;
 
-const StyledUserSessionContainer = styled(Flex)`
-  border-radius: 5px;
-
-  :hover {
-    /* background: ${getColor('neutralLight')}; */
-  }
-`;
-
-interface UserSessionProps {
-  user: Pick<Users, 'id' | 'name'>;
-  sessionId: number;
-  showUserMenu: boolean;
-  current_vote: string | number | null;
-  current_reaction: string | null;
-  votes_visible: boolean;
-}
-
-const reactionMotions: Variants = {
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      type: 'spring',
-      stiffness: 200,
-    },
-  },
-  exit: {
-    opacity: 0,
-  },
-  hidden: {
-    y: -15,
-    opacity: 0,
-  },
-};
-
-const UserSession = React.forwardRef(
-  (
-    {
-      user,
-      sessionId,
-      current_vote,
-      current_reaction,
-      showUserMenu,
-      votes_visible,
-    }: UserSessionProps,
-    ref,
-  ) => {
-    const { userId } = useAuth();
-
-    const isVoteVisible = votes_visible || user.id === userId;
-
-    return (
-      <StyledUserSessionContainer ref={ref} py={[1, 2]} alignItems="center">
-        <Box flex="0 0" minWidth={[1, 2]} mr={[1, , 2]} position="relative">
-          <AnimatePresence initial={false} exitBeforeEnter>
-            <motion.div
-              positionTransition={true}
-              key={current_reaction}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              variants={reactionMotions}
-            >
-              <ReactionIcon reaction={current_reaction} />
-            </motion.div>
-          </AnimatePresence>
-        </Box>
-        <Box pl={[1, 2]} flex="1 1">
-          <Text fontSize={[1, 2, 3]}>{user.name}</Text>
-        </Box>
-        <Box pr={[1, 2]} width={3} flex="0 0" mx={[1, 2]}>
-          <Text fontSize={[3, 4]} fontWeight="bold">
-            {' '}
-            {current_vote ? isVoteVisible ? current_vote : <FaEyeSlash /> : ' '}{' '}
-          </Text>
-        </Box>
-
-        {showUserMenu && <SessionUserMenu userId={user.id} sessionId={sessionId} />}
-      </StyledUserSessionContainer>
-    );
-  },
-);
-
 interface PlanningPokerSessionProps {
   sessionId: number;
 }
 
-const MotionSession = motion.custom(UserSession);
+const MotionSession = motion.custom(UserSessionRow);
 
 export default function PlanningPokerSession({ sessionId }: PlanningPokerSessionProps) {
   const { userId, isLoadingAuth } = useAuth();
@@ -205,7 +118,11 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
         />
       )}
 
-      <VoterControls sessionId={sessionId} votesVisible={session.votes_visible} />
+      <VoterControls
+        sessionId={sessionId}
+        votesVisible={session.votes_visible}
+        allowRevotes={session.allow_revotes}
+      />
 
       <Flex justifyContent="space-between" flexDirection={['column', , 'row']}>
         <Card title="Votes" spacingVariant="cosy">
@@ -220,9 +137,10 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
                 key={us.user.id}
                 user={us.user}
                 sessionId={session.id}
-                current_vote={us.current_vote}
-                current_reaction={us.current_reaction}
-                votes_visible={session.votes_visible}
+                currentRevote={us.current_revote}
+                currentVote={us.current_vote}
+                currentReaction={us.current_reaction}
+                votesVisible={session.votes_visible}
               />
             ))}
           </AnimatePresence>

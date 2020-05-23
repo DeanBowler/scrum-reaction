@@ -25,7 +25,7 @@ export interface AppTheme extends Theme {
 const baseTheme = {
   colors: {
     primary: '#47ae75',
-    secondary: '#ae4ab7',
+    secondary: '#FA8F4D',
     negative: '#cc3333',
     neutralDarker: '#293132',
     neutralDark: '#414549',

@@ -52,9 +52,14 @@ ControlTabButton.defaultProps = {
 interface VoterControlsProps {
   sessionId: number;
   votesVisible: boolean;
+  allowRevotes: boolean;
 }
 
-export default function VoterControls({ sessionId, votesVisible }: VoterControlsProps) {
+export default function VoterControls({
+  sessionId,
+  votesVisible,
+  allowRevotes,
+}: VoterControlsProps) {
   const [voterDisplay, setVoterDisplay] = useState<ControlType>(
     votesVisible ? 'react' : 'vote',
   );
@@ -63,10 +68,18 @@ export default function VoterControls({ sessionId, votesVisible }: VoterControls
 
   const [direction, setDirection] = useState<'left' | 'right'>('right');
 
+  const canVote = allowRevotes || !votesVisible;
+
   const tabs: { [key in ControlType]: ControlTabDefinition } = {
     vote: {
       text: 'Vote',
-      content: <PlanningPokerVoter sessionId={sessionId} allowVoting={!votesVisible} />,
+      content: (
+        <PlanningPokerVoter
+          sessionId={sessionId}
+          allowVoting={canVote}
+          isRevoting={votesVisible}
+        />
+      ),
     },
     react: {
       text: 'React',

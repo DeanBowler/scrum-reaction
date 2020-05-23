@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useRef } from 'react';
-import { pipe, map, filter, min, max, mean, median, reduce, all } from 'ramda';
+import { pipe, map, filter, min, max, mean, median, reduce, all, any } from 'ramda';
 
 import CanvasConfetti from 'canvas-confetti';
 
@@ -8,6 +8,8 @@ import Box from '@styled/Box';
 import Text from '@styled/Text';
 import Card from '@components/Card';
 import mode from '@utils/mode';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useTheme } from 'styled-components';
 
 const formatStat = (value: number | undefined) =>
   value &&
@@ -16,10 +18,14 @@ const formatStat = (value: number | undefined) =>
   });
 
 export default function SessionStats(session: Poker_Session) {
+  const theme = useTheme();
+
+  const hasRevotes = any(s => s.current_revote !== null, session.user_sessions);
+
   const votes = !session.votes_visible
     ? []
     : pipe(
-        map((s: Poker_User_Session) => s.current_vote),
+        map((s: Poker_User_Session) => s.current_revote ?? s.current_vote),
         filter(v => !!v),
       )(session.user_sessions);
 
@@ -43,15 +49,30 @@ export default function SessionStats(session: Poker_Session) {
   const modeVote = numericVotes.length ? mode(numericVotes) : undefined;
 
   const areAllVotesNumeric = numericVotes.length == votes.length;
-  const consensusReached =
+
+  const allNumericEqual =
     areAllVotesNumeric &&
     numericVotes.length > 1 &&
     all(x => x === numericVotes[0], numericVotes);
 
+  const consensusReached = !hasRevotes && allNumericEqual;
+  const compromiseReached = hasRevotes && allNumericEqual;
+
+  const dissensionReached =
+    numericVotes.length > 1 && new Set(numericVotes).size === numericVotes.length;
+
+  const specialText = consensusReached
+    ? 'CONSENSUS'
+    : compromiseReached
+    ? 'COMPROMISE'
+    : dissensionReached
+    ? 'DISSENSION'
+    : null;
+
   const consensusTextRef = useRef<HTMLDivElement>();
 
   useLayoutEffect(() => {
-    if (consensusReached) {
+    if (allNumericEqual) {
       const timeout = setTimeout(() => {
         if (!consensusTextRef.current) return;
 
@@ -64,33 +85,59 @@ export default function SessionStats(session: Poker_Session) {
         const yOffset = viewportOffset.top / window.innerHeight;
         const xOffset = textCenterX / window.innerWidth;
 
-        CanvasConfetti({
-          particleCount: 100,
-          startVelocity: 30,
-          spread: 80,
-          origin: {
-            y: yOffset,
-            x: xOffset,
-          },
-        });
+        const origin = {
+          y: yOffset,
+          x: xOffset,
+        };
+
+        const confettiConfig: CanvasConfetti.Options = consensusReached
+          ? {
+              particleCount: 100,
+              startVelocity: 30,
+              spread: 80,
+              origin,
+            }
+          : {
+              particleCount: 40,
+              startVelocity: 20,
+              spread: 60,
+              origin,
+              colors: [
+                theme.colors.neutralDark,
+                theme.colors.neutralMid,
+                theme.colors.neutralLight,
+              ],
+            };
+
+        CanvasConfetti(confettiConfig);
       }, 1000);
       return () => clearTimeout(timeout);
     }
-  }, [consensusReached]);
+  }, [allNumericEqual]);
 
   return (
     <Card ml={[1, 2]} title="Stats" flex="0 0" minWidth={[6, , 7]}>
-      {consensusReached && (
-        <Text
-          letterSpacing="mega"
-          as="div"
-          mb="3"
-          ref={consensusTextRef}
-          fontWeight="bold"
-        >
-          CONSENSUS
-        </Text>
-      )}
+      <AnimatePresence exitBeforeEnter={true}>
+        {specialText && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.4 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0 }}
+            key={specialText}
+          >
+            <Text
+              as="div"
+              letterSpacing="mega"
+              mb="3"
+              ref={consensusTextRef}
+              fontWeight="bold"
+            >
+              {specialText}
+            </Text>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <Box>
         Highest: <Text fontSize={3}>{highestVote}</Text>
       </Box>

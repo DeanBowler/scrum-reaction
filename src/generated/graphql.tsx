@@ -1467,6 +1467,21 @@ export type UpdateVoteMutation = (
   )> }
 );
 
+export type UpdateRevoteMutationVariables = {
+  sessionId: Scalars['Int'];
+  userId: Scalars['String'];
+  vote?: Maybe<Scalars['String']>;
+};
+
+
+export type UpdateRevoteMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_poker_user_session?: Maybe<(
+    { __typename?: 'poker_user_session_mutation_response' }
+    & Pick<Poker_User_Session_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
 export type GetRecentSessionsQueryVariables = {
   userId: Scalars['String'];
 };
@@ -1732,7 +1747,7 @@ export type GetPokerSessionSubscriptionHookResult = ReturnType<typeof useGetPoke
 export type GetPokerSessionSubscriptionResult = ApolloReactCommon.SubscriptionResult<GetPokerSessionSubscription>;
 export const UpdateVoteDocument = gql`
     mutation updateVote($sessionId: Int!, $userId: String!, $vote: String) {
-  update_poker_user_session(where: {session_id: {_eq: $sessionId}, user_id: {_eq: $userId}}, _set: {current_vote: $vote}) {
+  update_poker_user_session(where: {session_id: {_eq: $sessionId}, user_id: {_eq: $userId}, poker_session: {votes_visible: {_eq: false}}}, _set: {current_vote: $vote}) {
     affected_rows
   }
 }
@@ -1764,6 +1779,40 @@ export function useUpdateVoteMutation(baseOptions?: ApolloReactHooks.MutationHoo
 export type UpdateVoteMutationHookResult = ReturnType<typeof useUpdateVoteMutation>;
 export type UpdateVoteMutationResult = ApolloReactCommon.MutationResult<UpdateVoteMutation>;
 export type UpdateVoteMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateVoteMutation, UpdateVoteMutationVariables>;
+export const UpdateRevoteDocument = gql`
+    mutation updateRevote($sessionId: Int!, $userId: String!, $vote: String) {
+  update_poker_user_session(where: {session_id: {_eq: $sessionId}, user_id: {_eq: $userId}, poker_session: {_and: {allow_revotes: {_eq: true}, votes_visible: {_eq: true}}}}, _set: {current_revote: $vote}) {
+    affected_rows
+  }
+}
+    `;
+export type UpdateRevoteMutationFn = ApolloReactCommon.MutationFunction<UpdateRevoteMutation, UpdateRevoteMutationVariables>;
+
+/**
+ * __useUpdateRevoteMutation__
+ *
+ * To run a mutation, you first call `useUpdateRevoteMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateRevoteMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateRevoteMutation, { data, loading, error }] = useUpdateRevoteMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *      userId: // value for 'userId'
+ *      vote: // value for 'vote'
+ *   },
+ * });
+ */
+export function useUpdateRevoteMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<UpdateRevoteMutation, UpdateRevoteMutationVariables>) {
+        return ApolloReactHooks.useMutation<UpdateRevoteMutation, UpdateRevoteMutationVariables>(UpdateRevoteDocument, baseOptions);
+      }
+export type UpdateRevoteMutationHookResult = ReturnType<typeof useUpdateRevoteMutation>;
+export type UpdateRevoteMutationResult = ApolloReactCommon.MutationResult<UpdateRevoteMutation>;
+export type UpdateRevoteMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateRevoteMutation, UpdateRevoteMutationVariables>;
 export const GetRecentSessionsDocument = gql`
     query getRecentSessions($userId: String!) {
   poker_session(where: {user_sessions: {user_id: {_eq: $userId}}}, order_by: {created_at: desc}, limit: 6) {
@@ -1802,7 +1851,7 @@ export type GetRecentSessionsLazyQueryHookResult = ReturnType<typeof useGetRecen
 export type GetRecentSessionsQueryResult = ApolloReactCommon.QueryResult<GetRecentSessionsQuery, GetRecentSessionsQueryVariables>;
 export const ClearVotesDocument = gql`
     mutation clearVotes($sessionId: Int!) {
-  update_poker_user_session(where: {poker_session: {id: {_eq: $sessionId}}}, _set: {current_vote: null, current_reaction: null}) {
+  update_poker_user_session(where: {poker_session: {id: {_eq: $sessionId}}}, _set: {current_vote: null, current_reaction: null, current_revote: null}) {
     affected_rows
   }
   update_poker_session(where: {user_sessions: {}, id: {_eq: $sessionId}}, _set: {votes_visible: false}) {
