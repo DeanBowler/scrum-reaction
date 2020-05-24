@@ -89,7 +89,9 @@ const UserSessionRow = React.forwardRef(
         </Box>
         <Flex flex="0 0" pr={[2, 3]} justifyContent="end" alignItems="center">
           <MotionBox
-            layoutTransition={votes_visible && { type: 'spring' }}
+            positionTransition={({ delta }) =>
+              votes_visible && !!delta.x ? { type: 'spring' } : { type: false }
+            }
             minWidth={3}
             textAlign="center"
             flex="0 0"
