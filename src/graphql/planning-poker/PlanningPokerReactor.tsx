@@ -22,7 +22,15 @@ export const UPDATE_REACTION = gql`
   }
 `;
 
-type Reaction = 'thumbsup' | 'thumbsdown' | 'yay' | 'thinking' | 'chat' | 'whoops' | null;
+type Reaction =
+  | 'thumbsup'
+  | 'thumbsdown'
+  | 'yay'
+  | 'thinking'
+  | 'chat'
+  | 'whoops'
+  | 'breaktime'
+  | null;
 
 const REACTIONS: { [key in Reaction]: string } = {
   yay: '🎉',
@@ -31,6 +39,7 @@ const REACTIONS: { [key in Reaction]: string } = {
   chat: '💬',
   thinking: '🤔',
   whoops: '🤕',
+  breaktime: '☕',
 };
 
 export const ReactionIcon = ({ reaction }: { reaction: string }) => (

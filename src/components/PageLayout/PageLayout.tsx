@@ -9,6 +9,7 @@ import theme from '../../styled/theme';
 import Header from './Header';
 import Footer from './Footer';
 import Flex from '@styled/Flex';
+import Loading from '@components/Loading';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -57,7 +58,7 @@ export default function PageLayout({ children }: LayoutProps) {
         <Header />
 
         <Box as="main" flex="1 0" py={[1, 2]} px={[2, 3, 4, 5]}>
-          {isLoadingAuth ? <div></div> : children}
+          {isLoadingAuth ? <Loading delay={900} /> : children}
         </Box>
 
         <Footer />

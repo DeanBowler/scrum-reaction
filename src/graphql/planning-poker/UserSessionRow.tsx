@@ -80,7 +80,7 @@ const UserSessionRow = React.forwardRef(
               exit="exit"
               variants={reactionMotions}
             >
-              <ReactionIcon reaction={current_reaction} />
+              <ReactionIcon fontSize={[2, 3, 4]} reaction={current_reaction} />
             </motion.div>
           </AnimatePresence>
         </Box>
