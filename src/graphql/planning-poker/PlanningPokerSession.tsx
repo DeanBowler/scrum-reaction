@@ -8,11 +8,11 @@ import {
   useGetPokerSessionSubscription,
   useUpsetUserSessionMutation,
   Poker_Session,
-  Users,
 } from '@generated/graphql';
 
 import { useAuth } from '@contexts/authContext';
 import Card from '@components/Card';
+import Loading from '@components/Loading';
 import Text from '@styled/Text';
 import Box from '@styled/Box';
 import Flex from '@styled/Flex';
@@ -67,13 +67,21 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
     variables: { id: sessionId },
   });
 
+  const sessionLoaded = !!session;
+
   const [joinSession, { loading: joiningSession }] = useUpsetUserSessionMutation();
   useEffect(() => {
-    if (!userId) return;
+    if (!userId || !sessionLoaded) return;
     joinSession({ variables: { sessionId, userId } });
-  }, [userId]);
+  }, [userId, sessionLoaded]);
 
-  if (loadingSession || joiningSession || isLoadingAuth) return <div></div>; //todo debounced loader here
+  if (loadingSession || isLoadingAuth || joiningSession)
+    return (
+      <Loading
+        text={joiningSession ? 'Joining Session' : 'Loading Session'}
+        delay={300}
+      />
+    );
 
   if (!session)
     return (
