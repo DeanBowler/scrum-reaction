@@ -116,7 +116,7 @@ export default function SessionStats(session: Poker_Session) {
   }, [allNumericEqual]);
 
   return (
-    <Card ml={[1, 2]} title="Stats" flex="0 0" minWidth={[6, , 7]}>
+    <Card title="Stats" flex="0 0" minWidth={[6, , 7]}>
       <AnimatePresence exitBeforeEnter={true}>
         {specialText && (
           <motion.div

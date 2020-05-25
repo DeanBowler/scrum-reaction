@@ -43,7 +43,7 @@ const REACTIONS: { [key in Reaction]: string } = {
 };
 
 export const ReactionIcon = ({ reaction }: { reaction: string }) => (
-  <Text as="div" lineHeight="solid" fontSize={[2, 3, 4]}>
+  <Text as="div" lineHeight="solid" fontSize={[3, 4]}>
     {REACTIONS[reaction]}
   </Text>
 );
@@ -94,13 +94,22 @@ export default function PlanningPokerReactor({ sessionId }: PlanningPokerReactor
 
   return (
     <Box as="section">
-      <Flex flexWrap="wrap" alignItems="flex-end" justifyContent={['center', 'unset']}>
+      <Flex flexWrap="wrap" justifyContent={['center', 'unset']}>
         <Spaced mr={[1, 3]} includeLast={false}>
           {reactionKeys.map(r => (
             <ReactionCard key={r} reaction={r} onClick={handleReactionClick} />
           ))}
-          <Button ml={[1, 2]} my={[1, 2]} onClick={() => handleReactionClick(null)}>
-            Clear
+          <Button
+            my={[1, 2]}
+            px={[2, 3]}
+            py={[1, 2]}
+            variant="outline"
+            onClick={() => handleReactionClick(null)}
+          >
+            <Text lineHeight="solid">
+              Clear <br />
+              Reaction
+            </Text>
           </Button>
         </Spaced>
       </Flex>

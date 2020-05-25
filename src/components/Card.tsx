@@ -76,6 +76,9 @@ const CardContainer = styled(Flex)<CardContainerProps>`
       :hover > ${CardContentContainer} {
         box-shadow: 0px 8px 0px -2px rgba(0, 0, 0, 0.1);
       }
+      :active > ${CardContentContainer} {
+        box-shadow: 0px 5px 0px -1px rgba(0, 0, 0, 0.1);
+      }
       :focus {
         outline: none;
         & > ${CardTitle} {

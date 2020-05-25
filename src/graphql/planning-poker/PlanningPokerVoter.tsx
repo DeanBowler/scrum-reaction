@@ -118,8 +118,19 @@ const StyledVoteCard: React.FunctionComponent<BorderBoxProps> = styled(BorderBox
   border: 1px solid ${getColor('neutralMid')};
   border-radius: 5px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 0px -1px;
+  line-height: 1rem;
 
-  transition: background 300ms ease-in-out;
+  transform: translateY(0);
+  transition: background 300ms ease-in-out, transform 200ms, box-shadow 100ms;
+
+  :hover {
+    transform: translateY(-3px);
+    box-shadow: 0px 8px 0px -2px rgba(0, 0, 0, 0.1);
+  }
+
+  :active {
+    box-shadow: 0px 5px 0px -1px rgba(0, 0, 0, 0.1);
+  }
 
   :disabled {
     cursor: not-allowed;
@@ -129,10 +140,6 @@ const StyledVoteCard: React.FunctionComponent<BorderBoxProps> = styled(BorderBox
   :focus {
     outline: none;
     border-color: ${getColor('primary')};
-  }
-
-  :hover:not(:disabled) {
-    background: ${getColor('neutralLight')};
   }
 `;
 

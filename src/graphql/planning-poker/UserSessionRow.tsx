@@ -80,12 +80,12 @@ const UserSessionRow = React.forwardRef(
               exit="exit"
               variants={reactionMotions}
             >
-              <ReactionIcon fontSize={[2, 3, 4]} reaction={current_reaction} />
+              <ReactionIcon reaction={current_reaction} />
             </motion.div>
           </AnimatePresence>
         </Box>
         <Box flex="1 1" pl={[1, 2]}>
-          <Text fontSize={[1, 2, 3]}>{user.name}</Text>
+          <Text fontSize={[2, 3]}>{user.name}</Text>
         </Box>
         <Flex flex="0 0" pr={[2, 3]} justifyContent="end" alignItems="center">
           <MotionBox

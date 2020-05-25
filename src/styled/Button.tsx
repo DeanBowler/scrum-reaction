@@ -5,11 +5,16 @@ import {
   FontSizeProps,
   variant,
   ResponsiveValue,
+  flex,
+  FlexProps,
 } from 'styled-system';
 import styled, { keyframes, css } from 'styled-components';
 import { getColor, AppTheme } from '@styled/theme';
 
-export interface ButtonProps extends SpaceProps<AppTheme>, FontSizeProps<AppTheme> {
+export interface ButtonProps
+  extends SpaceProps<AppTheme>,
+    FontSizeProps<AppTheme>,
+    FlexProps<AppTheme> {
   isLoading?: boolean;
   fullWidth?: boolean;
   variant?: ResponsiveValue<'primary' | 'neutral' | 'negative' | 'outline'>;
@@ -43,6 +48,10 @@ const Button = styled.button<ButtonProps>`
         color: 'neutralDark',
         border: '1px solid',
         borderColor: 'neutralMidDark',
+        boxShadow: 'rgba(0, 0, 0, 0.1) 0px 5px 0px -1px',
+        '&:hover': {
+          backgroundColor: 'rgba(255, 255, 255, 0.35)',
+        },
       },
       negative: {
         backgroundColor: 'negative',
@@ -103,6 +112,7 @@ const Button = styled.button<ButtonProps>`
 
   ${space};
   ${fontSize};
+  ${flex};
 `;
 
 const rotate = keyframes`

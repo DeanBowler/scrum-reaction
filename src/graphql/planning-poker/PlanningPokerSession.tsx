@@ -133,7 +133,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
       />
 
       <Flex justifyContent="space-between" flexDirection={['column', , 'row']}>
-        <Card title="Votes" spacingVariant="cosy">
+        <Card mr={[0, , 3]} mb={[4, 4, 0]} title="Votes" spacingVariant="cosy">
           <AnimatePresence initial={false}>
             {session.user_sessions.flatMap(us => (
               <MotionSession
