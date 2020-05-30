@@ -1,0 +1,71 @@
+- args:
+    role: user
+    table:
+      name: poker_user_session
+      schema: public
+  type: drop_update_permission
+- args:
+    permission:
+      columns:
+      - current_reaction
+      - current_revote
+      - current_vote
+      filter:
+        _or:
+        - user_id:
+            _eq: X-Hasura-User-Id
+        - poker_session:
+            owner_id:
+              _eq: X-Hasura-User-Id
+      localPresets:
+      - key: ""
+        value: ""
+      set: {}
+    role: user
+    table:
+      name: poker_user_session
+      schema: public
+  type: create_update_permission
+- args:
+    role: user
+    table:
+      name: poker_user_session
+      schema: public
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: true
+      columns:
+      - user_id
+      - session_id
+      - current_vote
+      - current_reaction
+      - current_revote
+      computed_fields: []
+      filter: {}
+    role: user
+    table:
+      name: poker_user_session
+      schema: public
+  type: create_select_permission
+- args:
+    role: user
+    table:
+      name: users
+      schema: public
+  type: drop_select_permission
+- args:
+    permission:
+      allow_aggregations: false
+      columns:
+      - id
+      - name
+      - created_at
+      - last_seen
+      computed_fields: []
+      filter: {}
+    role: user
+    table:
+      name: users
+      schema: public
+  type: create_select_permission

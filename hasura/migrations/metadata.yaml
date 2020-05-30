@@ -92,11 +92,12 @@ tables:
   - role: user
     permission:
       columns:
-      - user_id
-      - session_id
-      - current_vote
       - current_reaction
       - current_revote
+      - current_vote
+      - is_observer
+      - session_id
+      - user_id
       filter: {}
       allow_aggregations: true
   update_permissions:
@@ -106,6 +107,7 @@ tables:
       - current_reaction
       - current_revote
       - current_vote
+      - is_observer
       filter:
         _or:
         - user_id:
@@ -130,10 +132,11 @@ tables:
   - role: user
     permission:
       columns:
-      - id
-      - name
       - created_at
+      - default_picture
+      - id
       - last_seen
+      - name
       filter: {}
   update_permissions:
   - role: user

@@ -656,6 +656,7 @@ export type Poker_User_Session = {
   current_reaction?: Maybe<Scalars['String']>;
   current_revote?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
+  is_observer: Scalars['Boolean'];
   /** An object relationship */
   poker_session: Poker_Session;
   session_id: Scalars['Int'];
@@ -734,6 +735,7 @@ export type Poker_User_Session_Bool_Exp = {
   current_reaction?: Maybe<String_Comparison_Exp>;
   current_revote?: Maybe<String_Comparison_Exp>;
   current_vote?: Maybe<String_Comparison_Exp>;
+  is_observer?: Maybe<Boolean_Comparison_Exp>;
   poker_session?: Maybe<Poker_Session_Bool_Exp>;
   session_id?: Maybe<Int_Comparison_Exp>;
   user?: Maybe<Users_Bool_Exp>;
@@ -756,6 +758,7 @@ export type Poker_User_Session_Insert_Input = {
   current_reaction?: Maybe<Scalars['String']>;
   current_revote?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
+  is_observer?: Maybe<Scalars['Boolean']>;
   poker_session?: Maybe<Poker_Session_Obj_Rel_Insert_Input>;
   session_id?: Maybe<Scalars['Int']>;
   user?: Maybe<Users_Obj_Rel_Insert_Input>;
@@ -827,6 +830,7 @@ export type Poker_User_Session_Order_By = {
   current_reaction?: Maybe<Order_By>;
   current_revote?: Maybe<Order_By>;
   current_vote?: Maybe<Order_By>;
+  is_observer?: Maybe<Order_By>;
   poker_session?: Maybe<Poker_Session_Order_By>;
   session_id?: Maybe<Order_By>;
   user?: Maybe<Users_Order_By>;
@@ -842,6 +846,8 @@ export enum Poker_User_Session_Select_Column {
   /** column name */
   CurrentVote = 'current_vote',
   /** column name */
+  IsObserver = 'is_observer',
+  /** column name */
   SessionId = 'session_id',
   /** column name */
   UserId = 'user_id'
@@ -852,6 +858,7 @@ export type Poker_User_Session_Set_Input = {
   current_reaction?: Maybe<Scalars['String']>;
   current_revote?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
+  is_observer?: Maybe<Scalars['Boolean']>;
   session_id?: Maybe<Scalars['Int']>;
   user_id?: Maybe<Scalars['String']>;
 };
@@ -908,6 +915,8 @@ export enum Poker_User_Session_Update_Column {
   CurrentRevote = 'current_revote',
   /** column name */
   CurrentVote = 'current_vote',
+  /** column name */
+  IsObserver = 'is_observer',
   /** column name */
   SessionId = 'session_id',
   /** column name */
@@ -1217,6 +1226,7 @@ export type Timestamptz_Comparison_Exp = {
 export type Users = {
    __typename?: 'users';
   created_at: Scalars['timestamptz'];
+  default_picture?: Maybe<Scalars['String']>;
   id: Scalars['String'];
   last_seen: Scalars['timestamptz'];
   name: Scalars['String'];
@@ -1263,6 +1273,7 @@ export type Users_Bool_Exp = {
   _not?: Maybe<Users_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Users_Bool_Exp>>>;
   created_at?: Maybe<Timestamptz_Comparison_Exp>;
+  default_picture?: Maybe<String_Comparison_Exp>;
   id?: Maybe<String_Comparison_Exp>;
   last_seen?: Maybe<Timestamptz_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
@@ -1277,6 +1288,7 @@ export enum Users_Constraint {
 /** input type for inserting data into table "users" */
 export type Users_Insert_Input = {
   created_at?: Maybe<Scalars['timestamptz']>;
+  default_picture?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   last_seen?: Maybe<Scalars['timestamptz']>;
   name?: Maybe<Scalars['String']>;
@@ -1286,6 +1298,7 @@ export type Users_Insert_Input = {
 export type Users_Max_Fields = {
    __typename?: 'users_max_fields';
   created_at?: Maybe<Scalars['timestamptz']>;
+  default_picture?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   last_seen?: Maybe<Scalars['timestamptz']>;
   name?: Maybe<Scalars['String']>;
@@ -1294,6 +1307,7 @@ export type Users_Max_Fields = {
 /** order by max() on columns of table "users" */
 export type Users_Max_Order_By = {
   created_at?: Maybe<Order_By>;
+  default_picture?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   last_seen?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
@@ -1303,6 +1317,7 @@ export type Users_Max_Order_By = {
 export type Users_Min_Fields = {
    __typename?: 'users_min_fields';
   created_at?: Maybe<Scalars['timestamptz']>;
+  default_picture?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   last_seen?: Maybe<Scalars['timestamptz']>;
   name?: Maybe<Scalars['String']>;
@@ -1311,6 +1326,7 @@ export type Users_Min_Fields = {
 /** order by min() on columns of table "users" */
 export type Users_Min_Order_By = {
   created_at?: Maybe<Order_By>;
+  default_picture?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   last_seen?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
@@ -1341,6 +1357,7 @@ export type Users_On_Conflict = {
 /** ordering options when selecting data from "users" */
 export type Users_Order_By = {
   created_at?: Maybe<Order_By>;
+  default_picture?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   last_seen?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
@@ -1350,6 +1367,8 @@ export type Users_Order_By = {
 export enum Users_Select_Column {
   /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  DefaultPicture = 'default_picture',
   /** column name */
   Id = 'id',
   /** column name */
@@ -1361,6 +1380,7 @@ export enum Users_Select_Column {
 /** input type for updating data in table "users" */
 export type Users_Set_Input = {
   created_at?: Maybe<Scalars['timestamptz']>;
+  default_picture?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
   last_seen?: Maybe<Scalars['timestamptz']>;
   name?: Maybe<Scalars['String']>;
@@ -1370,6 +1390,8 @@ export type Users_Set_Input = {
 export enum Users_Update_Column {
   /** column name */
   CreatedAt = 'created_at',
+  /** column name */
+  DefaultPicture = 'default_picture',
   /** column name */
   Id = 'id',
   /** column name */
@@ -1443,7 +1465,7 @@ export type GetPokerSessionSubscription = (
       )> }
     ), user_sessions: Array<(
       { __typename?: 'poker_user_session' }
-      & Pick<Poker_User_Session, 'current_vote' | 'current_revote' | 'current_reaction'>
+      & Pick<Poker_User_Session, 'current_vote' | 'current_revote' | 'current_reaction' | 'is_observer'>
       & { user: (
         { __typename?: 'users' }
         & Pick<Users, 'name' | 'id'>
@@ -1715,6 +1737,7 @@ export const GetPokerSessionDocument = gql`
       current_vote
       current_revote
       current_reaction
+      is_observer
       user {
         name
         id

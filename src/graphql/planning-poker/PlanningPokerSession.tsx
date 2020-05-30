@@ -40,6 +40,7 @@ export const GET_POKER_SESSION = gql`
         current_vote
         current_revote
         current_reaction
+        is_observer
         user {
           name
           id
