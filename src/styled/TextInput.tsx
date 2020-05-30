@@ -10,9 +10,7 @@ import {
   TypographyProps,
 } from 'styled-system';
 
-import {} from '@styled-system/theme-get';
-
-import { AppTheme, getColor } from './theme';
+import { AppTheme, getColor, getFont } from './theme';
 
 export interface TextInputProps
   extends SpaceProps,
@@ -24,7 +22,7 @@ const TextInput = styled.input<TextInputProps>`
   border-radius: 5px;
   border: 1px solid;
   border-color: ${getColor('neutralMid')};
-  font-family: 'Raleway';
+  font-family: ${getFont('normal')};
 
   ${space}
   ${layout}

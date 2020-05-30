@@ -3,7 +3,7 @@ import { fontSize, FontSizeProps } from 'styled-system';
 import styled from 'styled-components';
 
 import Box from '@styled/Box';
-import { getColor } from '@styled/theme';
+import { getColor, getFont } from '@styled/theme';
 import Spaced from '@styled/Spaced';
 
 import PlanningPokerVoter from './PlanningPokerVoter';
@@ -26,7 +26,7 @@ const ControlTabButton = styled.button<ControlTabButtonProps & FontSizeProps>`
   cursor: pointer;
   border: none;
   background: transparent;
-  font-family: 'Raleway';
+  font-family: ${getFont('normal')};
 
   border-bottom: 5px solid transparent;
 
@@ -70,7 +70,7 @@ export default function VoterControls({
 
   const canVote = allowRevotes || !votesVisible;
 
-  const tabs: { [key in ControlType]: ControlTabDefinition } = {
+  const tabs: Record<ControlType, ControlTabDefinition> = {
     vote: {
       text: 'Vote',
       content: (

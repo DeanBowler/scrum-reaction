@@ -9,7 +9,7 @@ import {
   FlexProps,
 } from 'styled-system';
 import styled, { keyframes, css } from 'styled-components';
-import { getColor, AppTheme } from '@styled/theme';
+import { getColor, AppTheme, getFont } from '@styled/theme';
 
 export interface ButtonProps
   extends SpaceProps<AppTheme>,
@@ -23,7 +23,7 @@ export interface ButtonProps
 const Button = styled.button<ButtonProps>`
   cursor: pointer;
   position: relative;
-  font-family: 'Raleway';
+  font-family: ${getFont('normal')};
   background: ${getColor('neutralDark')};
   color: ${getColor('neutralLightest')};
   border-radius: ${p => p.theme.buttonRadius};
@@ -32,6 +32,7 @@ const Button = styled.button<ButtonProps>`
   transition: box-shadow 200ms ease-in-out, background 300ms ease-in-out,
     opacity 300ms ease-in-out;
   overflow: hidden;
+  text-decoration: none;
 
   width: ${p => (p.fullWidth ? '100%' : '')};
 

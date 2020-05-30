@@ -4,7 +4,7 @@ import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
 
 import Box from '@styled/Box';
 import { useAuth } from '@contexts/authContext';
-import theme from '../../styled/theme';
+import theme, { getFont } from '../../styled/theme';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -28,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
     width: 100%;
     margin: 0;
-    font-family: 'Raleway', 'Helvetica Neue', sans-serif;
+    font-family: ${getFont('normal')}, 'Helvetica Neue', sans-serif;
     font-size: 16px;
   }
 

@@ -160,7 +160,7 @@ const PlanningPokerVoteCard = ({
     my={[1, 2]}
     minWidth={[3, 4]}
     height={[3, 4]}
-    fontFamily="Pacifico"
+    fontFamily="cursive"
     flex="0 0"
     disabled={disabled}
   >

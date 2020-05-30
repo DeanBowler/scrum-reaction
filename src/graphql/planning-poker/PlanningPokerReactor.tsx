@@ -32,7 +32,7 @@ type Reaction =
   | 'breaktime'
   | null;
 
-const REACTIONS: { [key in Reaction]: string } = {
+const REACTIONS: Record<Reaction, string> = {
   yay: '🎉',
   thumbsup: '👍',
   thumbsdown: '👎',

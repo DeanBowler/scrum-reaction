@@ -17,9 +17,14 @@ export interface AppTheme extends Theme {
     neutralLight: string;
     neutralLightest: string;
   };
+  fonts: {
+    normal: string;
+    cursive: string;
+    monospace: string;
+  };
   buttonRadius: string;
-  lineHeights: { [key in LineHeight]: string | number };
-  letterSpacings: { [key in LetterSpacing]: string | number };
+  lineHeights: Record<LineHeight, string | number>;
+  letterSpacings: Record<LetterSpacing, string | number>;
 }
 
 const baseTheme = {
@@ -34,6 +39,11 @@ const baseTheme = {
     neutralMidLight: '#d9dbdb',
     neutralLight: '#eaeded',
     neutralLightest: '#fff',
+  },
+  fonts: {
+    normal: 'Raleway',
+    cursive: 'Pacifico',
+    monospace: 'monospace',
   },
 };
 
@@ -72,6 +82,10 @@ export default theme;
 export const getColor = (color: keyof AppTheme['colors']) => (
   p: ThemedStyledProps<unknown, DefaultTheme>,
 ) => p.theme.colors[color];
+
+export const getFont = (font: keyof AppTheme['fonts']) => (
+  p: ThemedStyledProps<unknown, DefaultTheme>,
+) => p.theme.fonts[font];
 
 declare module 'styled-components' {
   export interface DefaultTheme extends AppTheme {}
