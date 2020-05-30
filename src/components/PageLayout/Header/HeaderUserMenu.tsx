@@ -18,7 +18,7 @@ export default function HeaderUserMenu(props: HeaderUserMenuProps) {
       {user && (
         <>
           <PopoutMenu.Item>
-            <Flex textAlign="center" flexDirection="column">
+            <Flex textAlign="center" flexDirection="column" lineHeight="solid">
               <Text my="1">{user.name}</Text>
               <Text color="neutralMidDark" my="1" fontSize="1">
                 {user.email}

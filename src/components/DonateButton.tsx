@@ -25,7 +25,7 @@ const DonateButton = () => (
     py={[1, 2]}
     fontSize={[0, 1]}
   >
-    🥑{' '}
+    🥑
     <Text ml={1} fontFamily="cursive">
       Buy me an avocado
     </Text>
