@@ -18,7 +18,7 @@ export const UserImage = styled.img`
 export const HeaderUserContainer = styled(BorderBox)<BorderBoxProps>`
   cursor: pointer;
   position: relative;
-  display: flex;
+  display: block;
   align-items: center;
   justify-content: center;
   border-radius: 50%;

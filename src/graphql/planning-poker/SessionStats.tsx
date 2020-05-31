@@ -17,7 +17,7 @@ const formatStat = (value: number | undefined) =>
     maximumFractionDigits: 2,
   });
 
-export default function SessionStats(session: Poker_Session) {
+function SessionStats(session: Poker_Session) {
   const theme = useTheme();
 
   const hasRevotes = any(s => s.current_revote !== null, session.user_sessions);
@@ -161,3 +161,5 @@ export default function SessionStats(session: Poker_Session) {
     </Card>
   );
 }
+
+export default React.memo(SessionStats);

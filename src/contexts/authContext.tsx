@@ -32,7 +32,7 @@ interface AuthContextProps {
   userId: string | undefined;
   loginWithRedirect: (o?: RedirectLoginOptions) => void;
   getIdTokenClaims: (o?: getIdTokenClaimsOptions) => void;
-  getTokenSilently: (o?: GetTokenSilentlyOptions) => Promise<any>;
+  getTokenSilently: (o?: GetTokenSilentlyOptions) => Promise<string>;
   logout: (o?: LogoutOptions) => void;
 }
 

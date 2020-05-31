@@ -23,6 +23,10 @@ import SessionOwnerControls from './SessionOwnerControls';
 import VoterControls from './VoterControls';
 import UserSessionRow from './UserSessionRow';
 import SessionObservers from './SessionObservers';
+import { useDelta, useDeltaChange } from '@hooks/useDelta';
+import { useToast } from '@components/Toast';
+import { ReactionIcon } from './PlanningPokerReactor';
+import isEmpty from '@utils/isEmpty';
 
 export const POKER_USER_SESSION_INFO_FRAGMENT = gql`
   fragment PokerUserSessionInfo on poker_user_session {
@@ -75,6 +79,8 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
 
   const router = useRouter();
 
+  const { raiseToast } = useToast();
+
   const {
     loading: loadingSession,
     data: { poker_session_by_pk: session } = {},
@@ -110,6 +116,36 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
     [session],
   );
 
+  useDeltaChange(currentUserSession?.is_observer, ({ current, previous }) => {
+    if (isEmpty(previous)) return;
+    raiseToast(`You're now ${current ? 'an observer' : 'a voter'}`);
+  });
+
+  const isSessionOwner = session && session.owner_id === userId;
+
+  useDeltaChange(isSessionOwner, ({ current, previous }) => {
+    if (isEmpty(previous)) return;
+    raiseToast(`You're ${current ? 'now' : 'no longer'} the session owner`);
+  });
+
+  var uniqueReactions = useMemo(
+    () => new Set(session?.user_sessions.map(v => v.current_reaction)),
+    [session],
+  );
+
+  useDeltaChange(uniqueReactions.size, ({ previous }) => {
+    if (!previous || !session.user_sessions[0].current_reaction) return;
+
+    if (uniqueReactions.size === 1) {
+      raiseToast(
+        <Flex>
+          <Text mr={1}>Everyone reacted</Text>{' '}
+          <ReactionIcon reaction={session.user_sessions[0].current_reaction} />
+        </Flex>,
+      );
+    }
+  });
+
   if (loadingSession || isLoadingAuth || joiningSession)
     return (
       <Loading
@@ -129,8 +165,6 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
         </Button>
       </Box>
     );
-
-  const isSessionOwner = session.owner_id === userId;
 
   const currentVoteCount = voters.filter(us => us.current_vote !== null).length;
 
