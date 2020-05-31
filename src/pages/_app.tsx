@@ -9,6 +9,9 @@ import { AuthContextProvider } from '@contexts/authContext';
 import AuthorizedApolloProvider from '@contexts/authorizedApolloProvider';
 import PageLayout from '@components/PageLayout';
 import Tracking from '@components/Tracking';
+import { ToastContextProvider } from '@components/Toast';
+import { ThemeProvider } from 'styled-components';
+import theme from '@styled/theme';
 
 export default function ({
   Component,
@@ -18,29 +21,33 @@ export default function ({
 
   return (
     <Tracking>
-      <AuthContextProvider>
-        <AuthorizedApolloProvider>
-          <PageLayout>
-            <AnimatePresence initial={false} exitBeforeEnter>
-              <motion.div
-                transition={{
-                  type: 'spring',
-                  damping: 20,
-                  stiffness: 100,
-                  when: 'afterChildren',
-                }}
-                key={router.pathname}
-                initial={{ x: 70, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: -70, opacity: 0 }}
-                id="page-transition-container"
-              >
-                <Component {...pageProps} key={router.route} />
-              </motion.div>
-            </AnimatePresence>
-          </PageLayout>
-        </AuthorizedApolloProvider>
-      </AuthContextProvider>
+      <ThemeProvider theme={theme}>
+        <ToastContextProvider>
+          <AuthContextProvider>
+            <AuthorizedApolloProvider>
+              <PageLayout>
+                <AnimatePresence initial={false} exitBeforeEnter>
+                  <motion.div
+                    transition={{
+                      type: 'spring',
+                      damping: 20,
+                      stiffness: 100,
+                      when: 'afterChildren',
+                    }}
+                    key={router.pathname}
+                    initial={{ x: 70, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: -70, opacity: 0 }}
+                    id="page-transition-container"
+                  >
+                    <Component {...pageProps} key={router.route} />
+                  </motion.div>
+                </AnimatePresence>
+              </PageLayout>
+            </AuthorizedApolloProvider>
+          </AuthContextProvider>
+        </ToastContextProvider>
+      </ThemeProvider>
     </Tracking>
   );
 }

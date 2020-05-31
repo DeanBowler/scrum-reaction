@@ -1,6 +1,6 @@
 import React from 'react';
 import Head from 'next/head';
-import styled, { ThemeProvider, createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 import Box from '@styled/Box';
 import { useAuth } from '@contexts/authContext';
@@ -50,7 +50,7 @@ export default function PageLayout({ children }: LayoutProps) {
   const { isLoadingAuth } = useAuth();
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <Container color="neutralDarker" minHeight="100%">
         <Head>
           <title>Scrum Reaction</title>
@@ -64,6 +64,6 @@ export default function PageLayout({ children }: LayoutProps) {
         <Footer />
       </Container>
       <GlobalStyle />
-    </ThemeProvider>
+    </>
   );
 }
