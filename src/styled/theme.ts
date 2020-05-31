@@ -63,7 +63,7 @@ const theme: AppTheme = {
     '52rem',
   ],
   lineHeights: {
-    solid: '1',
+    solid: '1rem',
     title: '1.25rem',
     copy: '1.5rem',
   },

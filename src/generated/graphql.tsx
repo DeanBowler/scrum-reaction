@@ -1447,6 +1447,15 @@ export type UpdateReactionMutation = (
   )> }
 );
 
+export type PokerUserSessionInfoFragment = (
+  { __typename?: 'poker_user_session' }
+  & Pick<Poker_User_Session, 'current_vote' | 'current_revote' | 'current_reaction' | 'is_observer'>
+  & { user: (
+    { __typename?: 'users' }
+    & Pick<Users, 'name' | 'id'>
+  ) }
+);
+
 export type GetPokerSessionSubscriptionVariables = {
   id: Scalars['Int'];
 };
@@ -1465,11 +1474,7 @@ export type GetPokerSessionSubscription = (
       )> }
     ), user_sessions: Array<(
       { __typename?: 'poker_user_session' }
-      & Pick<Poker_User_Session, 'current_vote' | 'current_revote' | 'current_reaction' | 'is_observer'>
-      & { user: (
-        { __typename?: 'users' }
-        & Pick<Users, 'name' | 'id'>
-      ) }
+      & PokerUserSessionInfoFragment
     )> }
   )> }
 );
@@ -1588,6 +1593,21 @@ export type ChangeOwnershipMutation = (
   )> }
 );
 
+export type ToggleObserverRoleMutationVariables = {
+  sessionId: Scalars['Int'];
+  userId: Scalars['String'];
+  isObserver: Scalars['Boolean'];
+};
+
+
+export type ToggleObserverRoleMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_poker_user_session?: Maybe<(
+    { __typename?: 'poker_user_session_mutation_response' }
+    & Pick<Poker_User_Session_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
 export type UpdateLastSeenMutationVariables = {
   userId: Scalars['String'];
   lastSeen: Scalars['timestamptz'];
@@ -1616,7 +1636,18 @@ export type GetOnlineUsersSubscription = (
   )> }
 );
 
-
+export const PokerUserSessionInfoFragmentDoc = gql`
+    fragment PokerUserSessionInfo on poker_user_session {
+  current_vote
+  current_revote
+  current_reaction
+  is_observer
+  user {
+    name
+    id
+  }
+}
+    `;
 export const CreatePokerSessionDocument = gql`
     mutation createPokerSession($name: String!, $owner_id: String!) {
   insert_poker_session(objects: {name: $name, owner_id: $owner_id}) {
@@ -1734,18 +1765,11 @@ export const GetPokerSessionDocument = gql`
       }
     }
     user_sessions(order_by: {user_id: asc}) {
-      current_vote
-      current_revote
-      current_reaction
-      is_observer
-      user {
-        name
-        id
-      }
+      ...PokerUserSessionInfo
     }
   }
 }
-    `;
+    ${PokerUserSessionInfoFragmentDoc}`;
 
 /**
  * __useGetPokerSessionSubscription__
@@ -2038,6 +2062,40 @@ export function useChangeOwnershipMutation(baseOptions?: ApolloReactHooks.Mutati
 export type ChangeOwnershipMutationHookResult = ReturnType<typeof useChangeOwnershipMutation>;
 export type ChangeOwnershipMutationResult = ApolloReactCommon.MutationResult<ChangeOwnershipMutation>;
 export type ChangeOwnershipMutationOptions = ApolloReactCommon.BaseMutationOptions<ChangeOwnershipMutation, ChangeOwnershipMutationVariables>;
+export const ToggleObserverRoleDocument = gql`
+    mutation toggleObserverRole($sessionId: Int!, $userId: String!, $isObserver: Boolean!) {
+  update_poker_user_session(where: {session_id: {_eq: $sessionId}, user_id: {_eq: $userId}}, _set: {is_observer: $isObserver, current_vote: null, current_revote: null}) {
+    affected_rows
+  }
+}
+    `;
+export type ToggleObserverRoleMutationFn = ApolloReactCommon.MutationFunction<ToggleObserverRoleMutation, ToggleObserverRoleMutationVariables>;
+
+/**
+ * __useToggleObserverRoleMutation__
+ *
+ * To run a mutation, you first call `useToggleObserverRoleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useToggleObserverRoleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [toggleObserverRoleMutation, { data, loading, error }] = useToggleObserverRoleMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *      userId: // value for 'userId'
+ *      isObserver: // value for 'isObserver'
+ *   },
+ * });
+ */
+export function useToggleObserverRoleMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ToggleObserverRoleMutation, ToggleObserverRoleMutationVariables>) {
+        return ApolloReactHooks.useMutation<ToggleObserverRoleMutation, ToggleObserverRoleMutationVariables>(ToggleObserverRoleDocument, baseOptions);
+      }
+export type ToggleObserverRoleMutationHookResult = ReturnType<typeof useToggleObserverRoleMutation>;
+export type ToggleObserverRoleMutationResult = ApolloReactCommon.MutationResult<ToggleObserverRoleMutation>;
+export type ToggleObserverRoleMutationOptions = ApolloReactCommon.BaseMutationOptions<ToggleObserverRoleMutation, ToggleObserverRoleMutationVariables>;
 export const UpdateLastSeenDocument = gql`
     mutation updateLastSeen($userId: String!, $lastSeen: timestamptz!) {
   update_users(where: {id: {_eq: $userId}}, _set: {last_seen: $lastSeen}) {

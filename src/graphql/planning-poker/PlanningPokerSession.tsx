@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import Head from 'next/head';
 import gql from 'graphql-tag';
 import { useRouter } from 'next/router';
@@ -22,6 +22,20 @@ import SessionStats from './SessionStats';
 import SessionOwnerControls from './SessionOwnerControls';
 import VoterControls from './VoterControls';
 import UserSessionRow from './UserSessionRow';
+import SessionObservers from './SessionObservers';
+
+export const POKER_USER_SESSION_INFO_FRAGMENT = gql`
+  fragment PokerUserSessionInfo on poker_user_session {
+    current_vote
+    current_revote
+    current_reaction
+    is_observer
+    user {
+      name
+      id
+    }
+  }
+`;
 
 export const GET_POKER_SESSION = gql`
   subscription getPokerSession($id: Int!) {
@@ -37,22 +51,22 @@ export const GET_POKER_SESSION = gql`
         }
       }
       user_sessions(order_by: { user_id: asc }) {
-        current_vote
-        current_revote
-        current_reaction
-        is_observer
-        user {
-          name
-          id
-        }
+        ...PokerUserSessionInfo
       }
     }
   }
+  ${POKER_USER_SESSION_INFO_FRAGMENT}
 `;
 
 interface PlanningPokerSessionProps {
   sessionId: number;
 }
+
+const motionItemVariants: Variants = {
+  enter: { opacity: 1, x: 0 },
+  hidden: { opacity: 0, x: -70 },
+  exit: { opacity: 0, x: 70, transition: { ease: 'easeInOut' } },
+};
 
 const MotionSession = motion.custom(UserSessionRow);
 
@@ -76,6 +90,26 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
     joinSession({ variables: { sessionId, userId } });
   }, [userId, sessionLoaded]);
 
+  const voters = useMemo(
+    () =>
+      sessionLoaded ? session.user_sessions.filter(us => us.is_observer === false) : [],
+    [session],
+  );
+
+  const observers = useMemo(
+    () =>
+      sessionLoaded ? session.user_sessions.filter(us => us.is_observer === true) : [],
+    [session],
+  );
+
+  const currentUserSession = useMemo(
+    () =>
+      sessionLoaded
+        ? session.user_sessions.find(us => us.user.id === userId) ?? null
+        : null,
+    [session],
+  );
+
   if (loadingSession || isLoadingAuth || joiningSession)
     return (
       <Loading
@@ -98,16 +132,9 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
 
   const isSessionOwner = session.owner_id === userId;
 
-  const motionItemVariants: Variants = {
-    enter: { opacity: 1, x: 0 },
-    hidden: { opacity: 0, x: -70 },
-    exit: { opacity: 0, x: 70, transition: { ease: 'easeInOut' } },
-  };
+  const currentVoteCount = voters.filter(us => us.current_vote !== null).length;
 
-  const currentVoteCount = session.user_sessions.filter(us => us.current_vote !== null)
-    .length;
-
-  const userCount = session.user_sessions.length;
+  const voterCount = voters.length;
 
   return (
     <Box maxWidth={[9]} margin="0 auto">
@@ -120,7 +147,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
       {isSessionOwner && (
         <SessionOwnerControls
           sessionId={session.id}
-          userCount={userCount}
+          userCount={voterCount}
           currentVoteCount={currentVoteCount}
           votesVisible={session.votes_visible}
           allowRevotes={session.allow_revotes}
@@ -131,30 +158,41 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
         sessionId={sessionId}
         votesVisible={session.votes_visible}
         allowRevotes={session.allow_revotes}
+        isObserver={currentUserSession && currentUserSession.is_observer}
       />
 
-      <Flex justifyContent="space-between" flexDirection={['column', , 'row']}>
+      <Flex
+        mb={[3, 4]}
+        justifyContent="space-between"
+        flexDirection={['column', , 'row']}
+      >
         <Card mr={[0, , 3]} mb={[4, 4, 0]} title="Votes" spacingVariant="cosy">
           <AnimatePresence initial={false}>
-            {session.user_sessions.flatMap(us => (
+            {voters.flatMap(userSession => (
               <MotionSession
                 variants={motionItemVariants}
                 initial="hidden"
                 animate="enter"
                 exit="exit"
-                showUserMenu={isSessionOwner}
-                key={us.user.id}
-                user={us.user}
+                key={userSession.user.id}
                 sessionId={session.id}
-                currentRevote={us.current_revote}
-                currentVote={us.current_vote}
-                currentReaction={us.current_reaction}
                 votesVisible={session.votes_visible}
+                userSession={userSession}
+                showUserMenu={isSessionOwner}
               />
             ))}
           </AnimatePresence>
         </Card>
-        <SessionStats {...(session as Poker_Session)} />
+        <Flex flexDirection="column">
+          <Box mb={[4]}>
+            <SessionStats {...(session as Poker_Session)} />
+          </Box>
+          <SessionObservers
+            sessionId={session.id}
+            observers={observers}
+            showUserMenu={isSessionOwner}
+          />
+        </Flex>
       </Flex>
     </Box>
   );

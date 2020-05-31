@@ -7,11 +7,6 @@ import Text from '@styled/Text';
 const StyledDonateButton = styled(Button)`
   border-color: ${getColor('neutralMidDark')};
   color: ${getColor('neutralDark')};
-  opacity: 0.65;
-
-  :hover {
-    opacity: 0.85;
-  }
 `;
 
 const DonateButton = () => (

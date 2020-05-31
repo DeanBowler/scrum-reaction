@@ -22,7 +22,6 @@ export interface ButtonProps
 
 const Button = styled.button<ButtonProps>`
   cursor: pointer;
-  position: relative;
   font-family: ${getFont('normal')};
   background: ${getColor('neutralDark')};
   color: ${getColor('neutralLightest')};

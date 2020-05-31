@@ -9,13 +9,14 @@ import Spaced from '@styled/Spaced';
 import PlanningPokerVoter from './PlanningPokerVoter';
 import PlanningPokerReactor from './PlanningPokerReactor';
 import { AnimatePresence, motion } from 'framer-motion';
-import { toPairs, keysIn } from 'ramda';
+import { toPairs, keysIn, pipe, filter } from 'ramda';
 
 type ControlType = 'react' | 'vote';
 
 interface ControlTabDefinition {
   text: string;
   content: React.ReactNode;
+  isAllowed?: boolean;
 }
 
 interface ControlTabButtonProps {
@@ -53,25 +54,31 @@ interface VoterControlsProps {
   sessionId: number;
   votesVisible: boolean;
   allowRevotes: boolean;
+  isObserver: boolean;
 }
 
 export default function VoterControls({
   sessionId,
   votesVisible,
   allowRevotes,
+  isObserver,
 }: VoterControlsProps) {
   const [voterDisplay, setVoterDisplay] = useState<ControlType>(
     votesVisible ? 'react' : 'vote',
   );
 
-  useEffect(() => setVoterDisplay(votesVisible ? 'react' : 'vote'), [votesVisible]);
+  useEffect(
+    () => setVoterDisplay(isObserver ? 'react' : votesVisible ? 'react' : 'vote'),
+    [votesVisible, isObserver],
+  );
 
   const [direction, setDirection] = useState<'left' | 'right'>('right');
 
-  const canVote = allowRevotes || !votesVisible;
+  const canVote = !isObserver && (allowRevotes || !votesVisible);
 
   const tabs: Record<ControlType, ControlTabDefinition> = {
     vote: {
+      isAllowed: !isObserver,
       text: 'Vote',
       content: (
         <PlanningPokerVoter
@@ -86,7 +93,6 @@ export default function VoterControls({
       content: <PlanningPokerReactor sessionId={sessionId} />,
     },
   };
-
   const handleTabClick = (clicked: ControlType) => {
     const tabKeys = keysIn(tabs) as ControlType[];
     const previousIndex = tabKeys.indexOf(voterDisplay);
@@ -98,11 +104,16 @@ export default function VoterControls({
 
   const directionMult = direction === 'right' ? -1 : 1;
 
+  const renderableTabs = pipe(
+    t => toPairs(t) as [ControlType, ControlTabDefinition][],
+    filter(([_, def]) => def.isAllowed !== false),
+  )(tabs);
+
   return (
     <Box my={[4]}>
       <Box my={[1, 2]}>
         <Spaced mr={[2, 3]}>
-          {toPairs(tabs).map(([type, def]: [ControlType, ControlTabDefinition]) => (
+          {renderableTabs.map(([type, def]) => (
             <ControlTabButton
               key={type}
               isActive={voterDisplay === type}

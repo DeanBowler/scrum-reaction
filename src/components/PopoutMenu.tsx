@@ -7,8 +7,9 @@ import Box, { BoxProps } from '@styled/Box';
 import { FaEllipsisV } from 'react-icons/fa';
 import { AnimatePresence, motion } from 'framer-motion';
 import useDebouncedState from '@hooks/useDebouncedState';
-import { LayoutProps, layout } from 'styled-system';
+import { LayoutProps, layout, variant } from 'styled-system';
 import { getColor } from '@styled/theme';
+import { IconType } from 'react-icons/lib';
 
 const PopoutMenuMenuContainer = styled(BorderBox)`
   z-index: 1;
@@ -113,7 +114,9 @@ PopoutMenu.Item = function PopoutMenuItem({
   );
 };
 
-const StyledMenuButton = styled.button<LayoutProps>`
+type MenuButtonVariant = 'small' | 'large';
+
+const StyledMenuButton = styled.button<LayoutProps & { variant: MenuButtonVariant }>`
   display: flex;
   cursor: pointer;
   align-items: center;
@@ -124,6 +127,21 @@ const StyledMenuButton = styled.button<LayoutProps>`
   color: ${getColor('neutralMidDark')};
 
   border: 1px solid transparent;
+
+  ${variant<unknown, MenuButtonVariant>({
+    variants: {
+      small: {
+        width: 2,
+        height: 2,
+        fontSize: 2,
+      },
+      large: {
+        width: 3,
+        height: 3,
+        fontSize: 4,
+      },
+    },
+  })}
 
   ${layout};
 
@@ -150,12 +168,19 @@ const StyledMenuButton = styled.button<LayoutProps>`
   }
 `;
 
-interface PopoutMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+interface PopoutMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  icon?: IconType;
+  variant?: MenuButtonVariant;
+}
 
-PopoutMenu.Button = function PopoutMenuButton({ ...p }: PopoutMenuButtonProps) {
+PopoutMenu.Button = function PopoutMenuButton({
+  icon: Icon = FaEllipsisV,
+  variant = 'small',
+  ...p
+}: PopoutMenuButtonProps) {
   return (
-    <StyledMenuButton width={[2]} height={[2]} {...p}>
-      <FaEllipsisV />
+    <StyledMenuButton variant={variant} {...p}>
+      <Icon />
     </StyledMenuButton>
   );
 };

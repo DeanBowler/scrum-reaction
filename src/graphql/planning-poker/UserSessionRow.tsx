@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Users } from '@generated/graphql';
-import { FaEyeSlash } from 'react-icons/fa';
+import { Users, PokerUserSessionInfoFragment } from '@generated/graphql';
+import { FaEyeSlash, FaCrown } from 'react-icons/fa';
 import styled from 'styled-components';
 import { Variants, AnimatePresence, motion } from 'framer-motion';
 
@@ -10,17 +10,14 @@ import Flex from '@styled/Flex';
 import Box from '@styled/Box';
 import Text from '@styled/Text';
 
-import { ReactionIcon } from './PlanningPokerReactor';
 import SessionUserMenu from './SessionUserMenu';
+import AnimatedReaction from './AnimatedReaction';
 
 interface UserSessionProps {
-  user: Pick<Users, 'id' | 'name'>;
   sessionId: number;
   showUserMenu: boolean;
-  currentVote: string | number | null;
-  currentRevote: string | null;
-  currentReaction: string | null;
   votesVisible: boolean;
+  userSession: PokerUserSessionInfoFragment;
 }
 
 const StyledUserSessionContainer = styled(Flex)`
@@ -52,80 +49,79 @@ const StyledVoteText = styled(Text)`
 const MotionBox = motion.custom(Box);
 
 const UserSessionRow = React.forwardRef(
-  (
-    {
-      user,
-      sessionId,
-      currentVote: current_vote,
-      currentRevote: current_revote,
-      currentReaction: current_reaction,
-      showUserMenu,
-      votesVisible: votes_visible,
-    }: UserSessionProps,
-    ref,
-  ) => {
+  ({ sessionId, userSession, showUserMenu, votesVisible }: UserSessionProps, ref) => {
     const { userId } = useAuth();
 
-    const isVoteVisible = votes_visible || user.id === userId;
+    const {
+      user,
+      current_reaction,
+      current_vote,
+      current_revote,
+      is_observer,
+    } = userSession;
+
+    const isVoteVisible = votesVisible || user.id === userId;
     const hasRevoted = current_revote !== null;
 
     return (
-      <StyledUserSessionContainer ref={ref} py={[1, 2]} alignItems="center">
+      <StyledUserSessionContainer
+        ref={ref}
+        py={is_observer ? [1] : [1, 2]}
+        alignItems="center"
+      >
         <Box flex="0 0" minWidth={[1, 2]} mr={[1, , 2]} position="relative">
-          <AnimatePresence initial={false} exitBeforeEnter>
-            <motion.div
-              key={current_reaction}
-              initial="hidden"
-              animate="visible"
-              exit="exit"
-              variants={reactionMotions}
-            >
-              <ReactionIcon reaction={current_reaction} />
-            </motion.div>
-          </AnimatePresence>
+          <AnimatedReaction reaction={current_reaction} />
         </Box>
-        <Box flex="1 1" pl={[1, 2]}>
-          <Text fontSize={[2, 3]}>{user.name}</Text>
-        </Box>
-        <Flex flex="0 0" pr={[2, 3]} justifyContent="end" alignItems="center">
-          <MotionBox
-            positionTransition={({ delta }) =>
-              votes_visible && !!delta.x ? { type: 'spring' } : { type: false }
-            }
-            minWidth={3}
-            textAlign="center"
-            flex="0 0"
-          >
-            <StyledVoteText
-              fontSize={!hasRevoted ? [3, 4] : [2, 3]}
-              fontWeight="bold"
-              color={!hasRevoted ? 'neutralDarker' : 'neutralMidDark'}
-            >
-              {current_vote ? isVoteVisible ? current_vote : <FaEyeSlash /> : ' '}
-            </StyledVoteText>
-          </MotionBox>
-          <AnimatePresence initial={false} exitBeforeEnter>
-            {hasRevoted && (
-              <MotionBox
-                key={current_revote}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                variants={reactionMotions}
-                minWidth={3}
-                textAlign="center"
-              >
-                <Box>
-                  <Text fontSize={[3, 4]} fontWeight="bold" color="secondary">
-                    {current_revote}
-                  </Text>
-                </Box>
-              </MotionBox>
-            )}
-          </AnimatePresence>
+        <Flex flex="1 1" pl={1}>
+          <Text fontSize={is_observer ? [1, 2] : [2, 3]}>{user.name}</Text>
         </Flex>
+        {!is_observer && (
+          <Flex flex="0 0" pr={[2, 3]} justifyContent="end" alignItems="center">
+            <MotionBox
+              positionTransition={({ delta }) =>
+                votesVisible && !!delta.x ? { type: 'spring' } : { type: false }
+              }
+              minWidth={3}
+              textAlign="center"
+              flex="0 0"
+            >
+              <StyledVoteText
+                fontSize={!hasRevoted ? [3, 4] : [2, 3]}
+                fontWeight="bold"
+                color={!hasRevoted ? 'neutralDarker' : 'neutralMidDark'}
+              >
+                {current_vote ? isVoteVisible ? current_vote : <FaEyeSlash /> : ' '}
+              </StyledVoteText>
+            </MotionBox>
+            <AnimatePresence initial={false} exitBeforeEnter>
+              {hasRevoted && (
+                <MotionBox
+                  key={current_revote}
+                  initial="hidden"
+                  animate="visible"
+                  exit="exit"
+                  variants={reactionMotions}
+                  minWidth={3}
+                  textAlign="center"
+                >
+                  <Box>
+                    <Text fontSize={[3, 4]} fontWeight="bold" color="secondary">
+                      {current_revote}
+                    </Text>
+                  </Box>
+                </MotionBox>
+              )}
+            </AnimatePresence>
+          </Flex>
+        )}
 
-        {showUserMenu && <SessionUserMenu userId={user.id} sessionId={sessionId} />}
+        {showUserMenu && (
+          <SessionUserMenu
+            userId={user.id}
+            sessionId={sessionId}
+            isObserver={is_observer}
+          />
+        )}
       </StyledUserSessionContainer>
     );
   },
