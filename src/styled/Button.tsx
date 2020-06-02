@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   space,
   SpaceProps,
@@ -8,10 +9,12 @@ import {
   flex,
   FlexProps,
 } from 'styled-system';
-import styled, { keyframes, css } from 'styled-components';
+import styled, { keyframes, css, StyledComponentBase } from 'styled-components';
 import { getColor, AppTheme, getFont } from '@styled/theme';
 
-export interface ButtonProps
+import useDebouncedState from '@hooks/useDebouncedState';
+
+interface StyledButtonProps
   extends SpaceProps<AppTheme>,
     FontSizeProps<AppTheme>,
     FlexProps<AppTheme> {
@@ -20,8 +23,11 @@ export interface ButtonProps
   variant?: ResponsiveValue<'primary' | 'neutral' | 'negative' | 'outline'>;
 }
 
-const Button = styled.button<ButtonProps>`
+const StyledButton: StyledComponentBase<'button', AppTheme, {}, any> = styled.button<
+  StyledButtonProps
+>`
   cursor: pointer;
+  position: relative;
   font-family: ${getFont('normal')};
   background: ${getColor('neutralDark')};
   color: ${getColor('neutralLightest')};
@@ -121,10 +127,40 @@ const rotate = keyframes`
   }
 }`;
 
-Button.defaultProps = {
+StyledButton.defaultProps = {
   py: [2, 3],
   px: [3, 4],
   fontSize: [1, 2],
   variant: 'neutral',
 };
-export default Button;
+
+export interface ButtonProps
+  extends StyledButtonProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {
+  loadingDebounceMs?: number;
+  className?: string;
+  as?: React.ElementType;
+}
+
+export default function Button({
+  loadingDebounceMs = 100,
+  isLoading,
+  ...rest
+}: ButtonProps) {
+  const debouncedLoading = useDebouncedState(isLoading, loadingDebounceMs);
+
+  const props = { ...rest, ...{ isLoading: debouncedLoading } };
+
+  return React.createElement(StyledButton, props);
+}
+
+export interface AnchorButtonProps
+  extends StyledButtonProps,
+    React.AnchorHTMLAttributes<HTMLButtonElement> {
+  className?: string;
+  as?: React.ElementType;
+}
+
+export function AnchorButton(props: AnchorButtonProps) {
+  return React.createElement(StyledButton, props);
+}

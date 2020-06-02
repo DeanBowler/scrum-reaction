@@ -1,16 +1,8 @@
-import styled from 'styled-components';
-
-import { getColor } from '@styled/theme';
-import Button from '@styled/Button';
+import { AnchorButton } from '@styled/Button';
 import Text from '@styled/Text';
 
-const StyledDonateButton = styled(Button)`
-  border-color: ${getColor('neutralMidDark')};
-  color: ${getColor('neutralDark')};
-`;
-
 const DonateButton = () => (
-  <StyledDonateButton
+  <AnchorButton
     as="a"
     href="https://www.buymeacoffee.com/deanbowler"
     target="__blank"
@@ -24,7 +16,7 @@ const DonateButton = () => (
     <Text ml={1} fontFamily="cursive">
       Buy me an avocado
     </Text>
-  </StyledDonateButton>
+  </AnchorButton>
 );
 
 export default DonateButton;

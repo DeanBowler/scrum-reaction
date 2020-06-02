@@ -109,8 +109,7 @@ export default function SessionUserMenu({
   const handleClose = () => {
     setShowMenu(false);
 
-    // delay change of the action until the menu has transitioned out to avoid messy animations
-    setTimeout(() => setClickedAction(undefined), 200);
+    setClickedAction(undefined);
   };
 
   const handleRemoveConfirm = async () => {
