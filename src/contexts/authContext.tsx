@@ -62,6 +62,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
           process.env.REACT_APP_AUTH0_CLIENT_ID || 'OjVi0uiIuSX2VgDZVOsWLR6hTn4Dlktx',
         redirect_uri: window.origin,
         audience: 'https://morning-sound-9681.eu.auth0.com/api/v2/',
+        useRefreshTokens: true,
       };
 
       const client = await createAuth0Client(config);
