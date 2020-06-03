@@ -1,0 +1,23 @@
+import styled from 'styled-components';
+import Box from '@styled/Box';
+
+<Box maxWidth={9} margin="0 auto">
+
+# Release Notes
+
+## 31st May 2020
+
+- Updated authentication to use [refresh tokens](https://auth0.com/docs/tokens/concepts/refresh-tokens) so you don't have to login everytime you access the site!
+- Added the ability for a session owner to set participants as observers.
+  - Observers cannot vote, but they can give reactions!
+- Changes to the web app are now published in the new [release notes](/release-notes) page.
+
+## 24th May 2020
+
+- Poker session participants can now change their vote after the big reveal, _if_ the session owner allows it.
+  - To facilitate this change the voting/react ui has been changed to a tabbed interface.
+  - As a systemic brucie bonus, reactions can now be given before the voting phase has completed!
+- Added a "break-time" coffee cup reaction to poker sessions, for occasions where you desperately need to intake/outake fluids.
+- Finally added a fancy loader for lengthy page transitions or server requests.
+
+</Box>

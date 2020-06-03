@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import Link from 'next/link';
 
 import Box, { BoxProps } from '@styled/Box';
 import Text from '@styled/Text';
 import Spaced from '@styled/Spaced';
 import Flex from '@styled/Flex';
+import StyledLink from '@styled/Link';
 import DonateButton from '@components/DonateButton';
 
 const StyledFooter: React.FunctionComponent<BoxProps> = styled(Box)`
@@ -17,12 +19,18 @@ export default function Footer() {
       <Flex
         flexDirection={['column', 'row']}
         justifyContent={['initial', 'space-between']}
+        alignItems="flex-start"
       >
-        <Spaced mr={[1, 2]} my={[2, 0]}>
-          <Text fontSize="1" color="neutralDark">
+        <Flex flexDirection="column" justifyContent="flex-end">
+          <Link href="/release-notes">
+            <StyledLink fontSize="1" mb={[1, 2]}>
+              Release notes
+            </StyledLink>
+          </Link>
+          <Text fontSize="1" color="neutralDark" mb={[1, 0]}>
             © 2020 - Dean Bowler
           </Text>
-        </Spaced>
+        </Flex>
         <DonateButton />
       </Flex>
     </StyledFooter>

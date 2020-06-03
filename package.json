@@ -27,6 +27,8 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
     "@auth0/auth0-spa-js": "^1.7.0",
+    "@mdx-js/loader": "^1.6.5",
+    "@next/mdx": "^9.4.4",
     "@styled-system/css": "^5.1.5",
     "@styled-system/theme-get": "^5.1.2",
     "apollo-cache-inmemory": "^1.6.5",

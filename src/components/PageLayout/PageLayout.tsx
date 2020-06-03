@@ -37,6 +37,14 @@ const GlobalStyle = createGlobalStyle`
     display: flex;
     flex-direction: column;
   }
+
+  ul {
+    padding-inline-start: 1rem;
+  }
+
+  li {
+    margin: 1rem 0;
+  }
 `;
 
 const Container = styled(Flex)`
