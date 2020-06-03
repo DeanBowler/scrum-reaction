@@ -66,6 +66,7 @@ const UserSessionRow = React.forwardRef(
     return (
       <StyledUserSessionContainer
         ref={ref}
+        height={2}
         py={is_observer ? [1] : [1, 2]}
         alignItems="center"
       >
