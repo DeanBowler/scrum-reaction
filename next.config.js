@@ -1,11 +1,13 @@
 const path = require('path');
 require('dotenv').config();
 
+const withPlugins = require('next-compose-plugins');
+
 const withMDX = require('@next/mdx')({
   extension: /\.mdx?$/,
 });
 
-module.exports = withMDX({
+module.exports = withPlugins([withMDX], {
   pageExtensions: ['tsx', 'md', 'mdx'],
   env: {
     REACT_APP_AUTH0_DOMAIN: process.env.REACT_APP_AUTH0_DOMAIN,
