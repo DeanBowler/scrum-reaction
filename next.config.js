@@ -8,6 +8,7 @@ const withMDX = require('@next/mdx')({
 });
 
 module.exports = withPlugins([withMDX], {
+  reactStrictMode: true,
   pageExtensions: ['tsx', 'md', 'mdx'],
   env: {
     REACT_APP_AUTH0_DOMAIN: process.env.REACT_APP_AUTH0_DOMAIN,

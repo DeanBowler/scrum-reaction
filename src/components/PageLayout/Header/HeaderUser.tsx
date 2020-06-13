@@ -44,6 +44,7 @@ export default function HeaderUser() {
     <Box position="relative">
       <HeaderUserContainer
         as="button"
+        aria-label="View user menu"
         tabIndex={0}
         borderRadius="50%"
         width={['2', '3']}
@@ -61,7 +62,11 @@ export default function HeaderUser() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
             >
-              {user && user.picture ? <UserImage src={user.picture} /> : <FaUser />}
+              {user && user.picture ? (
+                <UserImage alt="User profile picture" src={user.picture} />
+              ) : (
+                <FaUser />
+              )}
             </motion.div>
           )}
         </AnimatePresence>

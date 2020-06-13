@@ -111,7 +111,7 @@ export default function VoterControls({
 
   return (
     <Box my={[4]}>
-      <Box my={[1, 2]}>
+      <Box my={[1, 2]} role="tablist">
         <Spaced mr={[2, 3]}>
           {renderableTabs.map(([type, def]) => (
             <ControlTabButton
