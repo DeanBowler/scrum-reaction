@@ -27,6 +27,7 @@ import { useDelta, useDeltaChange } from '@hooks/useDelta';
 import { useToast } from '@components/Toast';
 import { ReactionIcon } from './PlanningPokerReactor';
 import isEmpty from '@utils/isEmpty';
+import SessionMenu from './SessionMenu';
 
 export const POKER_USER_SESSION_INFO_FRAGMENT = gql`
   fragment PokerUserSessionInfo on poker_user_session {
@@ -175,16 +176,20 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
       <Head>
         <title>{session.name}</title>
       </Head>
-      <Text as="h2" fontWeight="400" fontSize={[3, 4, 5]}>
-        Planning Poker &gt; {session.name}
-      </Text>
+      <Flex justifyContent="space-between" alignItems="baseline" my={[2, 4]}>
+        <Text as="h2" m={0} fontWeight="400" fontSize={[3, 4, 5]}>
+          Planning Poker &gt; {session.name}
+        </Text>
+        {isSessionOwner && (
+          <SessionMenu sessionId={session.id} allowRevotes={session.allow_revotes} />
+        )}
+      </Flex>
       {isSessionOwner && (
         <SessionOwnerControls
           sessionId={session.id}
           userCount={voterCount}
           currentVoteCount={currentVoteCount}
           votesVisible={session.votes_visible}
-          allowRevotes={session.allow_revotes}
         />
       )}
 

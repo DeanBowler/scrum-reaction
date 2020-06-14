@@ -7,7 +7,7 @@ import Text from '@styled/Text';
 export interface ToggleProps extends BoxProps {
   label: string;
   currentValue: boolean;
-  onClick(): void;
+  onClick?(): void;
 }
 
 interface StyledToggleProps {
@@ -64,17 +64,21 @@ ToggleContainer.defaultProps = {
   as: 'label',
 };
 
+const LabelText = styled(Text)`
+  white-space: nowrap;
+`;
+
 export default function Toggle({ label, currentValue, onClick, ...rest }: ToggleProps) {
   const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
-    onClick();
+    if (onClick) onClick();
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
     console.log(e.key);
     if (e.key === ' ') {
       e.preventDefault();
-      onClick();
+      if (onClick) onClick();
     }
   };
 
@@ -89,7 +93,7 @@ export default function Toggle({ label, currentValue, onClick, ...rest }: Toggle
       <StyledToggle toggled={currentValue}>
         <StyledThumb toggled={currentValue} />
       </StyledToggle>
-      <Text>{label}</Text>
+      <LabelText>{label}</LabelText>
     </ToggleContainer>
   );
 }
