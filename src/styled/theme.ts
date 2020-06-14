@@ -1,5 +1,6 @@
 import { Theme } from 'styled-system';
 import { ThemedStyledProps, DefaultTheme } from 'styled-components';
+import { identity } from 'ramda';
 
 type LineHeight = 'solid' | 'title' | 'copy';
 type LetterSpacing = 'normal' | 'tracked' | 'tight' | 'mega';
@@ -31,7 +32,7 @@ export interface AppTheme extends Theme {
 const baseTheme = {
   colors: {
     primary: '#47ae75',
-    secondary: '#FA8F4D',
+    secondary: '#fa8f4d',
     positive: '#50b87e',
     negative: '#cc3333',
     neutralDarker: '#293132',
@@ -81,9 +82,10 @@ const theme: AppTheme = {
 
 export default theme;
 
-export const getColor = (color: keyof AppTheme['colors']) => (
-  p: ThemedStyledProps<unknown, DefaultTheme>,
-) => p.theme.colors[color];
+export const getColor = (
+  color: keyof AppTheme['colors'],
+  adjustment: (color: string) => string = identity,
+) => (p: ThemedStyledProps<unknown, DefaultTheme>) => adjustment(p.theme.colors[color]);
 
 export const getFont = (font: keyof AppTheme['fonts']) => (
   p: ThemedStyledProps<unknown, DefaultTheme>,
