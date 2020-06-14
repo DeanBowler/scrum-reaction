@@ -27,7 +27,7 @@ const StyledButton: StyledComponentBase<'button', AppTheme, {}, any> = styled.bu
   StyledButtonProps
 >`
   cursor: pointer;
-  position: relative;
+  position: ${p => (p.isLoading ? 'relative' : 'unset')};
   font-family: ${getFont('normal')};
   background: ${getColor('neutralDark')};
   color: ${getColor('neutralLightest')};

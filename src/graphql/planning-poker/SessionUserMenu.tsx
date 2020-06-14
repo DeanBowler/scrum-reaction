@@ -10,7 +10,7 @@ import {
 } from '@generated/graphql';
 import { useAuth } from '@contexts/authContext';
 import { motion, AnimatePresence } from 'framer-motion';
-import { toPairs } from 'ramda';
+import { toPairs, pipe, filter } from 'ramda';
 
 export const DELETE_USER_SESSION = gql`
   mutation removeUserFromSession($sessionId: Int!, $userId: String!) {
@@ -53,6 +53,7 @@ export interface SessionUserMenuProps {
 type SessionUserActionType = 'KICK' | 'MAKE_OWNER' | 'TOGGLE_OBSERVER';
 
 type SessionUserActionDefinition = {
+  shouldDisplay?: boolean;
   actionText: string;
   confirmationText?: string;
   confirmButtonText: string;
@@ -135,12 +136,14 @@ export default function SessionUserMenu({
       isInProgress: togglingObserverRole,
     },
     MAKE_OWNER: {
+      shouldDisplay: !isCurrentUser,
       actionText: 'Make session owner',
       confirmButtonText: 'Give control',
       action: handleChangeOwnershipConfirm,
       isInProgress: givingOwnership,
     },
     KICK: {
+      shouldDisplay: !isCurrentUser,
       actionText: 'Kick from session',
       confirmButtonText: 'Kick',
       action: handleRemoveConfirm,
@@ -148,13 +151,14 @@ export default function SessionUserMenu({
     },
   };
 
+  const validActionPairs = pipe(
+    (a: SessionUserActionMap) => toPairs(a),
+    filter(([, def]) => def.shouldDisplay !== false),
+  )(actions);
+
   return (
     <Box position="relative">
-      <PopoutMenu.Button
-        tabIndex={isCurrentUser ? -1 : 0}
-        onClick={() => !isCurrentUser && setShowMenu(sm => !sm)}
-        hidden={isCurrentUser}
-      />
+      <PopoutMenu.Button onClick={() => setShowMenu(sm => !sm)} />
       <div>
         <PopoutMenu show={showMenu} onClose={handleClose}>
           <Box overflowX="hidden">
@@ -168,7 +172,7 @@ export default function SessionUserMenu({
               >
                 {!clickedAction && (
                   <>
-                    {toPairs(actions).map(
+                    {validActionPairs.map(
                       ([type, def]: [
                         SessionUserActionType,
                         SessionUserActionDefinition,
