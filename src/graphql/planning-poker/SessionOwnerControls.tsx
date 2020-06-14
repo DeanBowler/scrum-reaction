@@ -95,10 +95,7 @@ export default function SessionOwnerControls({
           >
             Show Votes
           </Button>
-          <Button
-            disabled={!votesVisible || !currentVoteCount}
-            onClick={() => clearVotes()}
-          >
+          <Button disabled={!votesVisible} onClick={() => clearVotes()}>
             Clear Votes
           </Button>
           <Toggle
