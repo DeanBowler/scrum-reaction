@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import gql from 'graphql-tag';
 
 import { useClearVotesMutation, useShowVotesMutation } from '@generated/graphql';
@@ -40,6 +40,7 @@ export interface SessionOwnerControlsProps {
   votesVisible: boolean;
   userCount: number;
   currentVoteCount: number;
+  autoReveal: boolean;
 }
 
 export default function SessionOwnerControls({
@@ -47,11 +48,16 @@ export default function SessionOwnerControls({
   votesVisible,
   userCount,
   currentVoteCount,
+  autoReveal,
 }: SessionOwnerControlsProps) {
   const [clearVotes] = useClearVotesMutation({ variables: { sessionId } });
   const [showVotes] = useShowVotesMutation({ variables: { sessionId } });
 
   const allUsersVoted = userCount === currentVoteCount;
+
+  useEffect(() => {
+    if (autoReveal && allUsersVoted) showVotes();
+  }, [autoReveal, allUsersVoted]);
 
   return (
     <Box as="section" my={[2, 4]}>

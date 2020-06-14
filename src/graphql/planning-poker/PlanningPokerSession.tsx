@@ -23,7 +23,7 @@ import SessionOwnerControls from './SessionOwnerControls';
 import VoterControls from './VoterControls';
 import UserSessionRow from './UserSessionRow';
 import SessionObservers from './SessionObservers';
-import { useDelta, useDeltaChange } from '@hooks/useDelta';
+import { useDeltaChange } from '@hooks/useDelta';
 import { useToast } from '@components/Toast';
 import { ReactionIcon } from './PlanningPokerReactor';
 import isEmpty from '@utils/isEmpty';
@@ -50,6 +50,7 @@ export const GET_POKER_SESSION = gql`
       owner_id
       votes_visible
       allow_revotes
+      auto_reveal
       user_sessions_aggregate {
         aggregate {
           count
@@ -181,7 +182,11 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
           Planning Poker &gt; {session.name}
         </Text>
         {isSessionOwner && (
-          <SessionMenu sessionId={session.id} allowRevotes={session.allow_revotes} />
+          <SessionMenu
+            sessionId={session.id}
+            allowRevotes={session.allow_revotes}
+            autoReveal={session.auto_reveal}
+          />
         )}
       </Flex>
       {isSessionOwner && (
@@ -190,6 +195,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
           userCount={voterCount}
           currentVoteCount={currentVoteCount}
           votesVisible={session.votes_visible}
+          autoReveal={session.auto_reveal}
         />
       )}
 

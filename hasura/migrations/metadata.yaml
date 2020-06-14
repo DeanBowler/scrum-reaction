@@ -43,18 +43,20 @@ tables:
           _eq: X-Hasura-User-Id
       columns:
       - allow_revotes
+      - auto_reveal
       - name
       - owner_id
   select_permissions:
   - role: user
     permission:
       columns:
+      - allow_revotes
+      - auto_reveal
+      - votes_visible
       - id
       - name
       - owner_id
-      - votes_visible
       - created_at
-      - allow_revotes
       filter: {}
       allow_aggregations: true
   update_permissions:
@@ -62,6 +64,7 @@ tables:
     permission:
       columns:
       - allow_revotes
+      - auto_reveal
       - name
       - owner_id
       - votes_visible

@@ -330,6 +330,7 @@ export enum Order_By {
 export type Poker_Session = {
    __typename?: 'poker_session';
   allow_revotes: Scalars['Boolean'];
+  auto_reveal: Scalars['Boolean'];
   created_at: Scalars['timestamptz'];
   id: Scalars['Int'];
   name: Scalars['String'];
@@ -431,6 +432,7 @@ export type Poker_Session_Bool_Exp = {
   _not?: Maybe<Poker_Session_Bool_Exp>;
   _or?: Maybe<Array<Maybe<Poker_Session_Bool_Exp>>>;
   allow_revotes?: Maybe<Boolean_Comparison_Exp>;
+  auto_reveal?: Maybe<Boolean_Comparison_Exp>;
   created_at?: Maybe<Timestamptz_Comparison_Exp>;
   id?: Maybe<Int_Comparison_Exp>;
   name?: Maybe<String_Comparison_Exp>;
@@ -454,6 +456,7 @@ export type Poker_Session_Inc_Input = {
 /** input type for inserting data into table "poker_session" */
 export type Poker_Session_Insert_Input = {
   allow_revotes?: Maybe<Scalars['Boolean']>;
+  auto_reveal?: Maybe<Scalars['Boolean']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -522,6 +525,7 @@ export type Poker_Session_On_Conflict = {
 /** ordering options when selecting data from "poker_session" */
 export type Poker_Session_Order_By = {
   allow_revotes?: Maybe<Order_By>;
+  auto_reveal?: Maybe<Order_By>;
   created_at?: Maybe<Order_By>;
   id?: Maybe<Order_By>;
   name?: Maybe<Order_By>;
@@ -535,6 +539,8 @@ export type Poker_Session_Order_By = {
 export enum Poker_Session_Select_Column {
   /** column name */
   AllowRevotes = 'allow_revotes',
+  /** column name */
+  AutoReveal = 'auto_reveal',
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
@@ -550,6 +556,7 @@ export enum Poker_Session_Select_Column {
 /** input type for updating data in table "poker_session" */
 export type Poker_Session_Set_Input = {
   allow_revotes?: Maybe<Scalars['Boolean']>;
+  auto_reveal?: Maybe<Scalars['Boolean']>;
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -605,6 +612,8 @@ export type Poker_Session_Sum_Order_By = {
 export enum Poker_Session_Update_Column {
   /** column name */
   AllowRevotes = 'allow_revotes',
+  /** column name */
+  AutoReveal = 'auto_reveal',
   /** column name */
   CreatedAt = 'created_at',
   /** column name */
@@ -1465,7 +1474,7 @@ export type GetPokerSessionSubscription = (
   { __typename?: 'subscription_root' }
   & { poker_session_by_pk?: Maybe<(
     { __typename?: 'poker_session' }
-    & Pick<Poker_Session, 'id' | 'name' | 'owner_id' | 'votes_visible' | 'allow_revotes'>
+    & Pick<Poker_Session, 'id' | 'name' | 'owner_id' | 'votes_visible' | 'allow_revotes' | 'auto_reveal'>
     & { user_sessions_aggregate: (
       { __typename?: 'poker_user_session_aggregate' }
       & { aggregate?: Maybe<(
@@ -1522,6 +1531,34 @@ export type GetRecentSessionsQuery = (
   )> }
 );
 
+export type SetAllowRevotesMutationVariables = {
+  sessionId: Scalars['Int'];
+  allowRevotes: Scalars['Boolean'];
+};
+
+
+export type SetAllowRevotesMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_poker_session?: Maybe<(
+    { __typename?: 'poker_session_mutation_response' }
+    & Pick<Poker_Session_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
+export type SetAutoRevealMutationVariables = {
+  sessionId: Scalars['Int'];
+  autoReveal: Scalars['Boolean'];
+};
+
+
+export type SetAutoRevealMutation = (
+  { __typename?: 'mutation_root' }
+  & { update_poker_session?: Maybe<(
+    { __typename?: 'poker_session_mutation_response' }
+    & Pick<Poker_Session_Mutation_Response, 'affected_rows'>
+  )> }
+);
+
 export type ClearVotesMutationVariables = {
   sessionId: Scalars['Int'];
 };
@@ -1544,20 +1581,6 @@ export type ShowVotesMutationVariables = {
 
 
 export type ShowVotesMutation = (
-  { __typename?: 'mutation_root' }
-  & { update_poker_session?: Maybe<(
-    { __typename?: 'poker_session_mutation_response' }
-    & Pick<Poker_Session_Mutation_Response, 'affected_rows'>
-  )> }
-);
-
-export type SetAllowRevotesMutationVariables = {
-  sessionId: Scalars['Int'];
-  allowRevotes: Scalars['Boolean'];
-};
-
-
-export type SetAllowRevotesMutation = (
   { __typename?: 'mutation_root' }
   & { update_poker_session?: Maybe<(
     { __typename?: 'poker_session_mutation_response' }
@@ -1759,6 +1782,7 @@ export const GetPokerSessionDocument = gql`
     owner_id
     votes_visible
     allow_revotes
+    auto_reveal
     user_sessions_aggregate {
       aggregate {
         count
@@ -1896,6 +1920,72 @@ export function useGetRecentSessionsLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type GetRecentSessionsQueryHookResult = ReturnType<typeof useGetRecentSessionsQuery>;
 export type GetRecentSessionsLazyQueryHookResult = ReturnType<typeof useGetRecentSessionsLazyQuery>;
 export type GetRecentSessionsQueryResult = ApolloReactCommon.QueryResult<GetRecentSessionsQuery, GetRecentSessionsQueryVariables>;
+export const SetAllowRevotesDocument = gql`
+    mutation setAllowRevotes($sessionId: Int!, $allowRevotes: Boolean!) {
+  update_poker_session(where: {id: {_eq: $sessionId}}, _set: {allow_revotes: $allowRevotes}) {
+    affected_rows
+  }
+}
+    `;
+export type SetAllowRevotesMutationFn = ApolloReactCommon.MutationFunction<SetAllowRevotesMutation, SetAllowRevotesMutationVariables>;
+
+/**
+ * __useSetAllowRevotesMutation__
+ *
+ * To run a mutation, you first call `useSetAllowRevotesMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetAllowRevotesMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setAllowRevotesMutation, { data, loading, error }] = useSetAllowRevotesMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *      allowRevotes: // value for 'allowRevotes'
+ *   },
+ * });
+ */
+export function useSetAllowRevotesMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SetAllowRevotesMutation, SetAllowRevotesMutationVariables>) {
+        return ApolloReactHooks.useMutation<SetAllowRevotesMutation, SetAllowRevotesMutationVariables>(SetAllowRevotesDocument, baseOptions);
+      }
+export type SetAllowRevotesMutationHookResult = ReturnType<typeof useSetAllowRevotesMutation>;
+export type SetAllowRevotesMutationResult = ApolloReactCommon.MutationResult<SetAllowRevotesMutation>;
+export type SetAllowRevotesMutationOptions = ApolloReactCommon.BaseMutationOptions<SetAllowRevotesMutation, SetAllowRevotesMutationVariables>;
+export const SetAutoRevealDocument = gql`
+    mutation setAutoReveal($sessionId: Int!, $autoReveal: Boolean!) {
+  update_poker_session(where: {id: {_eq: $sessionId}}, _set: {auto_reveal: $autoReveal}) {
+    affected_rows
+  }
+}
+    `;
+export type SetAutoRevealMutationFn = ApolloReactCommon.MutationFunction<SetAutoRevealMutation, SetAutoRevealMutationVariables>;
+
+/**
+ * __useSetAutoRevealMutation__
+ *
+ * To run a mutation, you first call `useSetAutoRevealMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSetAutoRevealMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [setAutoRevealMutation, { data, loading, error }] = useSetAutoRevealMutation({
+ *   variables: {
+ *      sessionId: // value for 'sessionId'
+ *      autoReveal: // value for 'autoReveal'
+ *   },
+ * });
+ */
+export function useSetAutoRevealMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SetAutoRevealMutation, SetAutoRevealMutationVariables>) {
+        return ApolloReactHooks.useMutation<SetAutoRevealMutation, SetAutoRevealMutationVariables>(SetAutoRevealDocument, baseOptions);
+      }
+export type SetAutoRevealMutationHookResult = ReturnType<typeof useSetAutoRevealMutation>;
+export type SetAutoRevealMutationResult = ApolloReactCommon.MutationResult<SetAutoRevealMutation>;
+export type SetAutoRevealMutationOptions = ApolloReactCommon.BaseMutationOptions<SetAutoRevealMutation, SetAutoRevealMutationVariables>;
 export const ClearVotesDocument = gql`
     mutation clearVotes($sessionId: Int!) {
   update_poker_user_session(where: {poker_session: {id: {_eq: $sessionId}}}, _set: {current_vote: null, current_reaction: null, current_revote: null}) {
@@ -1963,39 +2053,6 @@ export function useShowVotesMutation(baseOptions?: ApolloReactHooks.MutationHook
 export type ShowVotesMutationHookResult = ReturnType<typeof useShowVotesMutation>;
 export type ShowVotesMutationResult = ApolloReactCommon.MutationResult<ShowVotesMutation>;
 export type ShowVotesMutationOptions = ApolloReactCommon.BaseMutationOptions<ShowVotesMutation, ShowVotesMutationVariables>;
-export const SetAllowRevotesDocument = gql`
-    mutation setAllowRevotes($sessionId: Int!, $allowRevotes: Boolean!) {
-  update_poker_session(where: {id: {_eq: $sessionId}}, _set: {allow_revotes: $allowRevotes}) {
-    affected_rows
-  }
-}
-    `;
-export type SetAllowRevotesMutationFn = ApolloReactCommon.MutationFunction<SetAllowRevotesMutation, SetAllowRevotesMutationVariables>;
-
-/**
- * __useSetAllowRevotesMutation__
- *
- * To run a mutation, you first call `useSetAllowRevotesMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useSetAllowRevotesMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [setAllowRevotesMutation, { data, loading, error }] = useSetAllowRevotesMutation({
- *   variables: {
- *      sessionId: // value for 'sessionId'
- *      allowRevotes: // value for 'allowRevotes'
- *   },
- * });
- */
-export function useSetAllowRevotesMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<SetAllowRevotesMutation, SetAllowRevotesMutationVariables>) {
-        return ApolloReactHooks.useMutation<SetAllowRevotesMutation, SetAllowRevotesMutationVariables>(SetAllowRevotesDocument, baseOptions);
-      }
-export type SetAllowRevotesMutationHookResult = ReturnType<typeof useSetAllowRevotesMutation>;
-export type SetAllowRevotesMutationResult = ApolloReactCommon.MutationResult<SetAllowRevotesMutation>;
-export type SetAllowRevotesMutationOptions = ApolloReactCommon.BaseMutationOptions<SetAllowRevotesMutation, SetAllowRevotesMutationVariables>;
 export const RemoveUserFromSessionDocument = gql`
     mutation removeUserFromSession($sessionId: Int!, $userId: String!) {
   delete_poker_user_session(where: {user_id: {_eq: $userId}, session_id: {_eq: $sessionId}}) {

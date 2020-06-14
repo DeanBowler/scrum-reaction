@@ -3,7 +3,7 @@ import gql from 'graphql-tag';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaCog } from 'react-icons/fa';
 
-import { useSetAllowRevotesMutation } from '@generated/graphql';
+import { useSetAllowRevotesMutation, useSetAutoRevealMutation } from '@generated/graphql';
 import useControlledState from '@hooks/useControlledState';
 import Box from '@styled/Box';
 import PopoutMenu from '@components/PopoutMenu';
@@ -22,23 +22,50 @@ export const SET_ALLOW_REVOTES = gql`
   }
 `;
 
+export const SET_AUTO_REVEAL = gql`
+  mutation setAutoReveal($sessionId: Int!, $autoReveal: Boolean!) {
+    update_poker_session(
+      where: { id: { _eq: $sessionId } }
+      _set: { auto_reveal: $autoReveal }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
 interface SessionMenuProps {
   sessionId: number;
   allowRevotes: boolean;
+  autoReveal: boolean;
 }
 
-export default function SessionMenu({ sessionId, allowRevotes }: SessionMenuProps) {
+export default function SessionMenu({
+  sessionId,
+  allowRevotes,
+  autoReveal,
+}: SessionMenuProps) {
   const [showMenu, setShowMenu] = useState(false);
 
-  const [setAllowRevotes] = useSetAllowRevotesMutation();
-
   const [allowRevotesSetting, setAllowRevotesSetting] = useControlledState(allowRevotes);
+  const [setAllowRevotes] = useSetAllowRevotesMutation();
 
   const handleRevoteToggle = () => {
     setAllowRevotesSetting(
       pipe(
         not,
         tap(v => setAllowRevotes({ variables: { sessionId, allowRevotes: v } })),
+      ),
+    );
+  };
+
+  const [autoRevealSetting, setAutoRevealSetting] = useControlledState(autoReveal);
+  const [setAutoReveal] = useSetAutoRevealMutation();
+
+  const handleAutoRevealToggle = () => {
+    setAutoRevealSetting(
+      pipe(
+        not,
+        tap(v => setAutoReveal({ variables: { sessionId, autoReveal: v } })),
       ),
     );
   };
@@ -72,6 +99,9 @@ export default function SessionMenu({ sessionId, allowRevotes }: SessionMenuProp
                 <PopoutMenu.Divider />
                 <PopoutMenu.Item onClick={handleRevoteToggle}>
                   <Toggle label="Allow Revotes" currentValue={allowRevotesSetting} />
+                </PopoutMenu.Item>
+                <PopoutMenu.Item onClick={handleAutoRevealToggle}>
+                  <Toggle label="Auto Reveal" currentValue={autoRevealSetting} />
                 </PopoutMenu.Item>
               </motion.div>
             </AnimatePresence>
