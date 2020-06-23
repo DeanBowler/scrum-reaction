@@ -60,13 +60,19 @@ export default function AuthorizedApolloProvider({
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
-      graphQLErrors.map(({ message, locations, path }) => {
+      graphQLErrors.map((error) => {
+        LogRocket.captureException(error);
+
+        const { message, locations, path } = error;
         LogRocket.error(
           `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`,
         );
       });
 
-    if (networkError) LogRocket.error(`[Network error]: ${networkError}`);
+    if (networkError) {
+      LogRocket.captureException(networkError);
+      LogRocket.error(`[Network error]: ${networkError}`);
+    }
   });
 
   const link = process.browser
