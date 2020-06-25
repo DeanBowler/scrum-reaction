@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useRef,
+  useReducer,
+  useCallback,
+} from 'react';
 
 import Router from 'next/router';
 
@@ -31,7 +38,6 @@ interface AuthContextProps {
   user: AuthUser | undefined;
   userId: string | undefined;
   loginWithRedirect: (o?: RedirectLoginOptions) => void;
-  getIdTokenClaims: (o?: getIdTokenClaimsOptions) => void;
   getTokenSilently: (o?: GetTokenSilentlyOptions) => Promise<string>;
   logout: (o?: LogoutOptions) => void;
 }
@@ -44,18 +50,50 @@ interface AuthContextProviderProps {
   children: React.ReactNode;
 }
 
-export function AuthContextProvider({ children }: AuthContextProviderProps) {
-  const [auth0Client, setAuth0Client] = useState<Auth0Client>();
+interface Auth0ContextState {
+  isAuthenticated: boolean;
+  isLoadingAuth: boolean;
+  user: AuthUser | undefined;
+  userId: string | undefined;
+}
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(undefined);
-  const [user, setUser] = useState<AuthUser>(undefined);
-  const [userId, setUserId] = useState<string>(undefined);
+const INITIAL_CONTEXT_STATE: Auth0ContextState = {
+  isAuthenticated: false,
+  isLoadingAuth: true,
+  user: undefined,
+  userId: undefined,
+};
+
+type Auth0ContextAction =
+  | { type: 'authenticating' }
+  | { type: 'unauthenticated' }
+  | { type: 'authenticated'; payload: { user: AuthUser; userId: string } };
+
+function reducer(
+  state: Auth0ContextState,
+  action: Auth0ContextAction,
+): Auth0ContextState {
+  switch (action.type) {
+    case 'authenticating':
+      return { ...state, isLoadingAuth: true };
+    case 'unauthenticated':
+      return { ...state, isLoadingAuth: false, isAuthenticated: false };
+    case 'authenticated':
+      return { ...state, isLoadingAuth: false, isAuthenticated: true, ...action.payload };
+    default:
+      return state;
+  }
+}
+
+export function AuthContextProvider({ children }: AuthContextProviderProps) {
+  const auth0Client = useRef<Auth0Client>();
+
+  const [authState, authStateDispatch] = useReducer(reducer, INITIAL_CONTEXT_STATE);
 
   useMount(() => {
-    setIsLoading(true);
-
     const initialise = async () => {
+      authStateDispatch({ type: 'authenticating' });
+
       const config: Auth0ClientOptions = {
         domain: process.env.REACT_APP_AUTH0_DOMAIN || 'morning-sound-9681.eu.auth0.com',
         client_id:
@@ -65,11 +103,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         useRefreshTokens: true,
       };
 
-      const client = await createAuth0Client(config);
-      setAuth0Client(client);
+      auth0Client.current = await createAuth0Client(config);
 
       if (window.location.search.includes('code=')) {
-        const redirectResult = await client.handleRedirectCallback();
+        const redirectResult = await auth0Client.current.handleRedirectCallback();
 
         const desiredLanding =
           redirectResult.appState.returnTo || window.location.pathname;
@@ -78,44 +115,65 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         Router.push(desiredLanding);
       }
 
-      const authenticated = await client.isAuthenticated();
+      try {
+        /* if the `auth0.is.authenticated` cookie has expired but there is still a valid refresh token
+         then this will ensure we attempt to grab a token and repopulate the cookie
+         https://github.com/auth0/auth0-spa-js/issues/95#issuecomment-591425138
+       */
+        await auth0Client.current.getTokenSilently();
+      } catch {
+        authStateDispatch({ type: 'unauthenticated' });
+      }
 
-      setIsAuthenticated(authenticated);
+      const authenticated = await auth0Client.current.isAuthenticated();
 
       if (authenticated) {
-        const user = await client.getUser();
-        setUser(user);
+        const user = await auth0Client.current.getUser();
 
-        setUserId(user.sub);
+        authStateDispatch({
+          type: 'authenticated',
+          payload: { user, userId: user.sub },
+        });
 
         LogRocket.identify(user.sub, {
           name: user.name,
           email: user.email,
         });
+      } else {
+        authStateDispatch({ type: 'unauthenticated' });
       }
-
-      setIsLoading(false);
     };
 
     initialise();
   });
 
+  const loginWithRedirect = useCallback(() => {
+    if (!auth0Client.current) throw Error('Auth0 client not ready');
+    return auth0Client.current.loginWithRedirect({
+      appState: { returnTo: Router.asPath },
+    });
+  }, [auth0Client.current]);
+
+  const getTokenSilently = useCallback(() => {
+    if (!auth0Client.current) throw Error('Auth0 client not ready');
+    return auth0Client.current.getTokenSilently();
+  }, [auth0Client.current]);
+
+  const logout = useCallback(
+    (options?: LogoutOptions) => {
+      if (!auth0Client.current) throw Error('Auth0 client not ready');
+      auth0Client.current.logout(options);
+    },
+    [auth0Client.current],
+  );
+
   return (
     <AuthContext.Provider
       value={{
-        isLoadingAuth: isLoading,
-        isAuthenticated,
-        user,
-        userId,
-        loginWithRedirect: (...p) =>
-          auth0Client &&
-          auth0Client.loginWithRedirect({
-            appState: { returnTo: Router.asPath },
-            ...p,
-          }),
-        getTokenSilently: (...p) => auth0Client && auth0Client.getTokenSilently(...p),
-        getIdTokenClaims: (...p) => auth0Client && auth0Client.getIdTokenClaims(...p),
-        logout: (...p) => auth0Client && auth0Client.logout(...p),
+        ...authState,
+        loginWithRedirect,
+        getTokenSilently,
+        logout,
       }}
     >
       {children}
