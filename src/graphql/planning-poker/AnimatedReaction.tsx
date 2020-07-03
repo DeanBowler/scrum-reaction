@@ -20,14 +20,14 @@ const reactionMotions: Variants = {
 };
 
 export interface ReactionProps {
-  reaction: string;
+  reaction: string | null | undefined;
 }
 
 export default function AnimatedReaction({ reaction }: ReactionProps) {
   return (
     <AnimatePresence initial={false} exitBeforeEnter>
       <motion.div
-        key={reaction}
+        key={reaction ?? undefined}
         initial="hidden"
         animate="visible"
         exit="exit"

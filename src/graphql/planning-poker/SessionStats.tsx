@@ -1,5 +1,18 @@
 import React, { useLayoutEffect, useRef } from 'react';
-import { pipe, map, filter, min, max, mean, median, reduce, all, any } from 'ramda';
+import {
+  pipe,
+  map,
+  filter,
+  min,
+  max,
+  mean,
+  median,
+  reduce,
+  all,
+  any,
+  isEmpty,
+  not,
+} from 'ramda';
 
 import CanvasConfetti from 'canvas-confetti';
 
@@ -32,7 +45,7 @@ function SessionStats(session: Poker_Session) {
   const unknownVotes = votes.length ? filter(v => v === '?')(votes).length : undefined;
 
   const numericVotes = pipe(
-    map(n => +n),
+    map((n: string | null | undefined) => (n ? +n : Number.NaN)),
     filter(n => !Number.isNaN(n)),
   )(votes);
 
@@ -69,7 +82,7 @@ function SessionStats(session: Poker_Session) {
     ? 'DISSENSION'
     : null;
 
-  const consensusTextRef = useRef<HTMLDivElement>();
+  const consensusTextRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     if (allNumericEqual) {
@@ -116,7 +129,7 @@ function SessionStats(session: Poker_Session) {
   }, [allNumericEqual]);
 
   return (
-    <Card title="Stats" flex="0 0" minWidth={[6, , 7]}>
+    <Card title="Stats" flex="0 0" minWidth={[6, 6, 7]}>
       <AnimatePresence exitBeforeEnter={true}>
         {specialText && (
           <motion.div

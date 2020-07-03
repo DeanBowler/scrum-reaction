@@ -29,8 +29,7 @@ type Reaction =
   | 'thinking'
   | 'chat'
   | 'whoops'
-  | 'breaktime'
-  | null;
+  | 'breaktime';
 
 const REACTIONS: Record<Reaction, string> = {
   yay: '🎉',
@@ -42,9 +41,13 @@ const REACTIONS: Record<Reaction, string> = {
   breaktime: '☕',
 };
 
-export const ReactionIcon = ({ reaction }: { reaction: string }) => (
+function isValidReaction(reaction: string | null | undefined): reaction is Reaction {
+  return Boolean(reaction && reaction in REACTIONS);
+}
+
+export const ReactionIcon = ({ reaction }: { reaction: string | null | undefined }) => (
   <Text as="div" lineHeight="solid" fontSize={[3, 4]}>
-    {REACTIONS[reaction]}
+    {isValidReaction(reaction) ? REACTIONS[reaction] : ''}
   </Text>
 );
 
@@ -69,7 +72,9 @@ function ReactionCard({ reaction, onClick, className }: ReactionCardProps) {
       onClick={() => onClick(reaction)}
       className={className}
     >
-      <Text fontSize={[4, 5]}>{REACTIONS[reaction]}</Text>
+      <Text fontSize={[4, 5]}>
+        {isValidReaction(reaction) ? REACTIONS[reaction] : '⚠'}
+      </Text>
     </Card>
   );
 }
@@ -79,11 +84,11 @@ interface PlanningPokerReactorProps {
 }
 
 export default function PlanningPokerReactor({ sessionId }: PlanningPokerReactorProps) {
-  const { userId } = useAuth();
+  const { userId = '' } = useAuth();
 
   const [update] = useUpdateReactionMutation();
 
-  const handleReactionClick = (reaction: Reaction) =>
+  const handleReactionClick = (reaction: Reaction | null) =>
     update({
       variables: {
         sessionId,

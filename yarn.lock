@@ -1743,12 +1743,27 @@
   resolved "https://registry.yarnpkg.com/@types/js-cookie/-/js-cookie-2.2.6.tgz#f1a1cb35aff47bc5cfb05cb0c441ca91e914c26f"
   integrity sha512-+oY0FDTO2GYKEV0YPvSshGq9t7YozVkgvXLty7zogQNuCxBhT9/3INX9Q7H1aRZ4SUDRXAKlJuA4EA5nTt7SNw==
 
+"@types/logrocket-react@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/logrocket-react/-/logrocket-react-3.0.0.tgz#88278ec2fe093ff55496d66aea9056fe1061ecea"
+  integrity sha512-bQ7LUwqwt2RNpRoco3vt8QBHy78nOQFF+KfFRol1PgKq8S1nIiLYA6Y0ZUAzqGw1viA0lyjAHlPQeTI+wl4wnw==
+  dependencies:
+    logrocket "1.0.1"
+
 "@types/mdast@^3.0.0":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@types/mdast/-/mdast-3.0.3.tgz#2d7d671b1cd1ea3deb306ea75036c2a0407d2deb"
   integrity sha512-SXPBMnFVQg1s00dlMCc/jCdvPqdE4mXaMMCeRlxLDmTAEoegHT53xKtkDnzDTOcmMHUfcjyf36/YYZ6SxRdnsw==
   dependencies:
     "@types/unist" "*"
+
+"@types/node-fetch@^2.5.7":
+  version "2.5.7"
+  resolved "https://registry.yarnpkg.com/@types/node-fetch/-/node-fetch-2.5.7.tgz#20a2afffa882ab04d44ca786449a276f9f6bbf3c"
+  integrity sha512-o2WVNf5UhWRkxlf6eq+jMZDu7kjgpgJfl4xVNlvryc95O/6F2ld8ztKX+qu+Rjyet93WAWm5LjeX9H5FGkODvw==
+  dependencies:
+    "@types/node" "*"
+    form-data "^3.0.0"
 
 "@types/node@*", "@types/node@^14.0.13":
   version "14.0.13"
@@ -5745,6 +5760,11 @@ logrocket-react@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/logrocket-react/-/logrocket-react-4.0.1.tgz#e8e5405ee5f47f2c25b511931e360713a623f927"
   integrity sha512-TbQELEaDQspKHH0XylAeVZpsHoAcz+sIEG/enUQiH+LoYLW7cMK000XIS6W3Zz14zS0V2Db+KyKi8ivBpGYkzg==
+
+logrocket@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/logrocket/-/logrocket-1.0.1.tgz#0555ec619d2db54a7b345c4e8df09baea835b176"
+  integrity sha512-oPA0c5GzMKsWp/6p19OaujZQMzttluqVOI+989uHeciPAljPZvGEpZRbNO3Rr+jC/8jVLJdlMP9IHuyhKsASGA==
 
 logrocket@^1.0.7:
   version "1.0.7"

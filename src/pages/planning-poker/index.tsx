@@ -26,7 +26,7 @@ const PlanningPoker = () => (
       </Text>
       <FeatureRequiresAuth>
         <Flex
-          flexDirection={['column', , 'row']}
+          flexDirection={['column', 'column', 'row']}
           maxWidth={[9]}
           mx="auto"
           mt={[1, 3, 5]}

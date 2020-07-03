@@ -33,7 +33,7 @@ export default function UserList() {
 
   return (
     <>
-      {data.online_users.flatMap(online =>
+      {data?.online_users.flatMap(online =>
         online.user.map((user: User) => (
           <div key={user.id}>
             {user.name} {user.last_seen}

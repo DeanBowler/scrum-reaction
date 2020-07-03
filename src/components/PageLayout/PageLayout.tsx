@@ -4,7 +4,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 
 import Box from '@styled/Box';
 import { useAuth } from '@contexts/authContext';
-import theme, { getFont } from '../../styled/theme';
+import theme, { getColor, getFont } from '../../styled/theme';
 
 import Header from './Header';
 import Footer from './Footer';
@@ -51,7 +51,7 @@ const Container = styled(Flex)`
   flex-direction: column;
   flex: 1 1 auto;
   background-image: url(/background.svg),
-    linear-gradient(${theme.colors.neutralLightest}, ${theme.colors.neutralMid});
+    linear-gradient(${getColor('neutralLightest')}, ${getColor('neutralMid')});
 `;
 
 export default function PageLayout({ children }: LayoutProps) {

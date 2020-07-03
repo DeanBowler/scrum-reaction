@@ -99,22 +99,17 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
   }, [userId, sessionLoaded]);
 
   const voters = useMemo(
-    () =>
-      sessionLoaded ? session.user_sessions.filter(us => us.is_observer === false) : [],
+    () => session?.user_sessions.filter(us => us.is_observer === false) ?? [],
     [session],
   );
 
   const observers = useMemo(
-    () =>
-      sessionLoaded ? session.user_sessions.filter(us => us.is_observer === true) : [],
+    () => session?.user_sessions.filter(us => us.is_observer === true) ?? [],
     [session],
   );
 
   const currentUserSession = useMemo(
-    () =>
-      sessionLoaded
-        ? session.user_sessions.find(us => us.user.id === userId) ?? null
-        : null,
+    () => session?.user_sessions.find(us => us.user.id === userId) ?? null,
     [session],
   );
 
@@ -136,13 +131,13 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
   );
 
   useDeltaChange(uniqueReactions.size, ({ previous }) => {
-    if (!previous || !session.user_sessions[0].current_reaction) return;
+    if (!previous || !session?.user_sessions[0].current_reaction) return;
 
     if (uniqueReactions.size === 1) {
       raiseToast(
         <Flex>
           <Text mr={1}>Everyone reacted</Text>{' '}
-          <ReactionIcon reaction={session.user_sessions[0].current_reaction} />
+          <ReactionIcon reaction={session?.user_sessions[0].current_reaction} />
         </Flex>,
       );
     }
@@ -203,15 +198,15 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
         sessionId={sessionId}
         votesVisible={session.votes_visible}
         allowRevotes={session.allow_revotes}
-        isObserver={currentUserSession && currentUserSession.is_observer}
+        isObserver={currentUserSession?.is_observer ?? false}
       />
 
       <Flex
         mb={[3, 4]}
         justifyContent="space-between"
-        flexDirection={['column', , 'row']}
+        flexDirection={['column', 'column', 'row']}
       >
-        <Card mr={[0, , 3]} mb={[4, 4, 0]} title="Votes" spacingVariant="cosy">
+        <Card mr={[0, 0, 3]} mb={[4, 4, 0]} title="Votes" spacingVariant="cosy">
           <AnimatePresence initial={false}>
             {voters.flatMap(userSession => (
               <MotionSession
@@ -223,7 +218,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
                 sessionId={session.id}
                 votesVisible={session.votes_visible}
                 userSession={userSession}
-                showUserMenu={isSessionOwner}
+                showUserMenu={isSessionOwner ?? false}
               />
             ))}
           </AnimatePresence>
@@ -235,7 +230,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
           <SessionObservers
             sessionId={session.id}
             observers={observers}
-            showUserMenu={isSessionOwner}
+            showUserMenu={isSessionOwner ?? false}
           />
         </Flex>
       </Flex>

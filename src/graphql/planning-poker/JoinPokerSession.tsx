@@ -31,12 +31,12 @@ interface JoinPokerSessionProps {
 export default function JoinPokerSession({ className }: JoinPokerSessionProps) {
   const router = useRouter();
 
-  const { userId } = useAuth();
+  const { userId = '' } = useAuth();
 
   const [sessionId, setSessionId] = useState<number>();
 
   const [joinSession, { loading, error }] = useUpsetUserSessionMutation({
-    variables: { userId, sessionId },
+    variables: { userId, sessionId: sessionId! },
     onCompleted: async () => {
       if (isProduction) {
         await router.prefetch(`/planning-poker/[id]`, `/planning-poker/${sessionId}`);
@@ -59,7 +59,7 @@ export default function JoinPokerSession({ className }: JoinPokerSessionProps) {
     if (!error) return null;
     if (
       error.graphQLErrors &&
-      error.graphQLErrors[0].extensions.code === 'constraint-violation'
+      error.graphQLErrors[0].extensions?.code === 'constraint-violation'
     )
       return 'Session does not exist';
     return 'Unknown error occurred';

@@ -65,9 +65,11 @@ const PokerSessionListing = ({ session }: PokerSessionListingProps) => (
 export default function RecentPokerSessions() {
   const { userId } = useAuth();
 
-  const { data, loading, error } = useGetRecentSessionsQuery({ variables: { userId } });
+  const { data, loading, error } = useGetRecentSessionsQuery({
+    variables: { userId: userId! },
+  });
 
-  if (loading || !data.poker_session.length) return null;
+  if (loading || !data?.poker_session.length || !userId) return null;
 
   if (error) return <Box>Failed to fetch previous poker sessions</Box>;
 

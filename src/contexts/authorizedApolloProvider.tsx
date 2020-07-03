@@ -60,7 +60,7 @@ export default function AuthorizedApolloProvider({
 
   const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
-      graphQLErrors.map((error) => {
+      graphQLErrors.map(error => {
         LogRocket.captureException(error);
 
         const { message, locations, path } = error;
@@ -75,7 +75,7 @@ export default function AuthorizedApolloProvider({
     }
   });
 
-  const link = process.browser
+  const link = wsLink
     ? ApolloLink.split(
         //only create the split in the browser
         // split based on operation type

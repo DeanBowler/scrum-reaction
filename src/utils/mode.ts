@@ -3,7 +3,7 @@ import { reduce, pipe, defaultTo, inc, max, toPairs, head } from 'ramda';
 type OccuranceCount = { [k: number]: number | undefined };
 
 const occurences = reduce(
-  (acc: OccuranceCount, x: number) => ({
+  (acc: { [k: number]: number | undefined }, x: number) => ({
     ...acc,
     [x]: pipe((n: number | undefined) => defaultTo(0, n), inc)(acc[x]),
   }),

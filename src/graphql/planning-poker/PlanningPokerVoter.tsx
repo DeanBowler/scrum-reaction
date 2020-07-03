@@ -69,7 +69,7 @@ export default function PlanningPokerVoter({
   allowVoting,
   isRevoting,
 }: PlanningPokerVoterProps) {
-  const { userId } = useAuth();
+  const { userId = '' } = useAuth();
 
   const [update] = useUpdateVoteMutation();
   const [updateRevote] = useUpdateRevoteMutation();

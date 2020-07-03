@@ -31,6 +31,8 @@
     "@next/mdx": "^9.4.4",
     "@styled-system/css": "^5.1.5",
     "@styled-system/theme-get": "^5.1.2",
+    "@types/logrocket-react": "^3.0.0",
+    "@types/node-fetch": "^2.5.7",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
     "apollo-link-context": "^1.0.20",

@@ -1,11 +1,11 @@
-import { Theme } from 'styled-system';
+import { Theme, TLengthStyledSystem } from 'styled-system';
 import { ThemedStyledProps, DefaultTheme } from 'styled-components';
 import { identity } from 'ramda';
 
 type LineHeight = 'solid' | 'title' | 'copy';
 type LetterSpacing = 'normal' | 'tracked' | 'tight' | 'mega';
 
-export interface AppTheme extends Theme {
+export interface AppTheme extends Required<Theme<TLengthStyledSystem>> {
   colors: {
     primary: string;
     secondary: string;
@@ -50,7 +50,7 @@ const baseTheme = {
   },
 };
 
-const theme: AppTheme = {
+const theme: Partial<AppTheme> = {
   ...baseTheme,
   space: [0, '0.5rem', '0.75rem', '1rem', '2rem', '4rem', '8rem', '16rem'],
   sizes: [
@@ -80,7 +80,7 @@ const theme: AppTheme = {
   buttonRadius: '5px',
 };
 
-export default theme;
+export default theme as AppTheme;
 
 export const getColor = (
   color: keyof AppTheme['colors'],

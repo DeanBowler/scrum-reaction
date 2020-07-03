@@ -30,14 +30,14 @@ interface CreatePokerSessionProps {
 export default function CreatePokerSession({ className }: CreatePokerSessionProps) {
   const router = useRouter();
 
-  const { userId } = useAuth();
+  const { userId = '' } = useAuth();
 
   const [sessionName, setSessionName] = useState('');
 
   const [createSession, { loading }] = useCreatePokerSessionMutation({
     variables: { owner_id: userId, name: sessionName },
     onCompleted: async ({ insert_poker_session }) => {
-      const sessionId = insert_poker_session.returning[0].id;
+      const sessionId = insert_poker_session?.returning[0].id;
       if (isProduction) {
         await router.prefetch(`/planning-poker/[id]`, `/planning-poker/${sessionId}`);
       }
