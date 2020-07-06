@@ -102,7 +102,7 @@ function Toast({ content, type, id, onClose, showClose, duration }: ToastProps) 
     if (!duration || !visible || isHovered) return;
 
     const timeout = setTimeout(() => {
-      onClose(id);
+      onClose && onClose(id);
     }, duration);
 
     return () => clearTimeout(timeout);
@@ -134,7 +134,7 @@ function Toast({ content, type, id, onClose, showClose, duration }: ToastProps) 
     >
       {content}
       {showClose && (
-        <ToastCloseContainer onClick={() => onClose(id)}>
+        <ToastCloseContainer onClick={() => onClose && onClose(id)}>
           <FaTimes />
         </ToastCloseContainer>
       )}

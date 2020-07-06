@@ -41,7 +41,7 @@ export default function AuthorizedApolloProvider({
 
   const httpLink = new HttpLink({
     uri: process.env.REACT_APP_HASURA_ENDPOINT,
-    fetch: process.browser ? fetch : nodeFetch,
+    fetch: process.browser ? fetch : (nodeFetch as any), // TODO: this may not be needed anymore, I think httpLink uses an isomorphic fetch...
   });
 
   const authLink = setContext(async (_, { headers }) => {

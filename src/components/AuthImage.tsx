@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function AuthImage(props) {
+export default function AuthImage(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       data-name="Layer 1"

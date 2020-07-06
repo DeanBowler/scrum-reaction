@@ -105,7 +105,8 @@ export default function VoterControls({
   const directionMult = direction === 'right' ? -1 : 1;
 
   const renderableTabs = pipe(
-    t => toPairs(t) as [ControlType, ControlTabDefinition][],
+    (t: Record<ControlType, ControlTabDefinition>) =>
+      toPairs(t) as [ControlType, ControlTabDefinition][],
     filter(([_, def]) => def.isAllowed !== false),
   )(tabs);
 

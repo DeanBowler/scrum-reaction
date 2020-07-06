@@ -9,8 +9,8 @@ function usePrevious<T>(value: T) {
 }
 
 interface Delta<T> {
-  current: T;
-  previous: T;
+  current: T | undefined;
+  previous: T | undefined;
 }
 
 export function useDelta<T>(current: T): Delta<T> | null {
