@@ -4,6 +4,7 @@ import { PokerUserSessionInfoFragment } from '@generated/graphql';
 import Card from '@components/Card';
 
 import UserSessionRow from './UserSessionRow';
+import { useAuth } from '@contexts/authContext';
 
 const MotionCard = motion.custom(Card);
 
@@ -17,13 +18,17 @@ export interface SessionObserversProps {
   observers: readonly PokerUserSessionInfoFragment[];
   showUserMenu: boolean;
   sessionId: number;
+  isSessionOwner: boolean;
 }
 
 export default function SessionObservers({
   observers,
   showUserMenu,
   sessionId,
+  isSessionOwner,
 }: SessionObserversProps) {
+  const { userId } = useAuth();
+
   const hasObservers = observers.length > 0;
 
   return (
@@ -49,6 +54,7 @@ export default function SessionObservers({
                 exit="exit"
               >
                 <UserSessionRow
+                  isSessionOwner={isSessionOwner && userId === observer.user.id}
                   sessionId={sessionId}
                   userSession={observer}
                   showUserMenu={showUserMenu}

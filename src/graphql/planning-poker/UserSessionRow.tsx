@@ -18,6 +18,7 @@ interface UserSessionProps {
   showUserMenu: boolean;
   votesVisible: boolean;
   userSession: PokerUserSessionInfoFragment;
+  isSessionOwner: boolean;
 }
 
 const StyledUserSessionContainer = styled(Flex)`
@@ -49,7 +50,16 @@ const StyledVoteText = styled(Text)`
 const MotionBox = motion.custom(Box);
 
 const UserSessionRow = React.forwardRef(
-  ({ sessionId, userSession, showUserMenu, votesVisible }: UserSessionProps, ref) => {
+  (
+    {
+      sessionId,
+      userSession,
+      showUserMenu,
+      votesVisible,
+      isSessionOwner,
+    }: UserSessionProps,
+    ref,
+  ) => {
     const { userId } = useAuth();
 
     const {
@@ -74,7 +84,14 @@ const UserSessionRow = React.forwardRef(
           <AnimatedReaction reaction={current_reaction} />
         </Box>
         <Flex flex="1 1" pl={1}>
-          <Text fontSize={is_observer ? [1, 2] : [2, 3]}>{user.name}</Text>
+          <Text fontSize={is_observer ? [1, 2] : [2, 3]}>
+            {user.name}{' '}
+            {isSessionOwner && (
+              <Text title="session owner" color="secondary" fontSize={4}>
+                <FaCrown />
+              </Text>
+            )}
+          </Text>
         </Flex>
         {!is_observer && (
           <Flex flex="0 0" pr={[2, 3]} justifyContent="end" alignItems="center">
