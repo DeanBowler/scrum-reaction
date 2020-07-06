@@ -18,14 +18,14 @@ export interface SessionObserversProps {
   observers: readonly PokerUserSessionInfoFragment[];
   showUserMenu: boolean;
   sessionId: number;
-  isSessionOwner: boolean;
+  sessionOwnerId: string;
 }
 
 export default function SessionObservers({
   observers,
   showUserMenu,
   sessionId,
-  isSessionOwner,
+  sessionOwnerId,
 }: SessionObserversProps) {
   const { userId } = useAuth();
 
@@ -54,7 +54,7 @@ export default function SessionObservers({
                 exit="exit"
               >
                 <UserSessionRow
-                  isSessionOwner={isSessionOwner && userId === observer.user.id}
+                  isSessionOwner={sessionOwnerId === observer.user.id}
                   sessionId={sessionId}
                   userSession={observer}
                   showUserMenu={showUserMenu}

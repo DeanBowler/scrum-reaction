@@ -218,9 +218,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
                 sessionId={session.id}
                 votesVisible={session.votes_visible}
                 userSession={userSession}
-                isSessionOwner={
-                  (isSessionOwner && userSession.user.id === userId) ?? false
-                }
+                isSessionOwner={userSession.user.id === session.owner_id}
                 showUserMenu={isSessionOwner ?? false}
               />
             ))}
@@ -231,7 +229,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
             <SessionStats {...(session as Poker_Session)} />
           </Box>
           <SessionObservers
-            isSessionOwner={isSessionOwner ?? false}
+            sessionOwnerId={session.owner_id}
             sessionId={session.id}
             observers={observers}
             showUserMenu={isSessionOwner ?? false}
