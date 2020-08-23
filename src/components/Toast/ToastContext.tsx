@@ -59,7 +59,7 @@ const ToastContainer = styled(Box)<ToastContainerProps>`
   border: 1px solid ${getColor('neutralMid')};
   border-left: 0.5rem solid ${getColor('neutralDark')};
 
-  ${variant<{}, ToastType>({
+  ${variant<unknown, ToastType>({
     variants: {
       default: {
         borderLeftColor: 'neutralDark',

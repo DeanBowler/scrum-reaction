@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { space, SpaceProps } from 'styled-system';
 
 const classnames = (...args: Array<string | undefined>) => args.join(' ');
-const getClassName = (el: React.ReactElement) => (el.props && el.props.className) || '';
+const getClassName = (el: React.ReactElement) => el.props?.className ?? '';
 
 export interface StyledChildrenProps {
   children: React.ReactNode;

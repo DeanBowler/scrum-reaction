@@ -16,7 +16,9 @@ import theme from '@styled/theme';
 export default function ({
   Component,
   pageProps,
-}: AppInitialProps & { Component: NextComponentType<NextPageContext, unknown, {}> }) {
+}: AppInitialProps & {
+  Component: NextComponentType<NextPageContext, unknown, Record<string, unknown>>;
+}) {
   const router = useRouter();
 
   return (

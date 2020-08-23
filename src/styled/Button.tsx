@@ -23,9 +23,13 @@ interface StyledButtonProps
   variant?: ResponsiveValue<'primary' | 'neutral' | 'negative' | 'outline'>;
 }
 
-const StyledButton: StyledComponentBase<'button', AppTheme, {}, any> = styled.button<
-  StyledButtonProps
->`
+const StyledButton: StyledComponentBase<
+  'button',
+  AppTheme,
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  {},
+  any
+> = styled.button<StyledButtonProps>`
   cursor: pointer;
   position: ${p => (p.isLoading ? 'relative' : 'unset')};
   font-family: ${getFont('normal')};

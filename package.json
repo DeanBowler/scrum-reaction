@@ -10,7 +10,8 @@
     "hasura:migrate": "npm run hasura migrate apply",
     "hasura:generate": "graphql-codegen --config codegen.js",
     "build": "npm run hasura:migrate && next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "eslint . --ext ts --ext tsx --ext js"
   },
   "repository": "git+https://github.com/DeanBowler/scrum-reaction.git",
   "keywords": [
@@ -73,7 +74,11 @@
     "@types/styled-system": "^5.1.9",
     "@types/styled-system__css": "^5.0.11",
     "@types/styled-system__theme-get": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^3.9.1",
+    "@typescript-eslint/parser": "^3.9.1",
     "babel-plugin-styled-components": "^1.10.7",
+    "eslint": "^7.7.0",
+    "eslint-plugin-react": "^7.20.6",
     "hasura-cli": "^1.2.2",
     "prettier": "^2.0.5",
     "typescript": "^3.9.6"

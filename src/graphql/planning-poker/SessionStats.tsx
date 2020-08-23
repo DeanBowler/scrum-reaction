@@ -1,18 +1,5 @@
 import React, { useLayoutEffect, useRef } from 'react';
-import {
-  pipe,
-  map,
-  filter,
-  min,
-  max,
-  mean,
-  median,
-  reduce,
-  all,
-  any,
-  isEmpty,
-  not,
-} from 'ramda';
+import { pipe, map, filter, min, max, mean, median, reduce, all, any } from 'ramda';
 
 import CanvasConfetti from 'canvas-confetti';
 
@@ -91,7 +78,7 @@ function SessionStats(session: Poker_Session) {
 
         const consensusTextEl = consensusTextRef.current;
 
-        var viewportOffset = consensusTextEl.getBoundingClientRect();
+        const viewportOffset = consensusTextEl.getBoundingClientRect();
 
         const textCenterX = viewportOffset.left + consensusTextEl.offsetWidth / 2;
 

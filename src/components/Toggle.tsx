@@ -75,7 +75,6 @@ export default function Toggle({ label, currentValue, onClick, ...rest }: Toggle
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    console.log(e.key);
     if (e.key === ' ') {
       e.preventDefault();
       if (onClick) onClick();

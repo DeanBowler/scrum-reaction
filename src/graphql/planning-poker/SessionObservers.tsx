@@ -4,7 +4,6 @@ import { PokerUserSessionInfoFragment } from '@generated/graphql';
 import Card from '@components/Card';
 
 import UserSessionRow from './UserSessionRow';
-import { useAuth } from '@contexts/authContext';
 
 const MotionCard = motion.custom(Card);
 
@@ -27,8 +26,6 @@ export default function SessionObservers({
   sessionId,
   sessionOwnerId,
 }: SessionObserversProps) {
-  const { userId } = useAuth();
-
   const hasObservers = observers.length > 0;
 
   return (

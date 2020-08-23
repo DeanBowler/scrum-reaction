@@ -36,7 +36,7 @@ export default function JoinPokerSession({ className }: JoinPokerSessionProps) {
   const [sessionId, setSessionId] = useState<number>();
 
   const [joinSession, { loading, error }] = useUpsetUserSessionMutation({
-    variables: { userId, sessionId: sessionId! },
+    variables: { userId, sessionId: sessionId || -1 },
     onCompleted: async () => {
       if (isProduction) {
         await router.prefetch(`/planning-poker/[id]`, `/planning-poker/${sessionId}`);

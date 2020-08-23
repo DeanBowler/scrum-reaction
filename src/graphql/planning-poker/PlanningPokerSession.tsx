@@ -125,7 +125,7 @@ export default function PlanningPokerSession({ sessionId }: PlanningPokerSession
     raiseToast(`You're ${current ? 'now' : 'no longer'} the session owner`);
   });
 
-  var uniqueReactions = useMemo(
+  const uniqueReactions = useMemo(
     () => new Set(session?.user_sessions.map(v => v.current_reaction)),
     [session],
   );

@@ -63,7 +63,7 @@ export default function CreatePokerSession({ className }: CreatePokerSessionProp
   return (
     <Card title="Start a new session" className={className}>
       <form onSubmit={handleFormSubmit}>
-        <Flex flexDirection="column">
+        <Flex flexDirection="column" fontSize="small">
           <Spaced mb={[2, 3]} includeLast={false}>
             <TextInput
               onChange={handleSessionNameInputChange}

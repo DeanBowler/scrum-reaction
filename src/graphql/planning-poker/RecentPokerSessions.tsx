@@ -2,7 +2,6 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { pipe } from 'ramda';
 import styled from 'styled-components';
-import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { parseISO, formatRelative } from 'date-fns/fp';
 
@@ -66,7 +65,7 @@ export default function RecentPokerSessions() {
   const { userId } = useAuth();
 
   const { data, loading, error } = useGetRecentSessionsQuery({
-    variables: { userId: userId! },
+    variables: { userId: userId ?? '' },
   });
 
   if (loading || !data?.poker_session.length || !userId) return null;

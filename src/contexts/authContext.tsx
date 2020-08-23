@@ -1,11 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useRef,
-  useReducer,
-  useCallback,
-} from 'react';
+import React, { createContext, useContext, useRef, useReducer, useCallback } from 'react';
 
 import Router from 'next/router';
 
@@ -14,7 +7,6 @@ import createAuth0Client, {
   Auth0Client,
   RedirectLoginOptions,
   GetTokenSilentlyOptions,
-  getIdTokenClaimsOptions,
   LogoutOptions,
 } from '@auth0/auth0-spa-js';
 import { useMount } from 'react-use';

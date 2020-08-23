@@ -4,7 +4,6 @@ import Link from 'next/link';
 
 import Box, { BoxProps } from '@styled/Box';
 import Text from '@styled/Text';
-import Spaced from '@styled/Spaced';
 import Flex from '@styled/Flex';
 import StyledLink from '@styled/Link';
 import DonateButton from '@components/DonateButton';

@@ -1,5 +1,6 @@
 import { Theme, TLengthStyledSystem } from 'styled-system';
 import { ThemedStyledProps, DefaultTheme } from 'styled-components';
+
 import { identity } from 'ramda';
 
 type LineHeight = 'solid' | 'title' | 'copy';
@@ -27,6 +28,13 @@ export interface AppTheme extends Required<Theme<TLengthStyledSystem>> {
   buttonRadius: string;
   lineHeights: Record<LineHeight, string | number>;
   letterSpacings: Record<LetterSpacing, string | number>;
+  breakpoints: {
+    _: 0;
+    sm: string;
+    md: string;
+    lg: string;
+    xl: string;
+  };
 }
 
 const baseTheme = {
@@ -50,9 +58,17 @@ const baseTheme = {
   },
 };
 
+const breakpoints: any = ['420px', '768px', '992px', '1200px'];
+
+breakpoints.sm = breakpoints[0];
+breakpoints.md = breakpoints[1];
+breakpoints.lg = breakpoints[2];
+breakpoints.xl = breakpoints[3];
+
 const theme: Partial<AppTheme> = {
   ...baseTheme,
   space: [0, '0.5rem', '0.75rem', '1rem', '2rem', '4rem', '8rem', '16rem'],
+
   sizes: [
     0,
     '1rem',
@@ -76,7 +92,7 @@ const theme: Partial<AppTheme> = {
     tight: '-0.05em',
     mega: '0.25em',
   },
-  breakpoints: ['420px', '768px', '992px', '1200px'],
+  breakpoints: breakpoints,
   buttonRadius: '5px',
 };
 
@@ -92,5 +108,6 @@ export const getFont = (font: keyof AppTheme['fonts']) => (
 ) => p.theme.fonts[font];
 
 declare module 'styled-components' {
+  // eslint-disable-next-line @typescript-eslint/no-empty-interface
   export interface DefaultTheme extends AppTheme {}
 }
