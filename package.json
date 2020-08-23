@@ -11,6 +11,8 @@
     "hasura:generate": "graphql-codegen --config codegen.js",
     "build": "npm run hasura:migrate && next build",
     "start": "next start",
+    "format": "prettier --write \"**/*.{js,ts,tsx}\"",
+    "type-check": "tsc --pretty --noEmit",
     "lint": "eslint . --ext ts --ext tsx --ext js"
   },
   "repository": "git+https://github.com/DeanBowler/scrum-reaction.git",
@@ -25,6 +27,17 @@
     "url": "https://github.com/DeanBowler/scrum-reaction/issues"
   },
   "homepage": "https://github.com/DeanBowler/scrum-reaction#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "yarn run type-check"
+    }
+  },
+  "lint-staged": {
+    "*.@(ts|tsx)": [
+      "yarn lint"
+    ]
+  },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.5",
     "@auth0/auth0-spa-js": "^1.10.0",
@@ -80,6 +93,8 @@
     "eslint": "^7.7.0",
     "eslint-plugin-react": "^7.20.6",
     "hasura-cli": "^1.2.2",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "prettier": "^2.0.5",
     "typescript": "^3.9.6"
   }
