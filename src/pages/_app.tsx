@@ -13,7 +13,7 @@ import { ToastContextProvider } from '@components/Toast';
 import { ThemeProvider } from 'styled-components';
 import theme from '@styled/theme';
 
-export default function ({
+export default function App({
   Component,
   pageProps,
 }: AppInitialProps & {

@@ -9,6 +9,7 @@
     "hasura:console": "npm run hasura console",
     "hasura:migrate": "npm run hasura migrate apply",
     "hasura:generate": "graphql-codegen --config codegen.js",
+    "hasura:docker": "docker-compose up -d",
     "build": "npm run hasura:migrate && next build",
     "start": "next start",
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
