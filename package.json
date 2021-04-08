@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "next",
+    "build:next": "next build",
     "hasura": "hasura --project hasura --skip-update-check",
     "hasura:console": "npm run hasura console",
     "hasura:migrate": "npm run hasura migrate apply",

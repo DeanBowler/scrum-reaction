@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 import * as ApolloReactCommon from '@apollo/react-common';
 import * as ApolloReactHooks from '@apollo/react-hooks';
 export type Maybe<T> = T | null;
+export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -59,7 +60,7 @@ export type String_Comparison_Exp = {
 
 /** mutation root */
 export type Mutation_Root = {
-   __typename?: 'mutation_root';
+  __typename?: 'mutation_root';
   /** delete data from the table: "online_users" */
   delete_online_users?: Maybe<Online_Users_Mutation_Response>;
   /** delete data from the table: "poker_session" */
@@ -169,7 +170,7 @@ export type Mutation_RootUpdate_UsersArgs = {
 
 /** columns and relationships of "online_users" */
 export type Online_Users = {
-   __typename?: 'online_users';
+  __typename?: 'online_users';
   id?: Maybe<Scalars['String']>;
   last_seen?: Maybe<Scalars['timestamptz']>;
   /** An array relationship */
@@ -200,14 +201,14 @@ export type Online_UsersUser_AggregateArgs = {
 
 /** aggregated selection of "online_users" */
 export type Online_Users_Aggregate = {
-   __typename?: 'online_users_aggregate';
+  __typename?: 'online_users_aggregate';
   aggregate?: Maybe<Online_Users_Aggregate_Fields>;
   nodes: Array<Online_Users>;
 };
 
 /** aggregate fields of "online_users" */
 export type Online_Users_Aggregate_Fields = {
-   __typename?: 'online_users_aggregate_fields';
+  __typename?: 'online_users_aggregate_fields';
   count?: Maybe<Scalars['Int']>;
   max?: Maybe<Online_Users_Max_Fields>;
   min?: Maybe<Online_Users_Min_Fields>;
@@ -251,7 +252,7 @@ export type Online_Users_Insert_Input = {
 
 /** aggregate max on columns */
 export type Online_Users_Max_Fields = {
-   __typename?: 'online_users_max_fields';
+  __typename?: 'online_users_max_fields';
   id?: Maybe<Scalars['String']>;
   last_seen?: Maybe<Scalars['timestamptz']>;
 };
@@ -264,7 +265,7 @@ export type Online_Users_Max_Order_By = {
 
 /** aggregate min on columns */
 export type Online_Users_Min_Fields = {
-   __typename?: 'online_users_min_fields';
+  __typename?: 'online_users_min_fields';
   id?: Maybe<Scalars['String']>;
   last_seen?: Maybe<Scalars['timestamptz']>;
 };
@@ -277,7 +278,7 @@ export type Online_Users_Min_Order_By = {
 
 /** response of any mutation on the table "online_users" */
 export type Online_Users_Mutation_Response = {
-   __typename?: 'online_users_mutation_response';
+  __typename?: 'online_users_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
@@ -328,7 +329,7 @@ export enum Order_By {
 
 /** columns and relationships of "poker_session" */
 export type Poker_Session = {
-   __typename?: 'poker_session';
+  __typename?: 'poker_session';
   allow_revotes: Scalars['Boolean'];
   auto_reveal: Scalars['Boolean'];
   created_at: Scalars['timestamptz'];
@@ -366,14 +367,14 @@ export type Poker_SessionUser_Sessions_AggregateArgs = {
 
 /** aggregated selection of "poker_session" */
 export type Poker_Session_Aggregate = {
-   __typename?: 'poker_session_aggregate';
+  __typename?: 'poker_session_aggregate';
   aggregate?: Maybe<Poker_Session_Aggregate_Fields>;
   nodes: Array<Poker_Session>;
 };
 
 /** aggregate fields of "poker_session" */
 export type Poker_Session_Aggregate_Fields = {
-   __typename?: 'poker_session_aggregate_fields';
+  __typename?: 'poker_session_aggregate_fields';
   avg?: Maybe<Poker_Session_Avg_Fields>;
   count?: Maybe<Scalars['Int']>;
   max?: Maybe<Poker_Session_Max_Fields>;
@@ -417,7 +418,7 @@ export type Poker_Session_Arr_Rel_Insert_Input = {
 
 /** aggregate avg on columns */
 export type Poker_Session_Avg_Fields = {
-   __typename?: 'poker_session_avg_fields';
+  __typename?: 'poker_session_avg_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -468,7 +469,7 @@ export type Poker_Session_Insert_Input = {
 
 /** aggregate max on columns */
 export type Poker_Session_Max_Fields = {
-   __typename?: 'poker_session_max_fields';
+  __typename?: 'poker_session_max_fields';
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -485,7 +486,7 @@ export type Poker_Session_Max_Order_By = {
 
 /** aggregate min on columns */
 export type Poker_Session_Min_Fields = {
-   __typename?: 'poker_session_min_fields';
+  __typename?: 'poker_session_min_fields';
   created_at?: Maybe<Scalars['timestamptz']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
@@ -502,7 +503,7 @@ export type Poker_Session_Min_Order_By = {
 
 /** response of any mutation on the table "poker_session" */
 export type Poker_Session_Mutation_Response = {
-   __typename?: 'poker_session_mutation_response';
+  __typename?: 'poker_session_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
@@ -566,7 +567,7 @@ export type Poker_Session_Set_Input = {
 
 /** aggregate stddev on columns */
 export type Poker_Session_Stddev_Fields = {
-   __typename?: 'poker_session_stddev_fields';
+  __typename?: 'poker_session_stddev_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -577,7 +578,7 @@ export type Poker_Session_Stddev_Order_By = {
 
 /** aggregate stddev_pop on columns */
 export type Poker_Session_Stddev_Pop_Fields = {
-   __typename?: 'poker_session_stddev_pop_fields';
+  __typename?: 'poker_session_stddev_pop_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -588,7 +589,7 @@ export type Poker_Session_Stddev_Pop_Order_By = {
 
 /** aggregate stddev_samp on columns */
 export type Poker_Session_Stddev_Samp_Fields = {
-   __typename?: 'poker_session_stddev_samp_fields';
+  __typename?: 'poker_session_stddev_samp_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -599,7 +600,7 @@ export type Poker_Session_Stddev_Samp_Order_By = {
 
 /** aggregate sum on columns */
 export type Poker_Session_Sum_Fields = {
-   __typename?: 'poker_session_sum_fields';
+  __typename?: 'poker_session_sum_fields';
   id?: Maybe<Scalars['Int']>;
 };
 
@@ -628,7 +629,7 @@ export enum Poker_Session_Update_Column {
 
 /** aggregate var_pop on columns */
 export type Poker_Session_Var_Pop_Fields = {
-   __typename?: 'poker_session_var_pop_fields';
+  __typename?: 'poker_session_var_pop_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -639,7 +640,7 @@ export type Poker_Session_Var_Pop_Order_By = {
 
 /** aggregate var_samp on columns */
 export type Poker_Session_Var_Samp_Fields = {
-   __typename?: 'poker_session_var_samp_fields';
+  __typename?: 'poker_session_var_samp_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -650,7 +651,7 @@ export type Poker_Session_Var_Samp_Order_By = {
 
 /** aggregate variance on columns */
 export type Poker_Session_Variance_Fields = {
-   __typename?: 'poker_session_variance_fields';
+  __typename?: 'poker_session_variance_fields';
   id?: Maybe<Scalars['Float']>;
 };
 
@@ -661,7 +662,7 @@ export type Poker_Session_Variance_Order_By = {
 
 /** columns and relationships of "poker_user_session" */
 export type Poker_User_Session = {
-   __typename?: 'poker_user_session';
+  __typename?: 'poker_user_session';
   current_reaction?: Maybe<Scalars['String']>;
   current_revote?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
@@ -669,6 +670,7 @@ export type Poker_User_Session = {
   /** An object relationship */
   poker_session: Poker_Session;
   session_id: Scalars['Int'];
+  updated_at?: Maybe<Scalars['timestamptz']>;
   /** An object relationship */
   user: Users;
   user_id: Scalars['String'];
@@ -676,14 +678,14 @@ export type Poker_User_Session = {
 
 /** aggregated selection of "poker_user_session" */
 export type Poker_User_Session_Aggregate = {
-   __typename?: 'poker_user_session_aggregate';
+  __typename?: 'poker_user_session_aggregate';
   aggregate?: Maybe<Poker_User_Session_Aggregate_Fields>;
   nodes: Array<Poker_User_Session>;
 };
 
 /** aggregate fields of "poker_user_session" */
 export type Poker_User_Session_Aggregate_Fields = {
-   __typename?: 'poker_user_session_aggregate_fields';
+  __typename?: 'poker_user_session_aggregate_fields';
   avg?: Maybe<Poker_User_Session_Avg_Fields>;
   count?: Maybe<Scalars['Int']>;
   max?: Maybe<Poker_User_Session_Max_Fields>;
@@ -727,7 +729,7 @@ export type Poker_User_Session_Arr_Rel_Insert_Input = {
 
 /** aggregate avg on columns */
 export type Poker_User_Session_Avg_Fields = {
-   __typename?: 'poker_user_session_avg_fields';
+  __typename?: 'poker_user_session_avg_fields';
   session_id?: Maybe<Scalars['Float']>;
 };
 
@@ -747,6 +749,7 @@ export type Poker_User_Session_Bool_Exp = {
   is_observer?: Maybe<Boolean_Comparison_Exp>;
   poker_session?: Maybe<Poker_Session_Bool_Exp>;
   session_id?: Maybe<Int_Comparison_Exp>;
+  updated_at?: Maybe<Timestamptz_Comparison_Exp>;
   user?: Maybe<Users_Bool_Exp>;
   user_id?: Maybe<String_Comparison_Exp>;
 };
@@ -770,17 +773,19 @@ export type Poker_User_Session_Insert_Input = {
   is_observer?: Maybe<Scalars['Boolean']>;
   poker_session?: Maybe<Poker_Session_Obj_Rel_Insert_Input>;
   session_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
   user?: Maybe<Users_Obj_Rel_Insert_Input>;
   user_id?: Maybe<Scalars['String']>;
 };
 
 /** aggregate max on columns */
 export type Poker_User_Session_Max_Fields = {
-   __typename?: 'poker_user_session_max_fields';
+  __typename?: 'poker_user_session_max_fields';
   current_reaction?: Maybe<Scalars['String']>;
   current_revote?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
   session_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
   user_id?: Maybe<Scalars['String']>;
 };
 
@@ -790,16 +795,18 @@ export type Poker_User_Session_Max_Order_By = {
   current_revote?: Maybe<Order_By>;
   current_vote?: Maybe<Order_By>;
   session_id?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
   user_id?: Maybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Poker_User_Session_Min_Fields = {
-   __typename?: 'poker_user_session_min_fields';
+  __typename?: 'poker_user_session_min_fields';
   current_reaction?: Maybe<Scalars['String']>;
   current_revote?: Maybe<Scalars['String']>;
   current_vote?: Maybe<Scalars['String']>;
   session_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
   user_id?: Maybe<Scalars['String']>;
 };
 
@@ -809,12 +816,13 @@ export type Poker_User_Session_Min_Order_By = {
   current_revote?: Maybe<Order_By>;
   current_vote?: Maybe<Order_By>;
   session_id?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
   user_id?: Maybe<Order_By>;
 };
 
 /** response of any mutation on the table "poker_user_session" */
 export type Poker_User_Session_Mutation_Response = {
-   __typename?: 'poker_user_session_mutation_response';
+  __typename?: 'poker_user_session_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
@@ -842,6 +850,7 @@ export type Poker_User_Session_Order_By = {
   is_observer?: Maybe<Order_By>;
   poker_session?: Maybe<Poker_Session_Order_By>;
   session_id?: Maybe<Order_By>;
+  updated_at?: Maybe<Order_By>;
   user?: Maybe<Users_Order_By>;
   user_id?: Maybe<Order_By>;
 };
@@ -859,6 +868,8 @@ export enum Poker_User_Session_Select_Column {
   /** column name */
   SessionId = 'session_id',
   /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
   UserId = 'user_id'
 }
 
@@ -869,12 +880,13 @@ export type Poker_User_Session_Set_Input = {
   current_vote?: Maybe<Scalars['String']>;
   is_observer?: Maybe<Scalars['Boolean']>;
   session_id?: Maybe<Scalars['Int']>;
+  updated_at?: Maybe<Scalars['timestamptz']>;
   user_id?: Maybe<Scalars['String']>;
 };
 
 /** aggregate stddev on columns */
 export type Poker_User_Session_Stddev_Fields = {
-   __typename?: 'poker_user_session_stddev_fields';
+  __typename?: 'poker_user_session_stddev_fields';
   session_id?: Maybe<Scalars['Float']>;
 };
 
@@ -885,7 +897,7 @@ export type Poker_User_Session_Stddev_Order_By = {
 
 /** aggregate stddev_pop on columns */
 export type Poker_User_Session_Stddev_Pop_Fields = {
-   __typename?: 'poker_user_session_stddev_pop_fields';
+  __typename?: 'poker_user_session_stddev_pop_fields';
   session_id?: Maybe<Scalars['Float']>;
 };
 
@@ -896,7 +908,7 @@ export type Poker_User_Session_Stddev_Pop_Order_By = {
 
 /** aggregate stddev_samp on columns */
 export type Poker_User_Session_Stddev_Samp_Fields = {
-   __typename?: 'poker_user_session_stddev_samp_fields';
+  __typename?: 'poker_user_session_stddev_samp_fields';
   session_id?: Maybe<Scalars['Float']>;
 };
 
@@ -907,7 +919,7 @@ export type Poker_User_Session_Stddev_Samp_Order_By = {
 
 /** aggregate sum on columns */
 export type Poker_User_Session_Sum_Fields = {
-   __typename?: 'poker_user_session_sum_fields';
+  __typename?: 'poker_user_session_sum_fields';
   session_id?: Maybe<Scalars['Int']>;
 };
 
@@ -929,12 +941,14 @@ export enum Poker_User_Session_Update_Column {
   /** column name */
   SessionId = 'session_id',
   /** column name */
+  UpdatedAt = 'updated_at',
+  /** column name */
   UserId = 'user_id'
 }
 
 /** aggregate var_pop on columns */
 export type Poker_User_Session_Var_Pop_Fields = {
-   __typename?: 'poker_user_session_var_pop_fields';
+  __typename?: 'poker_user_session_var_pop_fields';
   session_id?: Maybe<Scalars['Float']>;
 };
 
@@ -945,7 +959,7 @@ export type Poker_User_Session_Var_Pop_Order_By = {
 
 /** aggregate var_samp on columns */
 export type Poker_User_Session_Var_Samp_Fields = {
-   __typename?: 'poker_user_session_var_samp_fields';
+  __typename?: 'poker_user_session_var_samp_fields';
   session_id?: Maybe<Scalars['Float']>;
 };
 
@@ -956,7 +970,7 @@ export type Poker_User_Session_Var_Samp_Order_By = {
 
 /** aggregate variance on columns */
 export type Poker_User_Session_Variance_Fields = {
-   __typename?: 'poker_user_session_variance_fields';
+  __typename?: 'poker_user_session_variance_fields';
   session_id?: Maybe<Scalars['Float']>;
 };
 
@@ -967,7 +981,7 @@ export type Poker_User_Session_Variance_Order_By = {
 
 /** query root */
 export type Query_Root = {
-   __typename?: 'query_root';
+  __typename?: 'query_root';
   /** fetch data from the table: "online_users" */
   online_users: Array<Online_Users>;
   /** fetch aggregated fields from the table: "online_users" */
@@ -1093,7 +1107,7 @@ export type Query_RootUsers_By_PkArgs = {
 
 /** subscription root */
 export type Subscription_Root = {
-   __typename?: 'subscription_root';
+  __typename?: 'subscription_root';
   /** fetch data from the table: "online_users" */
   online_users: Array<Online_Users>;
   /** fetch aggregated fields from the table: "online_users" */
@@ -1233,7 +1247,7 @@ export type Timestamptz_Comparison_Exp = {
 
 /** columns and relationships of "users" */
 export type Users = {
-   __typename?: 'users';
+  __typename?: 'users';
   created_at: Scalars['timestamptz'];
   default_picture?: Maybe<Scalars['String']>;
   id: Scalars['String'];
@@ -1243,14 +1257,14 @@ export type Users = {
 
 /** aggregated selection of "users" */
 export type Users_Aggregate = {
-   __typename?: 'users_aggregate';
+  __typename?: 'users_aggregate';
   aggregate?: Maybe<Users_Aggregate_Fields>;
   nodes: Array<Users>;
 };
 
 /** aggregate fields of "users" */
 export type Users_Aggregate_Fields = {
-   __typename?: 'users_aggregate_fields';
+  __typename?: 'users_aggregate_fields';
   count?: Maybe<Scalars['Int']>;
   max?: Maybe<Users_Max_Fields>;
   min?: Maybe<Users_Min_Fields>;
@@ -1305,7 +1319,7 @@ export type Users_Insert_Input = {
 
 /** aggregate max on columns */
 export type Users_Max_Fields = {
-   __typename?: 'users_max_fields';
+  __typename?: 'users_max_fields';
   created_at?: Maybe<Scalars['timestamptz']>;
   default_picture?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
@@ -1324,7 +1338,7 @@ export type Users_Max_Order_By = {
 
 /** aggregate min on columns */
 export type Users_Min_Fields = {
-   __typename?: 'users_min_fields';
+  __typename?: 'users_min_fields';
   created_at?: Maybe<Scalars['timestamptz']>;
   default_picture?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['String']>;
@@ -1343,7 +1357,7 @@ export type Users_Min_Order_By = {
 
 /** response of any mutation on the table "users" */
 export type Users_Mutation_Response = {
-   __typename?: 'users_mutation_response';
+  __typename?: 'users_mutation_response';
   /** number of affected rows by the mutation */
   affected_rows: Scalars['Int'];
   /** data of the affected rows by the mutation */
@@ -1409,10 +1423,10 @@ export enum Users_Update_Column {
   Name = 'name'
 }
 
-export type CreatePokerSessionMutationVariables = {
+export type CreatePokerSessionMutationVariables = Exact<{
   name: Scalars['String'];
   owner_id: Scalars['String'];
-};
+}>;
 
 
 export type CreatePokerSessionMutation = (
@@ -1427,10 +1441,10 @@ export type CreatePokerSessionMutation = (
   )> }
 );
 
-export type UpsetUserSessionMutationVariables = {
+export type UpsetUserSessionMutationVariables = Exact<{
   sessionId: Scalars['Int'];
   userId: Scalars['String'];
-};
+}>;
 
 
 export type UpsetUserSessionMutation = (
@@ -1441,11 +1455,11 @@ export type UpsetUserSessionMutation = (
   )> }
 );
 
-export type UpdateReactionMutationVariables = {
+export type UpdateReactionMutationVariables = Exact<{
   sessionId: Scalars['Int'];
   userId: Scalars['String'];
   reaction?: Maybe<Scalars['String']>;
-};
+}>;
 
 
 export type UpdateReactionMutation = (
@@ -1465,9 +1479,9 @@ export type PokerUserSessionInfoFragment = (
   ) }
 );
 
-export type GetPokerSessionSubscriptionVariables = {
+export type GetPokerSessionSubscriptionVariables = Exact<{
   id: Scalars['Int'];
-};
+}>;
 
 
 export type GetPokerSessionSubscription = (
@@ -1488,11 +1502,11 @@ export type GetPokerSessionSubscription = (
   )> }
 );
 
-export type UpdateVoteMutationVariables = {
+export type UpdateVoteMutationVariables = Exact<{
   sessionId: Scalars['Int'];
   userId: Scalars['String'];
   vote?: Maybe<Scalars['String']>;
-};
+}>;
 
 
 export type UpdateVoteMutation = (
@@ -1503,11 +1517,11 @@ export type UpdateVoteMutation = (
   )> }
 );
 
-export type UpdateRevoteMutationVariables = {
+export type UpdateRevoteMutationVariables = Exact<{
   sessionId: Scalars['Int'];
   userId: Scalars['String'];
   vote?: Maybe<Scalars['String']>;
-};
+}>;
 
 
 export type UpdateRevoteMutation = (
@@ -1518,9 +1532,9 @@ export type UpdateRevoteMutation = (
   )> }
 );
 
-export type GetRecentSessionsQueryVariables = {
+export type GetRecentSessionsQueryVariables = Exact<{
   userId: Scalars['String'];
-};
+}>;
 
 
 export type GetRecentSessionsQuery = (
@@ -1528,13 +1542,23 @@ export type GetRecentSessionsQuery = (
   & { poker_session: Array<(
     { __typename?: 'poker_session' }
     & Pick<Poker_Session, 'name' | 'owner_id' | 'id' | 'created_at'>
+    & { user_sessions_aggregate: (
+      { __typename?: 'poker_user_session_aggregate' }
+      & { aggregate?: Maybe<(
+        { __typename?: 'poker_user_session_aggregate_fields' }
+        & { max?: Maybe<(
+          { __typename?: 'poker_user_session_max_fields' }
+          & Pick<Poker_User_Session_Max_Fields, 'updated_at'>
+        )> }
+      )> }
+    ) }
   )> }
 );
 
-export type SetAllowRevotesMutationVariables = {
+export type SetAllowRevotesMutationVariables = Exact<{
   sessionId: Scalars['Int'];
   allowRevotes: Scalars['Boolean'];
-};
+}>;
 
 
 export type SetAllowRevotesMutation = (
@@ -1545,10 +1569,10 @@ export type SetAllowRevotesMutation = (
   )> }
 );
 
-export type SetAutoRevealMutationVariables = {
+export type SetAutoRevealMutationVariables = Exact<{
   sessionId: Scalars['Int'];
   autoReveal: Scalars['Boolean'];
-};
+}>;
 
 
 export type SetAutoRevealMutation = (
@@ -1559,9 +1583,9 @@ export type SetAutoRevealMutation = (
   )> }
 );
 
-export type ClearVotesMutationVariables = {
+export type ClearVotesMutationVariables = Exact<{
   sessionId: Scalars['Int'];
-};
+}>;
 
 
 export type ClearVotesMutation = (
@@ -1575,9 +1599,9 @@ export type ClearVotesMutation = (
   )> }
 );
 
-export type ShowVotesMutationVariables = {
+export type ShowVotesMutationVariables = Exact<{
   sessionId: Scalars['Int'];
-};
+}>;
 
 
 export type ShowVotesMutation = (
@@ -1588,10 +1612,10 @@ export type ShowVotesMutation = (
   )> }
 );
 
-export type RemoveUserFromSessionMutationVariables = {
+export type RemoveUserFromSessionMutationVariables = Exact<{
   sessionId: Scalars['Int'];
   userId: Scalars['String'];
-};
+}>;
 
 
 export type RemoveUserFromSessionMutation = (
@@ -1602,10 +1626,10 @@ export type RemoveUserFromSessionMutation = (
   )> }
 );
 
-export type ChangeOwnershipMutationVariables = {
+export type ChangeOwnershipMutationVariables = Exact<{
   sessionId: Scalars['Int'];
   userId: Scalars['String'];
-};
+}>;
 
 
 export type ChangeOwnershipMutation = (
@@ -1616,11 +1640,11 @@ export type ChangeOwnershipMutation = (
   )> }
 );
 
-export type ToggleObserverRoleMutationVariables = {
+export type ToggleObserverRoleMutationVariables = Exact<{
   sessionId: Scalars['Int'];
   userId: Scalars['String'];
   isObserver: Scalars['Boolean'];
-};
+}>;
 
 
 export type ToggleObserverRoleMutation = (
@@ -1631,10 +1655,10 @@ export type ToggleObserverRoleMutation = (
   )> }
 );
 
-export type UpdateLastSeenMutationVariables = {
+export type UpdateLastSeenMutationVariables = Exact<{
   userId: Scalars['String'];
   lastSeen: Scalars['timestamptz'];
-};
+}>;
 
 
 export type UpdateLastSeenMutation = (
@@ -1645,7 +1669,7 @@ export type UpdateLastSeenMutation = (
   )> }
 );
 
-export type GetOnlineUsersSubscriptionVariables = {};
+export type GetOnlineUsersSubscriptionVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetOnlineUsersSubscription = (
@@ -1886,11 +1910,18 @@ export type UpdateRevoteMutationResult = ApolloReactCommon.MutationResult<Update
 export type UpdateRevoteMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateRevoteMutation, UpdateRevoteMutationVariables>;
 export const GetRecentSessionsDocument = gql`
     query getRecentSessions($userId: String!) {
-  poker_session(where: {user_sessions: {user_id: {_eq: $userId}}}, order_by: {created_at: desc}, limit: 6) {
+  poker_session(where: {user_sessions: {user_id: {_eq: $userId}}}, order_by: {user_sessions_aggregate: {max: {updated_at: desc_nulls_last}}, created_at: desc}, limit: 6) {
     name
     owner_id
     id
     created_at
+    user_sessions_aggregate {
+      aggregate {
+        max {
+          updated_at
+        }
+      }
+    }
   }
 }
     `;

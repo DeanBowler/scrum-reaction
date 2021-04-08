@@ -1,0 +1,7 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      DROP TRIGGER IF EXISTS "set_public_poker_user_session_updated_at" ON "public"."poker_user_session";
+      ALTER TABLE "public"."poker_user_session" DROP COLUMN "updated_at";
+  type: run_sql
