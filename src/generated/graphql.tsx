@@ -1542,16 +1542,6 @@ export type GetRecentSessionsQuery = (
   & { poker_session: Array<(
     { __typename?: 'poker_session' }
     & Pick<Poker_Session, 'name' | 'owner_id' | 'id' | 'created_at'>
-    & { user_sessions_aggregate: (
-      { __typename?: 'poker_user_session_aggregate' }
-      & { aggregate?: Maybe<(
-        { __typename?: 'poker_user_session_aggregate_fields' }
-        & { max?: Maybe<(
-          { __typename?: 'poker_user_session_max_fields' }
-          & Pick<Poker_User_Session_Max_Fields, 'updated_at'>
-        )> }
-      )> }
-    ) }
   )> }
 );
 
@@ -1910,18 +1900,11 @@ export type UpdateRevoteMutationResult = ApolloReactCommon.MutationResult<Update
 export type UpdateRevoteMutationOptions = ApolloReactCommon.BaseMutationOptions<UpdateRevoteMutation, UpdateRevoteMutationVariables>;
 export const GetRecentSessionsDocument = gql`
     query getRecentSessions($userId: String!) {
-  poker_session(where: {user_sessions: {user_id: {_eq: $userId}}}, order_by: {user_sessions_aggregate: {max: {updated_at: desc_nulls_last}}, created_at: desc}, limit: 6) {
+  poker_session(where: {user_sessions: {user_id: {_eq: $userId}}}, order_by: {created_at: desc}, limit: 6) {
     name
     owner_id
     id
     created_at
-    user_sessions_aggregate {
-      aggregate {
-        max {
-          updated_at
-        }
-      }
-    }
   }
 }
     `;

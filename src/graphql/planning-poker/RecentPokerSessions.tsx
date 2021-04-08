@@ -16,30 +16,19 @@ export const GET_RECENT_SESSIONS = gql`
   query getRecentSessions($userId: String!) {
     poker_session(
       where: { user_sessions: { user_id: { _eq: $userId } } }
-      order_by: {
-        user_sessions_aggregate: { max: { updated_at: desc_nulls_last } }
-        created_at: desc
-      }
+      order_by: { created_at: desc }
       limit: 6
     ) {
       name
       owner_id
       id
       created_at
-      user_sessions_aggregate {
-        aggregate {
-          max {
-            updated_at
-          }
-        }
-      }
     }
   }
 `;
 
 interface PokerSessionListingProps {
   session: Pick<Poker_Session, 'name' | 'owner_id' | 'id' | 'created_at'>;
-  lastUpdated: Date | null;
   currentUserId: string;
 }
 
@@ -61,13 +50,11 @@ const PokerSessionListingContainer = styled(Flex)<BoxProps>`
 
 const formatSessionCreation = pipe(parseISO, formatRelative(new Date()));
 
-const PokerSessionListing = ({ session, lastUpdated }: PokerSessionListingProps) => (
+const PokerSessionListing = ({ session }: PokerSessionListingProps) => (
   <Link href="/planning-poker/[id]" as={`/planning-poker/${session.id}`} passHref={true}>
     <PokerSessionListingContainer as="a" role="link" my={[2, 3]}>
       <Box width={[6]}>
-        <Text fontSize={[1, 2]}>
-          {formatSessionCreation(lastUpdated ?? session.created_at)}
-        </Text>
+        <Text fontSize={[1, 2]}>{formatSessionCreation(session.created_at)}</Text>
       </Box>
       <Text fontSize={[2, 3]}>{session.name}</Text>
     </PokerSessionListingContainer>
@@ -91,12 +78,7 @@ export default function RecentPokerSessions() {
         Recent Sessions
       </Text>
       {data.poker_session.map(ps => (
-        <PokerSessionListing
-          key={ps.id}
-          session={ps}
-          lastUpdated={ps.user_sessions_aggregate.aggregate?.max?.updated_at}
-          currentUserId={userId}
-        />
+        <PokerSessionListing key={ps.id} session={ps} currentUserId={userId} />
       ))}
     </Box>
   );
