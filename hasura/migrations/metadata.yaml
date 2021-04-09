@@ -95,12 +95,13 @@ tables:
   - role: user
     permission:
       columns:
+      - user_id
+      - session_id
+      - current_vote
       - current_reaction
       - current_revote
-      - current_vote
       - is_observer
-      - session_id
-      - user_id
+      - updated_at
       filter: {}
       allow_aggregations: true
   update_permissions:
